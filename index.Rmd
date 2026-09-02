@@ -4,17 +4,11 @@ author: "by: Celis Tittse"
 bibliography: references.bib
 ---
 
-wsdfghjhgfd
+# Lab journal De Alleluia
 
-listy:
+### Index Pages:
 
-1.  gfhjkl
-2.  hjkl;
-3.  
-
-```{r}
-2 + 2 
-```
+1.  Literature
 
 ```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
 install.packages("remotes")
