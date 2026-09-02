@@ -1,6 +1,6 @@
 ---
-title: "Lab journal"
-author: "by: Your Name"
+title: "Lab journal De Alleluia"
+author: "by: Celis Tittse"
 bibliography: references.bib
 ---
 
