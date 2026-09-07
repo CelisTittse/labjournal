@@ -2,12 +2,14 @@
 title: "Lab journal De Alleluia"
 author: "by: Celis Tittse"
 bibliography: references.bib
+url: https://celistittse.github.io/labjournal/
 ---
 
 # Lab journal De Alleluia
 
 ### Index Pages:
 
+0. Introduction draft and research questions
 1.  Literature
 
 ```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
@@ -24,7 +26,7 @@ options(width = 100)
 rgl::setupKnitr()
 ```
 
-```{r klippy, echo=FALSE, include=TRUE}
+```{r klippy, echo=FALSE, include=TRUE, warning=F, results='hide'}
 klippy::klippy(position = c('top', 'right'))
 #klippy::klippy(color = 'darkred')
 #klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
@@ -43,43 +45,33 @@ see here: https://bookdown.org/yihui/rmarkdown-cookbook/multi-column.html
 But please note, we are not here to make a beautiful website, our intention is just to have a quick lab journal up and running --->
 ```
 
-::::: columns
-::: {.column width="50%"}
-# My Lab Journal
 
-Last compiled on `r format(Sys.time(), '%B, %Y')`
+------------------------------------------------------------------------
 
-*Describe lab journal here.*
+## First Draft Introduction
+How did medieval readers and compilers transmit a sermon collection? Did individual sermons circulate largely independently or did the presence of one sermon encourage the preservation and transmission of others as part of a recognisable textual configuration? This project proposes to investigate these questions through the transmission history of the Ancient Augustinian sermon collection De Alleluia. 
 
+The central hypothesis is that De Alleluia may have behaved as a collection in transmission, not as a whole but as separate subcollections. However, it is currently unclear where or not this Augustinian collection is a product of scholarly conjuring or a result of established configurations of sermons constrained subsequent patterns of historical transmission. 
+
+To investigate this, we propose to construct a series of century-based sermon–sermon networks. The sermons will constitute the network nodes and a relationship between two sermons will represent their repeated occurrence within the same manuscript context. Because sermons are compiled within a special order, the network will be directed. This approach allows us to follow the same 52 textual units across successive historical periods whilst examining how their relational structure changes over time.
+
+The corpus will be constructed out of the De Coninck’s file with authentic Augustinian sermons or the PASSIM database with additional manuscripts and a divers scala of patristic sermons. It has not been decided which corpus to choose. The De Coninck’s file has 595 unique authentic Augustinian sermons, century-based data, and checked information, but only has circa 2450 manuscripts and describes exclusively Augustinian sermons. Whereas, PASSIM has more manuscripts (c. 4500), other authors, like pseudo-Augustine, and, therefore, more exhaustive observations (aka manuscripts). However, this corpus is messy and will not be cleaned for this paper. The best corpus needs to be chosen to answer the apparent research questions. 
+
+The first, and most prominent, research question concerns collection coherence. Are sermons that occur together in earlier manuscripts disproportionately likely to occur together in later manuscripts? In other words, does the presence of sermon A increase the likelihood of subsequently encountering sermon B, beyond what we would expect from the individual popularity of A and B? This can be performed on the different proposed subcollections of De Alleluia, like the spring, easter or mixed versions, as well. This provides a means of distinguishing collection-level transmission from the largely independent circulation of individual sermons.
+
+A second dimension concerns thematic similarity. Topic modelling will provide attributes for each sermon. This allows us to calculate similarity between sermons based on their thematic profiles, drawn from the editions of sermons. Elaborating on Gleb’s earlier work, sermons may circulate together because they address similar topics or because they belong to an established textual configuration. We will, therefore, test if network persistence remains significant after controlling for thematic similarity and sermon popularity.
+
+These questions will be analysed with a longitudinal network using an actor-oriented framework, including RSiena, where its assumptions are appropriate. In RSiena, the actors or nodes are assumed to have agency over time, contrary to texts. However, treating sermons as “actors” is a methodological abstraction pointing to compilers arranges the configuration of sermons. The model allows us to investigate if the existing relational position of a sermon predicts subsequent changes in its associations. 
+
+
+[@SNASS]. <!--- this is a reference, stored in references.bib. It will be automatically added at the bottom of the page --->
 <br>
 
 ------------------------------------------------------------------------
 
-## Open Science
-
-Everyone can fork this repository. Use this example to journal your lab work and assignments.
-
-We, Jochem Tolsma and Bas Hofstra, use this repository for our Social Network Analysis For Social Scientists course [@SNASS]. <!--- this is a reference, stored in references.bib. It will be automatically added at the bottom of the page --->
-:::
-
-::: {.column width="50%"}
-![](images/cover.jpg)
-:::
-:::::
-
-## How to use
-
-1.  Fork the repository for this website and follow instructions on `README` to get started [here](https://github.com/JochemTolsma/labjournal).
-
-2.  Journal your work, by editing the .Rmd-files
-
-3.  ...
-
-4.  Change everything to make it your own!
+## Literature review
 
 <br>
-
-Use the top menu to navigate through the journal.
 
 ------------------------------------------------------------------------
 

@@ -38,10 +38,6 @@
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
-<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
-<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
-<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
 <link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
@@ -409,20 +405,20 @@ div.tocify {
 </div>
 
 
-<p>#Lab journal De Alleluia</p>
-<div id="index-pages" class="section level3" number="0.0.1">
-<h3><span class="header-section-number">0.0.1</span> Index Pages:</h3>
-<ol style="list-style-type: decimal">
+<div id="lab-journal-de-alleluia" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Lab journal De
+Alleluia</h1>
+<div id="index-pages" class="section level3" number="1.0.1">
+<h3><span class="header-section-number">1.0.1</span> Index Pages:</h3>
+<ol start="0" style="list-style-type: decimal">
+<li>Introduction draft and research questions</li>
 <li>Literature</li>
 </ol>
 <pre><code>## Installing package into &#39;C:/Users/U836185/AppData/Local/R/win-library/4.6&#39;
 ## (as &#39;lib&#39; is unspecified)</code></pre>
+<pre><code>## Using GitHub PAT from the git credential store.</code></pre>
 <pre><code>## Skipping install of &#39;klippy&#39; from a github remote, the SHA1 (378c247f) has not changed since last install.
 ##   Use `force = TRUE` to force installation</code></pre>
-<script>
-  addClassKlippyTo("pre.r, pre.markdown");
-  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
-</script>
 <hr />
 <!--- This is the best way to write a comment. 
 It also demonstrate, you can add html directly in your rmarkdown file. See: https://www.w3schools.com/html/html_comments.asp --->
@@ -430,44 +426,92 @@ It also demonstrate, you can add html directly in your rmarkdown file. See: http
 see here: https://bookdown.org/yihui/rmarkdown-cookbook/multi-column.html 
 But please note, we are not here to make a beautiful website, our intention is just to have a quick lab journal up and running --->
 </div>
+</div>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div id="my-lab-journal" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> My Lab Journal</h1>
+<div id="my-lab-journal" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> My Lab Journal</h1>
 <p>Last compiled on september, 2026</p>
 <p><em>Describe lab journal here.</em></p>
 <p><br></p>
 <hr />
-<div id="open-science" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Open Science</h2>
-<p>Everyone can fork this repository. Use this example to journal your
-lab work and assignments.</p>
-<p>We, Jochem Tolsma and Bas Hofstra, use this repository for our Social
-Network Analysis For Social Scientists course <span
-class="citation">(Tolsma and Hofstra 2022)</span>.
-<!--- this is a reference, stored in references.bib. It will be automatically added at the bottom of the page ---></p>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<p><img src="images/cover.jpg" /></p>
-</div>
-</div>
-<div id="how-to-use" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> How to use</h2>
-<ol style="list-style-type: decimal">
-<li><p>Fork the repository for this website and follow instructions on
-<code>README</code> to get started <a
-href="https://github.com/JochemTolsma/labjournal">here</a>.</p></li>
-<li><p>Journal your work, by editing the .Rmd-files</p></li>
-<li><p>…</p></li>
-<li><p>Change everything to make it your own!</p></li>
-</ol>
-<p><br></p>
-<p>Use the top menu to navigate through the journal.</p>
+<div id="first-draft-introduction" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> First Draft
+Introduction</h2>
+<p>How did medieval readers and compilers transmit a sermon collection?
+Did individual sermons circulate largely independently or did the
+presence of one sermon encourage the preservation and transmission of
+others as part of a recognisable textual configuration? This project
+proposes to investigate these questions through the transmission history
+of the Ancient Augustinian sermon collection De Alleluia.</p>
+<p>The central hypothesis is that De Alleluia may have behaved as a
+collection in transmission, not as a whole but as separate
+subcollections. However, it is currently unclear where or not this
+Augustinian collection is a product of scholarly conjuring or a result
+of established configurations of sermons constrained subsequent patterns
+of historical transmission.</p>
+<p>To investigate this, we propose to construct a series of
+century-based sermon–sermon networks. The sermons will constitute the
+network nodes and a relationship between two sermons will represent
+their repeated occurrence within the same manuscript context. Because
+sermons are compiled within a special order, the network will be
+directed. This approach allows us to follow the same 52 textual units
+across successive historical periods whilst examining how their
+relational structure changes over time.</p>
+<p>The corpus will be constructed out of the De Coninck’s file with
+authentic Augustinian sermons or the PASSIM database with additional
+manuscripts and a divers scala of patristic sermons. It has not been
+decided which corpus to choose. The De Coninck’s file has 595 unique
+authentic Augustinian sermons, century-based data, and checked
+information, but only has circa 2450 manuscripts and describes
+exclusively Augustinian sermons. Whereas, PASSIM has more manuscripts
+(c. 4500), other authors, like pseudo-Augustine, and, therefore, more
+exhaustive observations (aka manuscripts). However, this corpus is messy
+and will not be cleaned for this paper. The best corpus needs to be
+chosen to answer the apparent research questions.</p>
+<p>The first, and most prominent, research question concerns collection
+coherence. Are sermons that occur together in earlier manuscripts
+disproportionately likely to occur together in later manuscripts? In
+other words, does the presence of sermon A increase the likelihood of
+subsequently encountering sermon B, beyond what we would expect from the
+individual popularity of A and B? This can be performed on the different
+proposed subcollections of De Alleluia, like the spring, easter or mixed
+versions, as well. This provides a means of distinguishing
+collection-level transmission from the largely independent circulation
+of individual sermons.</p>
+<p>A second dimension concerns thematic similarity. Topic modelling will
+provide attributes for each sermon. This allows us to calculate
+similarity between sermons based on their thematic profiles, drawn from
+the editions of sermons. Elaborating on Gleb’s earlier work, sermons may
+circulate together because they address similar topics or because they
+belong to an established textual configuration. We will, therefore, test
+if network persistence remains significant after controlling for
+thematic similarity and sermon popularity.</p>
+<p>These questions will be analysed with a longitudinal network using an
+actor-oriented framework, including RSiena, where its assumptions are
+appropriate. In RSiena, the actors or nodes are assumed to have agency
+over time, contrary to texts. However, treating sermons as “actors” is a
+methodological abstraction pointing to compilers arranges the
+configuration of sermons. The model allows us to investigate if the
+existing relational position of a sermon predicts subsequent changes in
+its associations.</p>
+<p><span class="citation">(Tolsma and Hofstra 2022)</span>.
+<!--- this is a reference, stored in references.bib. It will be automatically added at the bottom of the page --->
+<br></p>
 <hr />
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="unnumbered">References</h1>
+<div id="literature-review" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Literature
+review</h2>
+<p><br></p>
+<hr />
+</div>
+</div>
+<div id="references" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> References</h1>
+</div>
+</div>
+</div>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-SNASS" class="csl-entry">
 Tolsma, Jochem, and Bas Hofstra. 2022. <em>Social Network Analysis for
@@ -475,9 +519,8 @@ Social Scientists</em>. <a
 href="https://jtolsma.nl/SNASS/">https://jtolsma.nl/SNASS/</a>.
 </div>
 </div>
-</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkxhYiBqb3VybmFsIERlIEFsbGVsdWlhIg0KYXV0aG9yOiAiYnk6IENlbGlzIFRpdHRzZSINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCi0tLQ0KDQojTGFiIGpvdXJuYWwgRGUgQWxsZWx1aWENCg0KIyMjIEluZGV4IFBhZ2VzOg0KDQoxLiAgTGl0ZXJhdHVyZQ0KDQpgYGB7ciwgaW5zdGFsbCByZW1vdGVseSwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0UsIHJlc3VsdHM9J2hpZGUnfQ0KaW5zdGFsbC5wYWNrYWdlcygicmVtb3RlcyIpDQpyZW1vdGVzOjppbnN0YWxsX2dpdGh1Yigicmxlc3VyL2tsaXBweSIpDQpgYGANCg0KYGBge3IsIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCByZXN1bHRzPSdoaWRlJ30NCmxpYnJhcnkoa25pdHIpDQoNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQpgYGANCg0KYGBge3Iga2xpcHB5LCBlY2hvPUZBTFNFLCBpbmNsdWRlPVRSVUV9DQprbGlwcHk6OmtsaXBweShwb3NpdGlvbiA9IGMoJ3RvcCcsICdyaWdodCcpKQ0KI2tsaXBweTo6a2xpcHB5KGNvbG9yID0gJ2RhcmtyZWQnKQ0KI2tsaXBweTo6a2xpcHB5KHRvb2x0aXBfbWVzc2FnZSA9ICdDbGljayB0byBjb3B5JywgdG9vbHRpcF9zdWNjZXNzID0gJ0RvbmUnKQ0KYGBgDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQpgYGB7PWh0bWx9DQo8IS0tLSBUaGlzIGlzIHRoZSBiZXN0IHdheSB0byB3cml0ZSBhIGNvbW1lbnQuIA0KSXQgYWxzbyBkZW1vbnN0cmF0ZSwgeW91IGNhbiBhZGQgaHRtbCBkaXJlY3RseSBpbiB5b3VyIHJtYXJrZG93biBmaWxlLiBTZWU6IGh0dHBzOi8vd3d3Lnczc2Nob29scy5jb20vaHRtbC9odG1sX2NvbW1lbnRzLmFzcCAtLS0+DQpgYGANCg0KYGBgez1odG1sfQ0KPCEtLS0gdG8gdXNlIGEgbXVsdGkgY29sdW1uIHBhZ2Ugd2UgdXNlIFBhbmRvYydzIGZlbmNlZCBEaXYuIA0Kc2VlIGhlcmU6IGh0dHBzOi8vYm9va2Rvd24ub3JnL3lpaHVpL3JtYXJrZG93bi1jb29rYm9vay9tdWx0aS1jb2x1bW4uaHRtbCANCkJ1dCBwbGVhc2Ugbm90ZSwgd2UgYXJlIG5vdCBoZXJlIHRvIG1ha2UgYSBiZWF1dGlmdWwgd2Vic2l0ZSwgb3VyIGludGVudGlvbiBpcyBqdXN0IHRvIGhhdmUgYSBxdWljayBsYWIgam91cm5hbCB1cCBhbmQgcnVubmluZyAtLS0+DQpgYGANCg0KOjo6OjogY29sdW1ucw0KOjo6IHsuY29sdW1uIHdpZHRoPSI1MCUifQ0KIyBNeSBMYWIgSm91cm5hbA0KDQpMYXN0IGNvbXBpbGVkIG9uIGByIGZvcm1hdChTeXMudGltZSgpLCAnJUIsICVZJylgDQoNCipEZXNjcmliZSBsYWIgam91cm5hbCBoZXJlLioNCg0KPGJyPg0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCg0KIyMgT3BlbiBTY2llbmNlDQoNCkV2ZXJ5b25lIGNhbiBmb3JrIHRoaXMgcmVwb3NpdG9yeS4gVXNlIHRoaXMgZXhhbXBsZSB0byBqb3VybmFsIHlvdXIgbGFiIHdvcmsgYW5kIGFzc2lnbm1lbnRzLg0KDQpXZSwgSm9jaGVtIFRvbHNtYSBhbmQgQmFzIEhvZnN0cmEsIHVzZSB0aGlzIHJlcG9zaXRvcnkgZm9yIG91ciBTb2NpYWwgTmV0d29yayBBbmFseXNpcyBGb3IgU29jaWFsIFNjaWVudGlzdHMgY291cnNlIFtAU05BU1NdLiA8IS0tLSB0aGlzIGlzIGEgcmVmZXJlbmNlLCBzdG9yZWQgaW4gcmVmZXJlbmNlcy5iaWIuIEl0IHdpbGwgYmUgYXV0b21hdGljYWxseSBhZGRlZCBhdCB0aGUgYm90dG9tIG9mIHRoZSBwYWdlIC0tLT4NCjo6Og0KDQo6Ojogey5jb2x1bW4gd2lkdGg9IjUwJSJ9DQohW10oaW1hZ2VzL2NvdmVyLmpwZykNCjo6Og0KOjo6OjoNCg0KIyMgSG93IHRvIHVzZQ0KDQoxLiAgRm9yayB0aGUgcmVwb3NpdG9yeSBmb3IgdGhpcyB3ZWJzaXRlIGFuZCBmb2xsb3cgaW5zdHJ1Y3Rpb25zIG9uIGBSRUFETUVgIHRvIGdldCBzdGFydGVkIFtoZXJlXShodHRwczovL2dpdGh1Yi5jb20vSm9jaGVtVG9sc21hL2xhYmpvdXJuYWwpLg0KDQoyLiAgSm91cm5hbCB5b3VyIHdvcmssIGJ5IGVkaXRpbmcgdGhlIC5SbWQtZmlsZXMNCg0KMy4gIC4uLg0KDQo0LiAgQ2hhbmdlIGV2ZXJ5dGhpbmcgdG8gbWFrZSBpdCB5b3VyIG93biENCg0KPGJyPg0KDQpVc2UgdGhlIHRvcCBtZW51IHRvIG5hdmlnYXRlIHRocm91Z2ggdGhlIGpvdXJuYWwuDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQojIFJlZmVyZW5jZXMNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkxhYiBqb3VybmFsIERlIEFsbGVsdWlhIg0KYXV0aG9yOiAiYnk6IENlbGlzIFRpdHRzZSINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCnVybDogaHR0cHM6Ly9jZWxpc3RpdHRzZS5naXRodWIuaW8vbGFiam91cm5hbC8NCi0tLQ0KDQojIExhYiBqb3VybmFsIERlIEFsbGVsdWlhDQoNCiMjIyBJbmRleCBQYWdlczoNCg0KMC4gSW50cm9kdWN0aW9uIGRyYWZ0IGFuZCByZXNlYXJjaCBxdWVzdGlvbnMNCjEuICBMaXRlcmF0dXJlDQoNCmBgYHtyLCBpbnN0YWxsIHJlbW90ZWx5LCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRSwgcmVzdWx0cz0naGlkZSd9DQppbnN0YWxsLnBhY2thZ2VzKCJyZW1vdGVzIikNCnJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCJybGVzdXIva2xpcHB5IikNCmBgYA0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0UsIHJlc3VsdHM9J2hpZGUnfQ0KbGlicmFyeShrbml0cikNCg0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRSxjb21tZW50ID0gIiM+IiwgY2FjaGU9VFJVRSwgY2xhc3Muc291cmNlPWMoInRlc3QiKSwgY2xhc3Mub3V0cHV0PWMoInRlc3QyIikpDQpvcHRpb25zKHdpZHRoID0gMTAwKQ0KcmdsOjpzZXR1cEtuaXRyKCkNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRSwgd2FybmluZz1GLCByZXN1bHRzPSdoaWRlJ30NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNCmBgYHs9aHRtbH0NCjwhLS0tIFRoaXMgaXMgdGhlIGJlc3Qgd2F5IHRvIHdyaXRlIGEgY29tbWVudC4gDQpJdCBhbHNvIGRlbW9uc3RyYXRlLCB5b3UgY2FuIGFkZCBodG1sIGRpcmVjdGx5IGluIHlvdXIgcm1hcmtkb3duIGZpbGUuIFNlZTogaHR0cHM6Ly93d3cudzNzY2hvb2xzLmNvbS9odG1sL2h0bWxfY29tbWVudHMuYXNwIC0tLT4NCmBgYA0KDQpgYGB7PWh0bWx9DQo8IS0tLSB0byB1c2UgYSBtdWx0aSBjb2x1bW4gcGFnZSB3ZSB1c2UgUGFuZG9jJ3MgZmVuY2VkIERpdi4gDQpzZWUgaGVyZTogaHR0cHM6Ly9ib29rZG93bi5vcmcveWlodWkvcm1hcmtkb3duLWNvb2tib29rL211bHRpLWNvbHVtbi5odG1sIA0KQnV0IHBsZWFzZSBub3RlLCB3ZSBhcmUgbm90IGhlcmUgdG8gbWFrZSBhIGJlYXV0aWZ1bCB3ZWJzaXRlLCBvdXIgaW50ZW50aW9uIGlzIGp1c3QgdG8gaGF2ZSBhIHF1aWNrIGxhYiBqb3VybmFsIHVwIGFuZCBydW5uaW5nIC0tLT4NCmBgYA0KDQo6Ojo6OiBjb2x1bW5zDQo6Ojogey5jb2x1bW4gd2lkdGg9IjUwJSJ9DQojIE15IExhYiBKb3VybmFsDQoNCkxhc3QgY29tcGlsZWQgb24gYHIgZm9ybWF0KFN5cy50aW1lKCksICclQiwgJVknKWANCg0KKkRlc2NyaWJlIGxhYiBqb3VybmFsIGhlcmUuKg0KDQo8YnI+DQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQojIyBGaXJzdCBEcmFmdCBJbnRyb2R1Y3Rpb24NCkhvdyBkaWQgbWVkaWV2YWwgcmVhZGVycyBhbmQgY29tcGlsZXJzIHRyYW5zbWl0IGEgc2VybW9uIGNvbGxlY3Rpb24/IERpZCBpbmRpdmlkdWFsIHNlcm1vbnMgY2lyY3VsYXRlIGxhcmdlbHkgaW5kZXBlbmRlbnRseSBvciBkaWQgdGhlIHByZXNlbmNlIG9mIG9uZSBzZXJtb24gZW5jb3VyYWdlIHRoZSBwcmVzZXJ2YXRpb24gYW5kIHRyYW5zbWlzc2lvbiBvZiBvdGhlcnMgYXMgcGFydCBvZiBhIHJlY29nbmlzYWJsZSB0ZXh0dWFsIGNvbmZpZ3VyYXRpb24/IFRoaXMgcHJvamVjdCBwcm9wb3NlcyB0byBpbnZlc3RpZ2F0ZSB0aGVzZSBxdWVzdGlvbnMgdGhyb3VnaCB0aGUgdHJhbnNtaXNzaW9uIGhpc3Rvcnkgb2YgdGhlIEFuY2llbnQgQXVndXN0aW5pYW4gc2VybW9uIGNvbGxlY3Rpb24gRGUgQWxsZWx1aWEuIA0KDQpUaGUgY2VudHJhbCBoeXBvdGhlc2lzIGlzIHRoYXQgRGUgQWxsZWx1aWEgbWF5IGhhdmUgYmVoYXZlZCBhcyBhIGNvbGxlY3Rpb24gaW4gdHJhbnNtaXNzaW9uLCBub3QgYXMgYSB3aG9sZSBidXQgYXMgc2VwYXJhdGUgc3ViY29sbGVjdGlvbnMuIEhvd2V2ZXIsIGl0IGlzIGN1cnJlbnRseSB1bmNsZWFyIHdoZXJlIG9yIG5vdCB0aGlzIEF1Z3VzdGluaWFuIGNvbGxlY3Rpb24gaXMgYSBwcm9kdWN0IG9mIHNjaG9sYXJseSBjb25qdXJpbmcgb3IgYSByZXN1bHQgb2YgZXN0YWJsaXNoZWQgY29uZmlndXJhdGlvbnMgb2Ygc2VybW9ucyBjb25zdHJhaW5lZCBzdWJzZXF1ZW50IHBhdHRlcm5zIG9mIGhpc3RvcmljYWwgdHJhbnNtaXNzaW9uLiANCg0KVG8gaW52ZXN0aWdhdGUgdGhpcywgd2UgcHJvcG9zZSB0byBjb25zdHJ1Y3QgYSBzZXJpZXMgb2YgY2VudHVyeS1iYXNlZCBzZXJtb27igJNzZXJtb24gbmV0d29ya3MuIFRoZSBzZXJtb25zIHdpbGwgY29uc3RpdHV0ZSB0aGUgbmV0d29yayBub2RlcyBhbmQgYSByZWxhdGlvbnNoaXAgYmV0d2VlbiB0d28gc2VybW9ucyB3aWxsIHJlcHJlc2VudCB0aGVpciByZXBlYXRlZCBvY2N1cnJlbmNlIHdpdGhpbiB0aGUgc2FtZSBtYW51c2NyaXB0IGNvbnRleHQuIEJlY2F1c2Ugc2VybW9ucyBhcmUgY29tcGlsZWQgd2l0aGluIGEgc3BlY2lhbCBvcmRlciwgdGhlIG5ldHdvcmsgd2lsbCBiZSBkaXJlY3RlZC4gVGhpcyBhcHByb2FjaCBhbGxvd3MgdXMgdG8gZm9sbG93IHRoZSBzYW1lIDUyIHRleHR1YWwgdW5pdHMgYWNyb3NzIHN1Y2Nlc3NpdmUgaGlzdG9yaWNhbCBwZXJpb2RzIHdoaWxzdCBleGFtaW5pbmcgaG93IHRoZWlyIHJlbGF0aW9uYWwgc3RydWN0dXJlIGNoYW5nZXMgb3ZlciB0aW1lLg0KDQpUaGUgY29ycHVzIHdpbGwgYmUgY29uc3RydWN0ZWQgb3V0IG9mIHRoZSBEZSBDb25pbmNr4oCZcyBmaWxlIHdpdGggYXV0aGVudGljIEF1Z3VzdGluaWFuIHNlcm1vbnMgb3IgdGhlIFBBU1NJTSBkYXRhYmFzZSB3aXRoIGFkZGl0aW9uYWwgbWFudXNjcmlwdHMgYW5kIGEgZGl2ZXJzIHNjYWxhIG9mIHBhdHJpc3RpYyBzZXJtb25zLiBJdCBoYXMgbm90IGJlZW4gZGVjaWRlZCB3aGljaCBjb3JwdXMgdG8gY2hvb3NlLiBUaGUgRGUgQ29uaW5ja+KAmXMgZmlsZSBoYXMgNTk1IHVuaXF1ZSBhdXRoZW50aWMgQXVndXN0aW5pYW4gc2VybW9ucywgY2VudHVyeS1iYXNlZCBkYXRhLCBhbmQgY2hlY2tlZCBpbmZvcm1hdGlvbiwgYnV0IG9ubHkgaGFzIGNpcmNhIDI0NTAgbWFudXNjcmlwdHMgYW5kIGRlc2NyaWJlcyBleGNsdXNpdmVseSBBdWd1c3RpbmlhbiBzZXJtb25zLiBXaGVyZWFzLCBQQVNTSU0gaGFzIG1vcmUgbWFudXNjcmlwdHMgKGMuIDQ1MDApLCBvdGhlciBhdXRob3JzLCBsaWtlIHBzZXVkby1BdWd1c3RpbmUsIGFuZCwgdGhlcmVmb3JlLCBtb3JlIGV4aGF1c3RpdmUgb2JzZXJ2YXRpb25zIChha2EgbWFudXNjcmlwdHMpLiBIb3dldmVyLCB0aGlzIGNvcnB1cyBpcyBtZXNzeSBhbmQgd2lsbCBub3QgYmUgY2xlYW5lZCBmb3IgdGhpcyBwYXBlci4gVGhlIGJlc3QgY29ycHVzIG5lZWRzIHRvIGJlIGNob3NlbiB0byBhbnN3ZXIgdGhlIGFwcGFyZW50IHJlc2VhcmNoIHF1ZXN0aW9ucy4gDQoNClRoZSBmaXJzdCwgYW5kIG1vc3QgcHJvbWluZW50LCByZXNlYXJjaCBxdWVzdGlvbiBjb25jZXJucyBjb2xsZWN0aW9uIGNvaGVyZW5jZS4gQXJlIHNlcm1vbnMgdGhhdCBvY2N1ciB0b2dldGhlciBpbiBlYXJsaWVyIG1hbnVzY3JpcHRzIGRpc3Byb3BvcnRpb25hdGVseSBsaWtlbHkgdG8gb2NjdXIgdG9nZXRoZXIgaW4gbGF0ZXIgbWFudXNjcmlwdHM/IEluIG90aGVyIHdvcmRzLCBkb2VzIHRoZSBwcmVzZW5jZSBvZiBzZXJtb24gQSBpbmNyZWFzZSB0aGUgbGlrZWxpaG9vZCBvZiBzdWJzZXF1ZW50bHkgZW5jb3VudGVyaW5nIHNlcm1vbiBCLCBiZXlvbmQgd2hhdCB3ZSB3b3VsZCBleHBlY3QgZnJvbSB0aGUgaW5kaXZpZHVhbCBwb3B1bGFyaXR5IG9mIEEgYW5kIEI/IFRoaXMgY2FuIGJlIHBlcmZvcm1lZCBvbiB0aGUgZGlmZmVyZW50IHByb3Bvc2VkIHN1YmNvbGxlY3Rpb25zIG9mIERlIEFsbGVsdWlhLCBsaWtlIHRoZSBzcHJpbmcsIGVhc3RlciBvciBtaXhlZCB2ZXJzaW9ucywgYXMgd2VsbC4gVGhpcyBwcm92aWRlcyBhIG1lYW5zIG9mIGRpc3Rpbmd1aXNoaW5nIGNvbGxlY3Rpb24tbGV2ZWwgdHJhbnNtaXNzaW9uIGZyb20gdGhlIGxhcmdlbHkgaW5kZXBlbmRlbnQgY2lyY3VsYXRpb24gb2YgaW5kaXZpZHVhbCBzZXJtb25zLg0KDQpBIHNlY29uZCBkaW1lbnNpb24gY29uY2VybnMgdGhlbWF0aWMgc2ltaWxhcml0eS4gVG9waWMgbW9kZWxsaW5nIHdpbGwgcHJvdmlkZSBhdHRyaWJ1dGVzIGZvciBlYWNoIHNlcm1vbi4gVGhpcyBhbGxvd3MgdXMgdG8gY2FsY3VsYXRlIHNpbWlsYXJpdHkgYmV0d2VlbiBzZXJtb25zIGJhc2VkIG9uIHRoZWlyIHRoZW1hdGljIHByb2ZpbGVzLCBkcmF3biBmcm9tIHRoZSBlZGl0aW9ucyBvZiBzZXJtb25zLiBFbGFib3JhdGluZyBvbiBHbGVi4oCZcyBlYXJsaWVyIHdvcmssIHNlcm1vbnMgbWF5IGNpcmN1bGF0ZSB0b2dldGhlciBiZWNhdXNlIHRoZXkgYWRkcmVzcyBzaW1pbGFyIHRvcGljcyBvciBiZWNhdXNlIHRoZXkgYmVsb25nIHRvIGFuIGVzdGFibGlzaGVkIHRleHR1YWwgY29uZmlndXJhdGlvbi4gV2Ugd2lsbCwgdGhlcmVmb3JlLCB0ZXN0IGlmIG5ldHdvcmsgcGVyc2lzdGVuY2UgcmVtYWlucyBzaWduaWZpY2FudCBhZnRlciBjb250cm9sbGluZyBmb3IgdGhlbWF0aWMgc2ltaWxhcml0eSBhbmQgc2VybW9uIHBvcHVsYXJpdHkuDQoNClRoZXNlIHF1ZXN0aW9ucyB3aWxsIGJlIGFuYWx5c2VkIHdpdGggYSBsb25naXR1ZGluYWwgbmV0d29yayB1c2luZyBhbiBhY3Rvci1vcmllbnRlZCBmcmFtZXdvcmssIGluY2x1ZGluZyBSU2llbmEsIHdoZXJlIGl0cyBhc3N1bXB0aW9ucyBhcmUgYXBwcm9wcmlhdGUuIEluIFJTaWVuYSwgdGhlIGFjdG9ycyBvciBub2RlcyBhcmUgYXNzdW1lZCB0byBoYXZlIGFnZW5jeSBvdmVyIHRpbWUsIGNvbnRyYXJ5IHRvIHRleHRzLiBIb3dldmVyLCB0cmVhdGluZyBzZXJtb25zIGFzIOKAnGFjdG9yc+KAnSBpcyBhIG1ldGhvZG9sb2dpY2FsIGFic3RyYWN0aW9uIHBvaW50aW5nIHRvIGNvbXBpbGVycyBhcnJhbmdlcyB0aGUgY29uZmlndXJhdGlvbiBvZiBzZXJtb25zLiBUaGUgbW9kZWwgYWxsb3dzIHVzIHRvIGludmVzdGlnYXRlIGlmIHRoZSBleGlzdGluZyByZWxhdGlvbmFsIHBvc2l0aW9uIG9mIGEgc2VybW9uIHByZWRpY3RzIHN1YnNlcXVlbnQgY2hhbmdlcyBpbiBpdHMgYXNzb2NpYXRpb25zLiANCg0KDQpbQFNOQVNTXS4gPCEtLS0gdGhpcyBpcyBhIHJlZmVyZW5jZSwgc3RvcmVkIGluIHJlZmVyZW5jZXMuYmliLiBJdCB3aWxsIGJlIGF1dG9tYXRpY2FsbHkgYWRkZWQgYXQgdGhlIGJvdHRvbSBvZiB0aGUgcGFnZSAtLS0+DQo8YnI+DQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQojIyBMaXRlcmF0dXJlIHJldmlldw0KDQo8YnI+DQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQojIFJlZmVyZW5jZXMNCg==</div>
 
 
 </div>
