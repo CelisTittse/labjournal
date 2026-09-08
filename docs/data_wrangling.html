@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2026-09-07" />
+
+<title>Week_2_eda</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="literature_review_hypotheses.html">Literature Review</a>
+    </li>
+    <li>
+      <a href="data_wrangling.html">Data and EDA</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Week_2_eda</h1>
+<h4 class="date">2026-09-07</h4>
+
+</div>
+
+
+<div id="data-construction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Data Construction</h1>
+<p>The data is derived from PASSIM Core <span
+class="citation">[@schmidt_computational_2023]</span>. It creates a
+unimode network of sermons connected with sermons by their co-occurrance
+in a manuscript. It is also a directional network, because the order in
+which the manuscripts occur is also relevant. <span
+class="citation">@french_research</span> Highlighted reoccuring blocks
+of sermons at the end of manuscripts. Furthermore, the number of edges
+is significantly reduced from c. 800.000 to c. 26.000 which is
+computationally benefitial when working with stocastic models.</p>
+<p>The manuscripts function as observations to observe relationships
+between sermons. The observations are samples and its not conclusive nor
+exhaustive. Nevertheless, we’re interested in the mechanisms behind the
+co-occurrance of sermons and extensive sampling suffices to this
+end.</p>
+<p>The sermons dont have agency by themselves by compilers chose to copy
+sermons in a certain order and selected them deliberatly, given the
+availablity of source material, in order words, the script picked
+sermons to copy from selection of sermons they had access to.</p>
+<pre class="python"><code>import pandas as pd
+# create edgelist per manuscript undirected
+def undirected_se_se (se_list:list, ms:str, century:int|str = None) -&gt; list[list]:
+    sub_se_se_l = []
+    for se1 in se_list:
+        for se2 in se_list:
+            if se1 &gt; se2:
+                sub_se_se_l.append((se1, se2, ms, century, &#39;undirected&#39;))
+    return sub_se_se_l
+
+# create edgelist per manuscript directed
+def directed_se_se (se_list:list, ms:str, century:int|str = None) -&gt; list[list]:
+    sub_se_se_l = []
+
+    # iterate over length sermon list and connect a sermon to its preceding sermon
+    for i in range(len(se_list)-1):
+        se1 = se_list[i]
+        se2 = se_list[i+1]
+        sub_se_se_l.append((se1, se2, ms, century, &#39;directed&#39;))
+    return sub_se_se_l
+
+# create se-se edgelist with century, directed, manuscript attributes
+def se_se_nx_df (ms_se_df: pd.DataFrame, directed:bool=False)-&gt; pd.DataFrame:
+    se_se_l = []
+    for century, sub_df in ms_se_df.groupby(&#39;century&#39;):
+        for ms, ses_str in zip(sub_df[&#39;shelfmark&#39;], sub_df[&#39;certain&#39;]):
+            if isinstance(ses_str, str):
+                # split the sermon string like &quot;se-1, se-3 etc.&quot; into list
+                ses = [se for se in ses_str.split(&#39;, &#39;) if se and isinstance(se, str)]
+
+                # make unique and without order for undirected network
+                ses = ses if directed else list(set(ses))
+
+                # process into list of edge per manuscript
+                sub_se_se = directed_se_se(ses, ms, century) if directed else undirected_se_se(ses, ms, century)
+
+                # add list of edges per ms into big edge list
+                [se_se_l.append(se_se) for se_se in sub_se_se]
+
+    se_se_df = pd.DataFrame(se_se_l, columns = [&#39;Source&#39;, &#39;Target&#39;, &#39;manuscript&#39;, &#39;century&#39;, &#39;Directed&#39;])
+    se_se_df[&#39;Id&#39;] = list(range(len(se_se_l)))
+
+    return se_se_df
+
+# create nodes of sermons with HC presence as attribute
+def se_nodes_nx_df (se_se_df: pd.DataFrame, colls_d: dict) -&gt; pd.DataFrame:
+    ses = set(list(se_se_df[&#39;Source&#39;]) + list(se_se_df[&#39;Target&#39;]))
+
+    nodes_l = []
+
+    # Add one if the sermon is present in the list of a collection
+    for se in ses:
+        sub_l = [se]
+        for col, col_ses in colls_d.items():
+            sub_l.append(1) if se in col_ses else sub_l.append(0)
+        nodes_l.append(sub_l)
+
+    return pd.DataFrame(nodes_l, columns=[&#39;Id&#39;]+list(colls_d.keys()))
+
+# make dict exp: {coll1 : [se1, se2, etc.], coll2 : etc.}
+def collection_dictionary_list (coll_df: pd.DataFrame) -&gt; dict:
+    coll_d = coll_df.to_dict(&#39;series&#39;)
+
+    coll_dict = {k: v.to_list() for k, v in coll_d.items()}
+    coll_d_clean = {k: [e for e in v if isinstance(e, str)] for k, v in coll_dict.items()}
+
+    return coll_d_clean</code></pre>
+<pre class="python"><code>import os
+import pandas as pd
+from datetime import datetime
+
+root = r.root
+ms_se_path = r.ms_se_path
+colls_path = r.colls_path
+root_out = r.root_out
+
+msSeDf = pd.read_excel(os.path.join(root, ms_se_path))
+collDf = pd.read_excel(os.path.join(root, colls_path))
+
+collCleanD = collection_dictionary_list(collDf)
+
+seSeDf_undir = se_se_nx_df(ms_se_df=msSeDf, directed=False)
+seSeDf_dir = se_se_nx_df(ms_se_df=msSeDf, directed=True)
+
+seNodesDf = se_nodes_nx_df(se_se_df=seSeDf_undir, colls_d=collCleanD)
+
+now = datetime.now()
+f = now.strftime(&quot;%d%m%y&quot;)
+
+seSeDf_undir.to_excel(root_out + f&quot;/se_se_undir_{f}.xlsx&quot;, index=False)
+
+seSeDf_dir.to_excel(root_out + f&quot;/se_se_dir_{f}.xlsx&quot;, index=False)
+
+seNodesDf.to_excel(root_out + f&quot;/se_nodes_colls_{f}.xlsx&quot;, index=False)</code></pre>
+<div id="missing-data-choices" class="section level3" number="1.0.1">
+<h3><span class="header-section-number">1.0.1</span> Missing data
+choices</h3>
+<p>, the manuscripts with unknown dates or unknown “waves” are removed
+from the dataset, until further notice - [ ] TODO#1, review this choice
+based on the assumptions of RSiena later on</p>
+<pre class="r"><code>root_data_path = &quot;F:/PhD/De Alleluia/data/deriv_data/&quot;
+
+se_edge_path = &quot;se_se_dir_070926.xlsx&quot;
+se_node_path = &quot;se_nodes_colls_070926.xlsx&quot;
+
+se_edge &lt;- read_excel(paste0(root_data_path, se_edge_path)) |&gt; 
+  drop_na(century)</code></pre>
+<pre><code>## Warning: Expecting numeric in D26027 / R26027C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26028 / R26028C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26029 / R26029C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26030 / R26030C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26031 / R26031C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26032 / R26032C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26033 / R26033C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26034 / R26034C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26035 / R26035C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26036 / R26036C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26037 / R26037C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26038 / R26038C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26039 / R26039C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26040 / R26040C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26041 / R26041C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26042 / R26042C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26043 / R26043C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26044 / R26044C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26045 / R26045C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26046 / R26046C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26047 / R26047C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26048 / R26048C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26049 / R26049C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26050 / R26050C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26051 / R26051C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26052 / R26052C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26053 / R26053C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26054 / R26054C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26055 / R26055C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26056 / R26056C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26057 / R26057C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26058 / R26058C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26059 / R26059C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26060 / R26060C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26061 / R26061C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26062 / R26062C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26063 / R26063C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26064 / R26064C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26065 / R26065C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26066 / R26066C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26067 / R26067C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26068 / R26068C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26069 / R26069C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26070 / R26070C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26071 / R26071C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26072 / R26072C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26073 / R26073C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26074 / R26074C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26075 / R26075C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26076 / R26076C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26077 / R26077C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26078 / R26078C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26079 / R26079C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26080 / R26080C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26081 / R26081C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26082 / R26082C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26083 / R26083C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26084 / R26084C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26085 / R26085C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26086 / R26086C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26087 / R26087C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26088 / R26088C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26089 / R26089C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26090 / R26090C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26091 / R26091C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26092 / R26092C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26093 / R26093C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26094 / R26094C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26095 / R26095C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26096 / R26096C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26097 / R26097C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26098 / R26098C4: got &#39;?&#39;</code></pre>
+<pre><code>## Warning: Expecting numeric in D26099 / R26099C4: got &#39;?&#39;</code></pre>
+<pre class="r"><code># 9 manuscripts removed without dating
+
+# some nodes has duplicates and they are collapsed if one has 1 than 1 else 0 to be investigated
+se_nodes &lt;- read_excel(paste0(root_data_path, se_node_path)) |&gt; 
+  group_by(Id) |&gt; 
+  summarise(
+    across(everything(), \(x) max(x, na.rm = TRUE)),
+    .groups = &quot;drop&quot;
+  )
+
+print(head(se_edge, 5))</code></pre>
+<pre><code>## # A tibble: 5 × 6
+##   Source  Target   manuscript                             century Directed    Id
+##   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;                                    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+## 1 se-230  se-392   Roma, Biblioteca Nazionale Centrale V…       4 directed     0
+## 2 se-392  se-114   Roma, Biblioteca Nazionale Centrale V…       4 directed     1
+## 3 se-114  se-247   Roma, Biblioteca Nazionale Centrale V…       4 directed     2
+## 4 se-215  se-56    Paris, Bibliothèque nationale de Fran…       5 directed     3
+## 5 se-16-C se-346-B Vaticano (Città del), Biblioteca apos…       5 directed     4</code></pre>
+<pre class="r"><code>print(head(se_nodes, 5))</code></pre>
+<pre><code>## # A tibble: 5 × 58
+##   Id     alleluia alleluia_spring alleluia_easter alleluia_mixed
+##   &lt;chr&gt;     &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
+## 1 se-1          1               0               0              0
+## 2 se-10         0               0               0              0
+## 3 se-100        0               0               0              0
+## 4 se-101        0               0               0              0
+## 5 se-102        0               0               0              0
+## # ℹ 53 more variables: `alleluia_mixed?` &lt;dbl&gt;, alleluia_after_425 &lt;dbl&gt;,
+## #   bobbio_II &lt;dbl&gt;, bobbio_III &lt;dbl&gt;, bobbio &lt;dbl&gt;, coniugali &lt;dbl&gt;,
+## #   bruxelles &lt;dbl&gt;, brux_paen &lt;dbl&gt;, brux_coniugali &lt;dbl&gt;, brux_allel &lt;dbl&gt;,
+## #   brux_cluny &lt;dbl&gt;, campanienne &lt;dbl&gt;, camp_monte &lt;dbl&gt;, camp_napels &lt;dbl&gt;,
+## #   carthusienne &lt;dbl&gt;, cluny &lt;dbl&gt;, colbertine &lt;dbl&gt;, bardi &lt;dbl&gt;,
+## #   bardi_I &lt;dbl&gt;, bardi_II &lt;dbl&gt;, bardi_III &lt;dbl&gt;, bardi_IV &lt;dbl&gt;,
+## #   bardi_V &lt;dbl&gt;, carnis &lt;dbl&gt;, diversis &lt;dbl&gt;, erfurt &lt;dbl&gt;, eremo &lt;dbl&gt;, …</code></pre>
+</div>
+<div id="transpose-to-igraph" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Transpose to
+igraph</h2>
+<pre><code>##  [1] &quot;name&quot;               &quot;alleluia&quot;           &quot;alleluia_spring&quot;   
+##  [4] &quot;alleluia_easter&quot;    &quot;alleluia_mixed&quot;     &quot;alleluia_mixed?&quot;   
+##  [7] &quot;alleluia_after_425&quot; &quot;bobbio_II&quot;          &quot;bobbio_III&quot;        
+## [10] &quot;bobbio&quot;             &quot;coniugali&quot;          &quot;bruxelles&quot;         
+## [13] &quot;brux_paen&quot;          &quot;brux_coniugali&quot;     &quot;brux_allel&quot;        
+## [16] &quot;brux_cluny&quot;         &quot;campanienne&quot;        &quot;camp_monte&quot;        
+## [19] &quot;camp_napels&quot;        &quot;carthusienne&quot;       &quot;cluny&quot;             
+## [22] &quot;colbertine&quot;         &quot;bardi&quot;              &quot;bardi_I&quot;           
+## [25] &quot;bardi_II&quot;           &quot;bardi_III&quot;          &quot;bardi_IV&quot;          
+## [28] &quot;bardi_V&quot;            &quot;carnis&quot;             &quot;diversis&quot;          
+## [31] &quot;erfurt&quot;             &quot;eremo&quot;              &quot;gallicana&quot;         
+## [34] &quot;germanica&quot;          &quot;lapsu&quot;              &quot;lorsch&quot;            
+## [37] &quot;lyon&quot;               &quot;mainz&quot;              &quot;marmoutier&quot;        
+## [40] &quot;paenitentia&quot;        &quot;diaconus&quot;           &quot;diaconus_wint&quot;     
+## [43] &quot;diaconus_summ&quot;      &quot;quattuor&quot;           &quot;quinquaginta&quot;      
+## [46] &quot;scp&quot;                &quot;scp_verbraken&quot;      &quot;sessorienne&quot;       
+## [49] &quot;tripartite&quot;         &quot;tripartite_I&quot;       &quot;tripartite_II&quot;     
+## [52] &quot;tripartite_III&quot;     &quot;vda&quot;                &quot;vd_a&quot;              
+## [55] &quot;vd_b&quot;               &quot;va_a&quot;               &quot;va_b&quot;              
+## [58] &quot;wolfenbuettel&quot;</code></pre>
+<pre><code>## [1] &quot;manuscript&quot; &quot;century&quot;    &quot;Directed&quot;   &quot;Id&quot;</code></pre>
+<pre><code>## Warning: `subgraph.edges()` was deprecated in igraph 2.1.0.
+## ℹ Please use `subgraph_from_edges()` instead.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+<p><img src="data_wrangling_files/figure-html/rsiena%20transposition-1.png" alt="" width="672" /></p>
+</div>
+<div id="transpose-it-to-rsiena-data" class="section level2"
+number="1.2">
+<h2><span class="header-section-number">1.2</span> Transpose it to
+RSiena data</h2>
+<pre class="r"><code># make the igraph nx into an adjunction matrix
+adj &lt;- as.matrix(as_adjacency_matrix(g, sparse = FALSE))
+
+# make into rsiena data network from</code></pre>
+<hr />
+</div>
+</div>
+<div id="references" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> References</h1>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIldlZWtfMl9lZGEiDQpvdXRwdXQ6IGh0bWxfZG9jdW1lbnQNCmRhdGU6ICIyMDI2LTA5LTA3Ig0KLS0tDQoNCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFLCB3YXJuaW5nPUZ9DQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUpDQppbnN0YWxsLnBhY2thZ2VzKCJ0aWR5dmVyc2UiKQ0KaW5zdGFsbC5wYWNrYWdlcygicmVhZHhsIikNCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShyZWFkeGwpDQpsaWJyYXJ5KFJTaWVuYSkNCmxpYnJhcnkoaWdyYXBoKQ0KDQojIGltcG9ydCBnbG9iYWwgcGFyYW1ldGVycyBsaWtlIHJvb3QgcGF0aHMNCnNvdXJjZSgicGFyYW1ldGVycy5SIikNCg0KYGBgDQoNCmBgYHtyIHB5dGhvbiBzZXR1cCwgaW5jbHVkZT1GQUxTRSwgd2FybmluZz1GfQ0KIyBmb3IgcHl0aG9uIHVzZQ0KbGlicmFyeShyZXRpY3VsYXRlKQ0KDQojIENoZWNrIGlmIHB5dGhvbiBpcyBpbnN0YWxsZWQNCnB5X2NvbmZpZygpDQoNCiMgYWN0aXZhdGUNCnB5X2F2YWlsYWJsZShpbml0aWFsaXplID0gVFJVRSkNCg0KIyBjaGVjayBpZiBwYWNrYWdlcyBhcmUgYXZhaWxhYmxlDQpweV9tb2R1bGVfYXZhaWxhYmxlKCJwYW5kYXMiKSANCnB5X21vZHVsZV9hdmFpbGFibGUoIm9wZW5weXhsIikNCg0KIyBpbnN0YWxsIHBhY2thZ2VzDQpweV9yZXF1aXJlKGMoInBhbmRhcyIsICJvcGVucHl4bCIpKQ0KDQpgYGANCg0KIyBEYXRhIENvbnN0cnVjdGlvbg0KVGhlIGRhdGEgaXMgZGVyaXZlZCBmcm9tIFBBU1NJTSBDb3JlIFtAc2NobWlkdF9jb21wdXRhdGlvbmFsXzIwMjNdLiBJdCBjcmVhdGVzIGEgdW5pbW9kZSBuZXR3b3JrIG9mIHNlcm1vbnMgY29ubmVjdGVkIHdpdGggc2VybW9ucyBieSB0aGVpciBjby1vY2N1cnJhbmNlIGluIGEgbWFudXNjcmlwdC4gSXQgaXMgYWxzbyBhIGRpcmVjdGlvbmFsIG5ldHdvcmssIGJlY2F1c2UgdGhlIG9yZGVyIGluIHdoaWNoIHRoZSBtYW51c2NyaXB0cyBvY2N1ciBpcyBhbHNvIHJlbGV2YW50LiBAZnJlbmNoX3Jlc2VhcmNoIEhpZ2hsaWdodGVkIHJlb2NjdXJpbmcgYmxvY2tzIG9mIHNlcm1vbnMgYXQgdGhlIGVuZCBvZiBtYW51c2NyaXB0cy4gRnVydGhlcm1vcmUsIHRoZSBudW1iZXIgb2YgZWRnZXMgaXMgc2lnbmlmaWNhbnRseSByZWR1Y2VkIGZyb20gYy4gODAwLjAwMCB0byBjLiAyNi4wMDAgd2hpY2ggaXMgY29tcHV0YXRpb25hbGx5IGJlbmVmaXRpYWwgd2hlbiB3b3JraW5nIHdpdGggc3RvY2FzdGljIG1vZGVscy4gDQoNClRoZSBtYW51c2NyaXB0cyBmdW5jdGlvbiBhcyBvYnNlcnZhdGlvbnMgdG8gb2JzZXJ2ZSByZWxhdGlvbnNoaXBzIGJldHdlZW4gc2VybW9ucy4gVGhlIG9ic2VydmF0aW9ucyBhcmUgc2FtcGxlcyBhbmQgaXRzIG5vdCBjb25jbHVzaXZlIG5vciBleGhhdXN0aXZlLiBOZXZlcnRoZWxlc3MsIHdlJ3JlIGludGVyZXN0ZWQgaW4gdGhlIG1lY2hhbmlzbXMgYmVoaW5kIHRoZSBjby1vY2N1cnJhbmNlIG9mIHNlcm1vbnMgYW5kIGV4dGVuc2l2ZSBzYW1wbGluZyBzdWZmaWNlcyB0byB0aGlzIGVuZC4gDQoNClRoZSBzZXJtb25zIGRvbnQgaGF2ZSBhZ2VuY3kgYnkgdGhlbXNlbHZlcyBieSBjb21waWxlcnMgY2hvc2UgdG8gY29weSBzZXJtb25zIGluIGEgY2VydGFpbiBvcmRlciBhbmQgc2VsZWN0ZWQgdGhlbSBkZWxpYmVyYXRseSwgZ2l2ZW4gdGhlIGF2YWlsYWJsaXR5IG9mIHNvdXJjZSBtYXRlcmlhbCwgaW4gb3JkZXIgd29yZHMsIHRoZSBzY3JpcHQgcGlja2VkIHNlcm1vbnMgdG8gY29weSBmcm9tIHNlbGVjdGlvbiBvZiBzZXJtb25zIHRoZXkgaGFkIGFjY2VzcyB0by4gDQoNCmBgYHtweXRob24gZWRnZWxpc3QgYW5kIG5vZGVzIGNyZWF0aW9uIGZ1bmN0aW9uc30NCmltcG9ydCBwYW5kYXMgYXMgcGQNCiMgY3JlYXRlIGVkZ2VsaXN0IHBlciBtYW51c2NyaXB0IHVuZGlyZWN0ZWQNCmRlZiB1bmRpcmVjdGVkX3NlX3NlIChzZV9saXN0Omxpc3QsIG1zOnN0ciwgY2VudHVyeTppbnR8c3RyID0gTm9uZSkgLT4gbGlzdFtsaXN0XToNCiAgICBzdWJfc2Vfc2VfbCA9IFtdDQogICAgZm9yIHNlMSBpbiBzZV9saXN0Og0KICAgICAgICBmb3Igc2UyIGluIHNlX2xpc3Q6DQogICAgICAgICAgICBpZiBzZTEgPiBzZTI6DQogICAgICAgICAgICAgICAgc3ViX3NlX3NlX2wuYXBwZW5kKChzZTEsIHNlMiwgbXMsIGNlbnR1cnksICd1bmRpcmVjdGVkJykpDQogICAgcmV0dXJuIHN1Yl9zZV9zZV9sDQoNCiMgY3JlYXRlIGVkZ2VsaXN0IHBlciBtYW51c2NyaXB0IGRpcmVjdGVkDQpkZWYgZGlyZWN0ZWRfc2Vfc2UgKHNlX2xpc3Q6bGlzdCwgbXM6c3RyLCBjZW50dXJ5OmludHxzdHIgPSBOb25lKSAtPiBsaXN0W2xpc3RdOg0KICAgIHN1Yl9zZV9zZV9sID0gW10NCg0KICAgICMgaXRlcmF0ZSBvdmVyIGxlbmd0aCBzZXJtb24gbGlzdCBhbmQgY29ubmVjdCBhIHNlcm1vbiB0byBpdHMgcHJlY2VkaW5nIHNlcm1vbg0KICAgIGZvciBpIGluIHJhbmdlKGxlbihzZV9saXN0KS0xKToNCiAgICAgICAgc2UxID0gc2VfbGlzdFtpXQ0KICAgICAgICBzZTIgPSBzZV9saXN0W2krMV0NCiAgICAgICAgc3ViX3NlX3NlX2wuYXBwZW5kKChzZTEsIHNlMiwgbXMsIGNlbnR1cnksICdkaXJlY3RlZCcpKQ0KICAgIHJldHVybiBzdWJfc2Vfc2VfbA0KDQojIGNyZWF0ZSBzZS1zZSBlZGdlbGlzdCB3aXRoIGNlbnR1cnksIGRpcmVjdGVkLCBtYW51c2NyaXB0IGF0dHJpYnV0ZXMNCmRlZiBzZV9zZV9ueF9kZiAobXNfc2VfZGY6IHBkLkRhdGFGcmFtZSwgZGlyZWN0ZWQ6Ym9vbD1GYWxzZSktPiBwZC5EYXRhRnJhbWU6DQogICAgc2Vfc2VfbCA9IFtdDQogICAgZm9yIGNlbnR1cnksIHN1Yl9kZiBpbiBtc19zZV9kZi5ncm91cGJ5KCdjZW50dXJ5Jyk6DQogICAgICAgIGZvciBtcywgc2VzX3N0ciBpbiB6aXAoc3ViX2RmWydzaGVsZm1hcmsnXSwgc3ViX2RmWydjZXJ0YWluJ10pOg0KICAgICAgICAgICAgaWYgaXNpbnN0YW5jZShzZXNfc3RyLCBzdHIpOg0KICAgICAgICAgICAgICAgICMgc3BsaXQgdGhlIHNlcm1vbiBzdHJpbmcgbGlrZSAic2UtMSwgc2UtMyBldGMuIiBpbnRvIGxpc3QNCiAgICAgICAgICAgICAgICBzZXMgPSBbc2UgZm9yIHNlIGluIHNlc19zdHIuc3BsaXQoJywgJykgaWYgc2UgYW5kIGlzaW5zdGFuY2Uoc2UsIHN0cildDQoNCiAgICAgICAgICAgICAgICAjIG1ha2UgdW5pcXVlIGFuZCB3aXRob3V0IG9yZGVyIGZvciB1bmRpcmVjdGVkIG5ldHdvcmsNCiAgICAgICAgICAgICAgICBzZXMgPSBzZXMgaWYgZGlyZWN0ZWQgZWxzZSBsaXN0KHNldChzZXMpKQ0KDQogICAgICAgICAgICAgICAgIyBwcm9jZXNzIGludG8gbGlzdCBvZiBlZGdlIHBlciBtYW51c2NyaXB0DQogICAgICAgICAgICAgICAgc3ViX3NlX3NlID0gZGlyZWN0ZWRfc2Vfc2Uoc2VzLCBtcywgY2VudHVyeSkgaWYgZGlyZWN0ZWQgZWxzZSB1bmRpcmVjdGVkX3NlX3NlKHNlcywgbXMsIGNlbnR1cnkpDQoNCiAgICAgICAgICAgICAgICAjIGFkZCBsaXN0IG9mIGVkZ2VzIHBlciBtcyBpbnRvIGJpZyBlZGdlIGxpc3QNCiAgICAgICAgICAgICAgICBbc2Vfc2VfbC5hcHBlbmQoc2Vfc2UpIGZvciBzZV9zZSBpbiBzdWJfc2Vfc2VdDQoNCg0KICAgIHNlX3NlX2RmID0gcGQuRGF0YUZyYW1lKHNlX3NlX2wsIGNvbHVtbnMgPSBbJ1NvdXJjZScsICdUYXJnZXQnLCAnbWFudXNjcmlwdCcsICdjZW50dXJ5JywgJ0RpcmVjdGVkJ10pDQogICAgc2Vfc2VfZGZbJ0lkJ10gPSBsaXN0KHJhbmdlKGxlbihzZV9zZV9sKSkpDQoNCiAgICByZXR1cm4gc2Vfc2VfZGYNCg0KIyBjcmVhdGUgbm9kZXMgb2Ygc2VybW9ucyB3aXRoIEhDIHByZXNlbmNlIGFzIGF0dHJpYnV0ZQ0KZGVmIHNlX25vZGVzX254X2RmIChzZV9zZV9kZjogcGQuRGF0YUZyYW1lLCBjb2xsc19kOiBkaWN0KSAtPiBwZC5EYXRhRnJhbWU6DQogICAgc2VzID0gc2V0KGxpc3Qoc2Vfc2VfZGZbJ1NvdXJjZSddKSArIGxpc3Qoc2Vfc2VfZGZbJ1RhcmdldCddKSkNCg0KICAgIG5vZGVzX2wgPSBbXQ0KDQogICAgIyBBZGQgb25lIGlmIHRoZSBzZXJtb24gaXMgcHJlc2VudCBpbiB0aGUgbGlzdCBvZiBhIGNvbGxlY3Rpb24NCiAgICBmb3Igc2UgaW4gc2VzOg0KICAgICAgICBzdWJfbCA9IFtzZV0NCiAgICAgICAgZm9yIGNvbCwgY29sX3NlcyBpbiBjb2xsc19kLml0ZW1zKCk6DQogICAgICAgICAgICBzdWJfbC5hcHBlbmQoMSkgaWYgc2UgaW4gY29sX3NlcyBlbHNlIHN1Yl9sLmFwcGVuZCgwKQ0KICAgICAgICBub2Rlc19sLmFwcGVuZChzdWJfbCkNCg0KICAgIHJldHVybiBwZC5EYXRhRnJhbWUobm9kZXNfbCwgY29sdW1ucz1bJ0lkJ10rbGlzdChjb2xsc19kLmtleXMoKSkpDQoNCiMgbWFrZSBkaWN0IGV4cDoge2NvbGwxIDogW3NlMSwgc2UyLCBldGMuXSwgY29sbDIgOiBldGMufQ0KZGVmIGNvbGxlY3Rpb25fZGljdGlvbmFyeV9saXN0IChjb2xsX2RmOiBwZC5EYXRhRnJhbWUpIC0+IGRpY3Q6DQogICAgY29sbF9kID0gY29sbF9kZi50b19kaWN0KCdzZXJpZXMnKQ0KDQogICAgY29sbF9kaWN0ID0ge2s6IHYudG9fbGlzdCgpIGZvciBrLCB2IGluIGNvbGxfZC5pdGVtcygpfQ0KICAgIGNvbGxfZF9jbGVhbiA9IHtrOiBbZSBmb3IgZSBpbiB2IGlmIGlzaW5zdGFuY2UoZSwgc3RyKV0gZm9yIGssIHYgaW4gY29sbF9kaWN0Lml0ZW1zKCl9DQoNCiAgICByZXR1cm4gY29sbF9kX2NsZWFuDQoNCmBgYA0KDQoNCmBgYHtweXRob24gZWRnZWxpc3QgYW5kIG5vZGVzIG1haW59DQppbXBvcnQgb3MNCmltcG9ydCBwYW5kYXMgYXMgcGQNCmZyb20gZGF0ZXRpbWUgaW1wb3J0IGRhdGV0aW1lDQoNCnJvb3QgPSByLnJvb3QNCm1zX3NlX3BhdGggPSByLm1zX3NlX3BhdGgNCmNvbGxzX3BhdGggPSByLmNvbGxzX3BhdGgNCnJvb3Rfb3V0ID0gci5yb290X291dA0KDQptc1NlRGYgPSBwZC5yZWFkX2V4Y2VsKG9zLnBhdGguam9pbihyb290LCBtc19zZV9wYXRoKSkNCmNvbGxEZiA9IHBkLnJlYWRfZXhjZWwob3MucGF0aC5qb2luKHJvb3QsIGNvbGxzX3BhdGgpKQ0KDQpjb2xsQ2xlYW5EID0gY29sbGVjdGlvbl9kaWN0aW9uYXJ5X2xpc3QoY29sbERmKQ0KDQpzZVNlRGZfdW5kaXIgPSBzZV9zZV9ueF9kZihtc19zZV9kZj1tc1NlRGYsIGRpcmVjdGVkPUZhbHNlKQ0Kc2VTZURmX2RpciA9IHNlX3NlX254X2RmKG1zX3NlX2RmPW1zU2VEZiwgZGlyZWN0ZWQ9VHJ1ZSkNCg0Kc2VOb2Rlc0RmID0gc2Vfbm9kZXNfbnhfZGYoc2Vfc2VfZGY9c2VTZURmX3VuZGlyLCBjb2xsc19kPWNvbGxDbGVhbkQpDQoNCm5vdyA9IGRhdGV0aW1lLm5vdygpDQpmID0gbm93LnN0cmZ0aW1lKCIlZCVtJXkiKQ0KDQpzZVNlRGZfdW5kaXIudG9fZXhjZWwocm9vdF9vdXQgKyBmIi9zZV9zZV91bmRpcl97Zn0ueGxzeCIsIGluZGV4PUZhbHNlKQ0KDQpzZVNlRGZfZGlyLnRvX2V4Y2VsKHJvb3Rfb3V0ICsgZiIvc2Vfc2VfZGlyX3tmfS54bHN4IiwgaW5kZXg9RmFsc2UpDQoNCnNlTm9kZXNEZi50b19leGNlbChyb290X291dCArIGYiL3NlX25vZGVzX2NvbGxzX3tmfS54bHN4IiwgaW5kZXg9RmFsc2UpDQoNCmBgYA0KDQojIyMgTWlzc2luZyBkYXRhIGNob2ljZXMNCg0KLCB0aGUgbWFudXNjcmlwdHMgd2l0aCB1bmtub3duIGRhdGVzIG9yIHVua25vd24gIndhdmVzIiBhcmUgcmVtb3ZlZCBmcm9tIHRoZSBkYXRhc2V0LCB1bnRpbCBmdXJ0aGVyIG5vdGljZSANCi0gWyBdIFRPRE8jMSwgcmV2aWV3IHRoaXMgY2hvaWNlIGJhc2VkIG9uIHRoZSBhc3N1bXB0aW9ucyBvZiBSU2llbmEgbGF0ZXIgb24NCg0KYGBge3IgbG9hZCBub2RlcyBlZGdlc30NCnJvb3RfZGF0YV9wYXRoID0gIkY6L1BoRC9EZSBBbGxlbHVpYS9kYXRhL2Rlcml2X2RhdGEvIg0KDQpzZV9lZGdlX3BhdGggPSAic2Vfc2VfZGlyXzA3MDkyNi54bHN4Ig0Kc2Vfbm9kZV9wYXRoID0gInNlX25vZGVzX2NvbGxzXzA3MDkyNi54bHN4Ig0KDQpzZV9lZGdlIDwtIHJlYWRfZXhjZWwocGFzdGUwKHJvb3RfZGF0YV9wYXRoLCBzZV9lZGdlX3BhdGgpKSB8PiANCiAgZHJvcF9uYShjZW50dXJ5KQ0KIyA5IG1hbnVzY3JpcHRzIHJlbW92ZWQgd2l0aG91dCBkYXRpbmcNCg0KIyBzb21lIG5vZGVzIGhhcyBkdXBsaWNhdGVzIGFuZCB0aGV5IGFyZSBjb2xsYXBzZWQgaWYgb25lIGhhcyAxIHRoYW4gMSBlbHNlIDAgdG8gYmUgaW52ZXN0aWdhdGVkDQpzZV9ub2RlcyA8LSByZWFkX2V4Y2VsKHBhc3RlMChyb290X2RhdGFfcGF0aCwgc2Vfbm9kZV9wYXRoKSkgfD4gDQogIGdyb3VwX2J5KElkKSB8PiANCiAgc3VtbWFyaXNlKA0KICAgIGFjcm9zcyhldmVyeXRoaW5nKCksIFwoeCkgbWF4KHgsIG5hLnJtID0gVFJVRSkpLA0KICAgIC5ncm91cHMgPSAiZHJvcCINCiAgKQ0KDQpwcmludChoZWFkKHNlX2VkZ2UsIDUpKQ0KDQpwcmludChoZWFkKHNlX25vZGVzLCA1KSkNCmBgYA0KDQojIyBUcmFuc3Bvc2UgdG8gaWdyYXBoDQoNCmBgYHtyIHJzaWVuYSB0cmFuc3Bvc2l0aW9uLCBlY2hvPUZBTFNFfQ0KIyBlZGdlbGlzdCBpbnRvIGlncmFwaCBvYmplY3QNCmcgPC0gZ3JhcGhfZnJvbV9kYXRhX2ZyYW1lKHNlX2VkZ2UsIA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdmVydGljZXMgPSBzZV9ub2RlcywNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBkaXJlY3RlZCA9IFRSVUUpDQoNCiMgY2hlY2sgYXR0aWJ1dGVzDQp2ZXJ0ZXhfYXR0cl9uYW1lcyhnKQ0KZWRnZV9hdHRyX25hbWVzKGcpDQoNCmdfOCA8LSBzdWJncmFwaC5lZGdlcygNCiAgZywNCiAgRShnKVtjZW50dXJ5ID09IDhdLA0KICBkZWxldGUudmVydGljZXMgPSBUDQopDQoNClYoZ184KSRjb2xvciA8LSBpZmVsc2UoDQogIFYoZ184KSRhbGxlbHVpYSA9PSAxLA0KICAicmVkIiwNCiAgImxpZ2h0Z3JleSINCikNCg0KDQpwbG90KA0KICBnXzgsDQogIHZlcnRleC5jb2xvciA9IFYoZ184KSRjb2xvciwNCiAgdmVydGV4LmxhYmVsID0gTkEsDQogIGVkZ2UuYXJyb3cuc2l6ZSA9IDAuMw0KKQ0KYGBgDQoNCiMjIFRyYW5zcG9zZSBpdCB0byBSU2llbmEgZGF0YQ0KDQpgYGB7cn0NCiMgbWFrZSB0aGUgaWdyYXBoIG54IGludG8gYW4gYWRqdW5jdGlvbiBtYXRyaXgNCmFkaiA8LSBhcy5tYXRyaXgoYXNfYWRqYWNlbmN5X21hdHJpeChnLCBzcGFyc2UgPSBGQUxTRSkpDQoNCiMgbWFrZSBpbnRvIHJzaWVuYSBkYXRhIG5ldHdvcmsgZnJvbQ0KDQpgYGANCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNCiMgUmVmZXJlbmNlcw0KDQo=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("data_wrangling.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

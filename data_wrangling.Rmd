@@ -4,7 +4,7 @@ output: html_document
 date: "2026-09-07"
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warning=F, echo=F}
 knitr::opts_chunk$set(echo = TRUE)
 install.packages("tidyverse")
 install.packages("readxl")
@@ -12,6 +12,29 @@ library(tidyverse)
 library(readxl)
 library(RSiena)
 library(igraph)
+
+# import global parameters like root paths
+source("parameters.R")
+
+```
+
+```{r python setup, include=FALSE, warning=F, echo=F}
+# for python use
+library(reticulate)
+
+# Check if python is installed
+py_config()
+
+# activate
+py_available(initialize = TRUE)
+
+# check if packages are available
+py_module_available("pandas") 
+py_module_available("openpyxl")
+
+# install packages
+py_require(c("pandas", "openpyxl"))
+
 ```
 
 # Data Construction
@@ -22,6 +45,7 @@ The manuscripts function as observations to observe relationships between sermon
 The sermons dont have agency by themselves by compilers chose to copy sermons in a certain order and selected them deliberatly, given the availablity of source material, in order words, the script picked sermons to copy from selection of sermons they had access to. 
 
 ```{python edgelist and nodes creation functions}
+import pandas as pd
 # create edgelist per manuscript undirected
 def undirected_se_se (se_list:list, ms:str, century:int|str = None) -> list[list]:
     sub_se_se_l = []
@@ -98,6 +122,11 @@ import os
 import pandas as pd
 from datetime import datetime
 
+root = r.root
+ms_se_path = r.ms_se_path
+colls_path = r.colls_path
+root_out = r.root_out
+
 msSeDf = pd.read_excel(os.path.join(root, ms_se_path))
 collDf = pd.read_excel(os.path.join(root, colls_path))
 
@@ -124,7 +153,7 @@ seNodesDf.to_excel(root_out + f"/se_nodes_colls_{f}.xlsx", index=False)
 , the manuscripts with unknown dates or unknown "waves" are removed from the dataset, until further notice 
 - [ ] TODO#1, review this choice based on the assumptions of RSiena later on
 
-```{r load nodes edges}
+```{r load nodes edges, warning=F}
 root_data_path = "F:/PhD/De Alleluia/data/deriv_data/"
 
 se_edge_path = "se_se_dir_070926.xlsx"
@@ -149,7 +178,7 @@ print(head(se_nodes, 5))
 
 ## Transpose to igraph
 
-```{r rsiena transposition, echo=FALSE}
+```{r igraph, echo=FALSE}
 # edgelist into igraph object
 g <- graph_from_data_frame(se_edge, 
                               vertices = se_nodes,
@@ -182,15 +211,12 @@ plot(
 
 ## Transpose it to RSiena data
 
-```{r}
+```{r rsiena transposition, warning=F}
 # make the igraph nx into an adjunction matrix
 adj <- as.matrix(as_adjacency_matrix(g, sparse = FALSE))
 
-# make into rsiena data network from
+# make into rsiena data network from adj
 
 ```
 
-------------------------------------------------------------------------
-
-# References
 
