@@ -1,0 +1,28 @@
+---
+title: "literature_review_hypotheses"
+output: html_document
+date: "2026-09-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Literature review
+
+Summary: Literature and Hypotheses
+
+De Coninck File:
+The Alleluia consists of at least 3 different antique collections. There is debate on a “mixed version” (see later). These collections were originally separate; they were transmitted together in the surviving manuscript tradition. The (full?) collection is preserved in five known manuscript witnesses: Darmstadt 1489, Paris BN lat. 13376, Charleville 202.9, London BL Add. 17292, and Brussels KB 846–57. The Brussels manuscript, dating from the early sixteenth century, preserves only the beginnings of many sermons. The latter more often occurs in other manuscripts. 
+According to Lambot, the surviving manuscripts do not descend directly from one another. They all derive from a common archetype that was already incomplete and disordered. (This will be hard for us to test, but it can be done. probably not necessary) The two ninth-century manuscripts are independent of each other, while the twelfth-century witnesses descend from a common exemplar that shows some affinity with the Darmstadt manuscript. Because the archetype was defective, scholars have relied on other medieval collections, particularly the Collection de Lapsu Mundi, the Collection de Bruxelles, and manuscript Orléans 155, to reconstruct the original order of the sermons. These sources represent an independent branch of the tradition.
+Research by Partoens has shown that the collection was apparently unknown to Florus, since he never cited any of its forty-seven sermons. Zwinggi demonstrated that a sequence of sermons (se-119, se-240, se-241, se-242, se-243, se-251, se-147, se-148, and se-260) forms a coherent series preached by Augustine during an Easter Octave in Hippo, although the exact year remains uncertain. The same sequence is also preserved in manuscript Orléans 155, strengthening the case that this arrangement reflects an original liturgical series.
+The collection is noteworthy for the unusually detailed titles attached to many sermons. As Dolbeau observed, these titles often provide precise information about the circumstances in which the sermons were preached. He also suggested that some editorial intervention may have taken place when the first and last sections of the collection were assembled. The terminology used in the titles, including the word capitulum for biblical passages, reflects broader practices found in Augustine and other Christian authors.
+Modern scholarship has devoted considerable attention to the collection's transmission and reconstruction. Studies by Morin, Lambot, Verbraken, Partoens, and Boodts have examined the relationships among the manuscripts, the original structure of the collection, and its influence on later authors such as Caesarius of Arles. Boodts, in particular, has argued that certain secondary collections, especially the Wolfenbüttel homiliary tradition, preserve a parallel textual tradition that may reflect an earlier stage of transmission than the better-known De Lapsu Mundi collection. The surviving manuscripts of De Alleluia all originate from northern France, and related sermon collections from the same region suggest that the archetype itself circulated there.
+Based on manuscript and textual evidence, scholars have reconstructed the collection as consisting of forty-seven sermons arranged in three major sections: a Carthaginian spring collection, an Easter collection from Hippo, and a larger mixed collection. Within the mixed section is a distinct block of sermons that appears to have been preached during a summer after 425 CE. 
+
+### Hypotheses:
+- De Coninck: 5 manuscripts exist with the full Alleluia
+- Lambot: De Alleluia is adapted in the Lapsi Mundi and Collection Bruxelles (although only one ms with that constellation exists), Boodts (2018) states that the textual variation points independent adaptation of Alleluia in Lapsi and Bruxelles
+- Zwinggi: Augustine preached a coherent series during an Easter Octave in Hippo (se-119, se-240, se-241, se-242, se-243, se-251, se-147, se-148, and se-260) 
+- Partoens: se-107 and maybe se-73, se-85, se-92, and se-94 are textual independent of Lapsu Mundi, evident by Brussel KB 14920-22 (Coll. Bruxelles) and Vat. lat. 471.
+- Partoens?: The Alleluia collection consists of three subcollections preached on Spring, Easter, and a mixed form on the latter Verbraken identifies a six additional sermons in between the mixed version. 

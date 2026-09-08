@@ -1,6 +1,6 @@
-name: "Example Lab Journal"
+name: "Lab journal De Alleluia"
 author: 
-  - 'Your Name'
+  - 'Celis Tittse'
 output_dir: "docs"
 exclude: 
   - "data"
@@ -12,11 +12,13 @@ navbar:
       href: index.html
     - text: "My journal"
       menu:
-      - text: "Page 1"
-        href: lab1.html
-        
-        # here, other .Rmds can be added
-
+      - text: "Introduction"
+        href: intro.html
+      - text: "Literature Review"
+        href: literature_review_hypotheses.html
+      - text: "Data and EDA"
+        href: data_wrangling.html
+      
 
   right:
   - icon: fab fa-github

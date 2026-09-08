@@ -1,0 +1,196 @@
+---
+title: "Week_2_eda"
+output: html_document
+date: "2026-09-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+install.packages("tidyverse")
+install.packages("readxl")
+library(tidyverse)
+library(readxl)
+library(RSiena)
+library(igraph)
+```
+
+# Data Construction
+The data is derived from PASSIM Core [@schmidt_computational_2023]. It creates a unimode network of sermons connected with sermons by their co-occurrance in a manuscript. It is also a directional network, because the order in which the manuscripts occur is also relevant. @french_research Highlighted reoccuring blocks of sermons at the end of manuscripts. Furthermore, the number of edges is significantly reduced from c. 800.000 to c. 26.000 which is computationally benefitial when working with stocastic models. 
+
+The manuscripts function as observations to observe relationships between sermons. The observations are samples and its not conclusive nor exhaustive. Nevertheless, we're interested in the mechanisms behind the co-occurrance of sermons and extensive sampling suffices to this end. 
+
+The sermons dont have agency by themselves by compilers chose to copy sermons in a certain order and selected them deliberatly, given the availablity of source material, in order words, the script picked sermons to copy from selection of sermons they had access to. 
+
+```{python edgelist and nodes creation functions}
+# create edgelist per manuscript undirected
+def undirected_se_se (se_list:list, ms:str, century:int|str = None) -> list[list]:
+    sub_se_se_l = []
+    for se1 in se_list:
+        for se2 in se_list:
+            if se1 > se2:
+                sub_se_se_l.append((se1, se2, ms, century, 'undirected'))
+    return sub_se_se_l
+
+# create edgelist per manuscript directed
+def directed_se_se (se_list:list, ms:str, century:int|str = None) -> list[list]:
+    sub_se_se_l = []
+
+    # iterate over length sermon list and connect a sermon to its preceding sermon
+    for i in range(len(se_list)-1):
+        se1 = se_list[i]
+        se2 = se_list[i+1]
+        sub_se_se_l.append((se1, se2, ms, century, 'directed'))
+    return sub_se_se_l
+
+# create se-se edgelist with century, directed, manuscript attributes
+def se_se_nx_df (ms_se_df: pd.DataFrame, directed:bool=False)-> pd.DataFrame:
+    se_se_l = []
+    for century, sub_df in ms_se_df.groupby('century'):
+        for ms, ses_str in zip(sub_df['shelfmark'], sub_df['certain']):
+            if isinstance(ses_str, str):
+                # split the sermon string like "se-1, se-3 etc." into list
+                ses = [se for se in ses_str.split(', ') if se and isinstance(se, str)]
+
+                # make unique and without order for undirected network
+                ses = ses if directed else list(set(ses))
+
+                # process into list of edge per manuscript
+                sub_se_se = directed_se_se(ses, ms, century) if directed else undirected_se_se(ses, ms, century)
+
+                # add list of edges per ms into big edge list
+                [se_se_l.append(se_se) for se_se in sub_se_se]
+
+
+    se_se_df = pd.DataFrame(se_se_l, columns = ['Source', 'Target', 'manuscript', 'century', 'Directed'])
+    se_se_df['Id'] = list(range(len(se_se_l)))
+
+    return se_se_df
+
+# create nodes of sermons with HC presence as attribute
+def se_nodes_nx_df (se_se_df: pd.DataFrame, colls_d: dict) -> pd.DataFrame:
+    ses = set(list(se_se_df['Source']) + list(se_se_df['Target']))
+
+    nodes_l = []
+
+    # Add one if the sermon is present in the list of a collection
+    for se in ses:
+        sub_l = [se]
+        for col, col_ses in colls_d.items():
+            sub_l.append(1) if se in col_ses else sub_l.append(0)
+        nodes_l.append(sub_l)
+
+    return pd.DataFrame(nodes_l, columns=['Id']+list(colls_d.keys()))
+
+# make dict exp: {coll1 : [se1, se2, etc.], coll2 : etc.}
+def collection_dictionary_list (coll_df: pd.DataFrame) -> dict:
+    coll_d = coll_df.to_dict('series')
+
+    coll_dict = {k: v.to_list() for k, v in coll_d.items()}
+    coll_d_clean = {k: [e for e in v if isinstance(e, str)] for k, v in coll_dict.items()}
+
+    return coll_d_clean
+
+```
+
+
+```{python edgelist and nodes main}
+import os
+import pandas as pd
+from datetime import datetime
+
+msSeDf = pd.read_excel(os.path.join(root, ms_se_path))
+collDf = pd.read_excel(os.path.join(root, colls_path))
+
+collCleanD = collection_dictionary_list(collDf)
+
+seSeDf_undir = se_se_nx_df(ms_se_df=msSeDf, directed=False)
+seSeDf_dir = se_se_nx_df(ms_se_df=msSeDf, directed=True)
+
+seNodesDf = se_nodes_nx_df(se_se_df=seSeDf_undir, colls_d=collCleanD)
+
+now = datetime.now()
+f = now.strftime("%d%m%y")
+
+seSeDf_undir.to_excel(root_out + f"/se_se_undir_{f}.xlsx", index=False)
+
+seSeDf_dir.to_excel(root_out + f"/se_se_dir_{f}.xlsx", index=False)
+
+seNodesDf.to_excel(root_out + f"/se_nodes_colls_{f}.xlsx", index=False)
+
+```
+
+### Missing data choices
+
+, the manuscripts with unknown dates or unknown "waves" are removed from the dataset, until further notice 
+- [ ] TODO#1, review this choice based on the assumptions of RSiena later on
+
+```{r load nodes edges}
+root_data_path = "F:/PhD/De Alleluia/data/deriv_data/"
+
+se_edge_path = "se_se_dir_070926.xlsx"
+se_node_path = "se_nodes_colls_070926.xlsx"
+
+se_edge <- read_excel(paste0(root_data_path, se_edge_path)) |> 
+  drop_na(century)
+# 9 manuscripts removed without dating
+
+# some nodes has duplicates and they are collapsed if one has 1 than 1 else 0 to be investigated
+se_nodes <- read_excel(paste0(root_data_path, se_node_path)) |> 
+  group_by(Id) |> 
+  summarise(
+    across(everything(), \(x) max(x, na.rm = TRUE)),
+    .groups = "drop"
+  )
+
+print(head(se_edge, 5))
+
+print(head(se_nodes, 5))
+```
+
+## Transpose to igraph
+
+```{r rsiena transposition, echo=FALSE}
+# edgelist into igraph object
+g <- graph_from_data_frame(se_edge, 
+                              vertices = se_nodes,
+                            directed = TRUE)
+
+# check attibutes
+vertex_attr_names(g)
+edge_attr_names(g)
+
+g_8 <- subgraph.edges(
+  g,
+  E(g)[century == 8],
+  delete.vertices = T
+)
+
+V(g_8)$color <- ifelse(
+  V(g_8)$alleluia == 1,
+  "red",
+  "lightgrey"
+)
+
+
+plot(
+  g_8,
+  vertex.color = V(g_8)$color,
+  vertex.label = NA,
+  edge.arrow.size = 0.3
+)
+```
+
+## Transpose it to RSiena data
+
+```{r}
+# make the igraph nx into an adjunction matrix
+adj <- as.matrix(as_adjacency_matrix(g, sparse = FALSE))
+
+# make into rsiena data network from
+
+```
+
+------------------------------------------------------------------------
+
+# References
+
