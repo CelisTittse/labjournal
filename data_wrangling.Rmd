@@ -172,6 +172,7 @@ root = r.root
 ms_se_path = r.ms_se_path
 colls_path = r.colls_path
 root_out = r.root_out
+save_dataframes = r.save_sermons
 
 msSeDf = pd.read_excel(os.path.join(root, ms_se_path))
 collDf = pd.read_excel(os.path.join(root, colls_path))
@@ -183,14 +184,18 @@ seSeDf_dir = se_se_nx_df(ms_se_df=msSeDf, directed=True)
 
 seNodesDf = se_nodes_nx_df(se_se_df=seSeDf_undir, colls_d=collCleanD)
 
-now = datetime.now()
-f = now.strftime("%d%m%y")
-
-seSeDf_undir.to_excel(root_out + f"/se_se_undir_{f}.xlsx", index=False)
-
-seSeDf_dir.to_excel(root_out + f"/se_se_dir_{f}.xlsx", index=False)
-
-seNodesDf.to_excel(root_out + f"/se_nodes_colls_{f}.xlsx", index=False)
+if (save_dataframes == TRUE) {
+  now = datetime.now()
+  f = now.strftime("%d%m%y")
+  
+  seSeDf_undir.to_excel(root_out + f"/se_se_undir_{f}.xlsx", index=False)
+  
+  seSeDf_dir.to_excel(root_out + f"/se_se_dir_{f}.xlsx", index=False)
+  
+  seNodesDf.to_excel(root_out + f"/se_nodes_colls_{f}.xlsx", index=False)
+} else {
+  print("Not saved")
+}
 
 ```
 

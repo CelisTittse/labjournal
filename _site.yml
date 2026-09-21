@@ -16,9 +16,10 @@ navbar:
         href: intro.html
       - text: "Literature Review"
         href: literature_review_hypotheses.html
-      - text: "Data and EDA"
+      - text: "Data"
         href: data_wrangling.html
-      
+      - text: "Exploratory EDA"
+        href: eda.html
 
   right:
   - icon: fab fa-github

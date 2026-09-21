@@ -7,9 +7,9 @@ date: "2026-09-21"
 # EDA
 
 ### Missing data choices
+The manuscripts with unknown dates or unknown "waves" are removed from the dataset, until further notice.
 
-, the manuscripts with unknown dates or unknown "waves" are removed from the dataset, until further notice 
-- [ ] TODO#1, review this choice based on the assumptions of RSiena later on
+The data is undirected. Because the directed data assumes that the compiler was only able to choice (agency) a succession of sermons, se1 -> se2 -> se3, but he/she compiles [se1, se2, se3] with knowledge of all three sermons. 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
