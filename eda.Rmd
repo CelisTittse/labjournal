@@ -1,0 +1,210 @@
+---
+title: "EDA and visualisation"
+output: html_document
+date: "2026-09-21"
+---
+
+# EDA
+
+### Missing data choices
+
+, the manuscripts with unknown dates or unknown "waves" are removed from the dataset, until further notice 
+- [ ] TODO#1, review this choice based on the assumptions of RSiena later on
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load nodes edges, warning=F, echo=F}
+root_data_path = "./data/data_deriv/"
+
+se_edge_path = "se_se_undir_080926.xlsx"
+se_node_path = "se_nodes_colls_080926.xlsx"
+
+raw_se_data = read_excel("./data/data_raw/sf_mss_okt_25.xlsx") |> 
+  drop_na(century)
+
+se_edge <- read_excel(paste0(root_data_path, se_edge_path)) |> 
+  drop_na(century)
+# 9 manuscripts removed without dating
+
+# some nodes has duplicates and they are collapsed if one has 1 than 1 else 0 to be investigated
+se_nodes <- read_excel(paste0(root_data_path, se_node_path)) |> 
+  group_by(Id) |> 
+  summarise(
+    across(everything(), \(x) max(x, na.rm = TRUE)),
+    .groups = "drop"
+  )
+
+# make raw data century -> int
+sf_se_data <- raw_se_data |>
+  mutate(century = as.integer(century),
+         n_ses = str_count(certain, " ") + 1) |> 
+  drop_na()
+  
+print(head(se_edge, 5))
+
+print(head(se_nodes, 5))
+```
+
+## Transpose to igraph
+
+```{r igraph, echo=FALSE}
+# edgelist into igraph object
+g <- graph_from_data_frame(se_edge, 
+                            vertices = se_nodes,
+                            directed = F)
+
+# check attibutes
+vertex_attr_names(g)
+edge_attr_names(g)
+
+```
+
+```{r plot alleluia}
+plot_alleluia_century <- function(g_full, cent, delete_non_nodes) {
+  # slice graph
+  g_i <- subgraph.edges(
+    g_full,
+    E(g_full)[century == cent],
+    delete.vertices = delete_non_nodes
+  )
+  
+  # voeg een weight toe
+  E(g_i)$weight = 1
+  
+  G1 <- simplify(g_i, edge.attr.comb = list(weight = "sum"))
+  
+  # created weighted edges but normalised between 0 and 1
+  E(G1)$weight <- E(G1)$weight / max(E(G1)$weight)
+  
+  # maak kleuren
+  V(G1)$color <- ifelse(
+    V(G1)$alleluia_spring == 1,
+    "yellow",
+    ifelse(V(G1)$alleluia_easter == 1,
+           "green",
+           ifelse(
+              V(G1)$`alleluia_mixed?` == 1,
+              "red",
+              V(G1)$color <- ifelse(
+                V(G1)$alleluia_mixed == 1,
+                "orange",
+                ifelse(
+                  V(G1)$alleluia_after_425 == 1,
+                  "blue",
+                  "lightgrey"
+                )
+              ))))
+  
+  # layout
+  layout <- layout_with_mds(G1, dist = NULL, dim = 2)
+  # trek uit elkaar
+  layout <- norm_coords(layout, xmin = -50, xmax = 50, ymin = -50, ymax = 50)
+  # 
+  # # node size degree
+  V(G1)$size <- degree(G1) / mean_degree(G1) * 300 + 50
+  
+    # plot century
+  p1 <- plot(G1,
+    vertex.color = V(G1)$color,
+    vertex.label = NA,
+    layout=layout,
+    rescale=F
+  )
+  
+  return (p1)
+}
+
+cents <- seq(8, 13)
+
+par(mfrow = c(2, 3), mar= c(1,1,1,1))
+
+for (c in cents){
+  plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
+  title(main = paste("Century:", c))
+}
+
+
+```
+
+## Basic
+```{r EDA undirected, warning=F}
+# get n nodes (removed if degree = 0)
+century_count <- function (g_full, cent) {
+  # slice graph
+  g_i <- subgraph.edges(
+    g,
+    E(g)[century == cent],
+    delete.vertices = T
+  )
+  
+  n_unq_mss = length(unique(E(g_i)$manuscript))
+  
+  # voeg een weight toe
+  E(g_i)$weight = 1
+  
+  g_i <- simplify(g_i, edge.attr.comb = list(weight = "sum"))
+  
+  # normalise weight
+  E(g_i)$weight <- E(g_i)$weight / max(E(g_i)$weight)
+  avg_edges <- if(n_unq_mss > 0) ecount(g_i) / n_unq_mss else 0
+  
+  return(data.frame(
+    Century = cent,
+    Nodes = vcount(g_i),
+    Manuscripts = n_unq_mss,
+    Edges = ecount(g_i),
+    Avg_Edge_Per_MS = avg_edges,
+    Degree = igraph::mean_degree(g_i),
+    Transitivity = igraph::transitivity(g_i, type = "global"),
+    Density = igraph::edge_density(g_i),
+    stringsAsFactors = FALSE
+  ))
+}
+
+# Size
+# number of nodes
+vcount(g)
+# number of edges
+ecount(g)
+
+centuries <- unique(E(g)$century)
+
+df_results <- do.call(rbind, lapply(centuries, function(c) {
+  century_count(g_full = g, cent = c)
+}))
+
+knitr::kable(df_results)
+
+sf_se_data |> 
+  mutate(century_str = fct_relevel(as.character(century), 
+            as.character(seq(4, 16)) 
+            )) %>%
+  ggplot(aes(x = century, y=n_ses)) +
+    geom_smooth() +
+    labs(x = "Century", 
+         y = "ses/ms (log)", 
+         title = "Number of authentic Augustinian sermons per manuscript",
+         subtitle = "Centain sermons with an attributed century") +
+    scale_y_log10() +
+    theme_minimal()
+
+se_edge |> 
+  distinct(century, manuscript) |> 
+  mutate(century_str = fct_relevel(as.character(century), 
+            as.character(seq(4, 16)) 
+            )) |> 
+  group_by(century_str) |> 
+  summarise(mss = n()) |> 
+  as.data.frame() |> 
+  ggplot(aes(x=century_str, y = mss)) +
+  geom_col() +
+  theme_minimal() +
+  labs(x='Century',
+       y = "N manuscripts", 
+       title="Number of manuscripts per century")
+```
+
+### Type of Collection per century
+-> TODO: preek matrix | per century | kleurtjes per subcollectie | Freq Ms 

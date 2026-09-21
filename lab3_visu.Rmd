@@ -1,0 +1,97 @@
+---
+title: "lab4_visu"
+output: html_document
+date: "2026-09-21"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Visualisation dudalling
+
+```{r load}
+library(igraph)
+g <- make_graph("Zachary")
+plot(g)
+```
+
+## EDA
+### Node charactersists
+
+```{r EDA node charactersists}
+gmat <- as_adjacency_matrix(g, type = "both", sparse = FALSE)
+print(gmat)
+
+# directed?
+isSymmetric.matrix(gmat)
+
+# Size
+# number of nodes
+vcount(g)
+# number of edges
+ecount(g)
+
+# degree distribution
+igraph::degree(g)
+hist(table(degree(g)), xlab='in-degree', main= 'Histogram of in-degree')
+
+# alle mogelijke trihoekjes
+igraph::transitivity(g, type = c("localundirected"), isolates = c("NaN", "zero"))
+
+# betweenness
+igraph::betweenness(g, directed = FALSE, normalized = T)
+
+V(g)$size <- igraph::betweenness(g, directed = FALSE, normalized = T) * 100 + 10
+V(g)$color <- igraph::betweenness(g, directed = FALSE, normalized = T) * 100
+plot(g)
+
+# met u-palette kleur geven aan betweenness
+```
+# Edge characteristics
+
+```{r edges}
+igraph::dyad_census(g)
+
+igraph::triad_census(g)
+
+# I will use sna because it shows the names of the triads as well.
+sna::triad.census(gmat)
+unloadNamespace("sna")  
+
+plot(c(0, 1, 2, 3), c(3971, 1575, 393, 300))
+#I will detach this package again, otherwise it will interfere with all kind of functions from igraph, and my students will hate me for that.
+
+
+igraph::transitivity(g, type = "global")
+sna::gtrans(gmat)
+
+triad_g <- data.frame(sna::triad.census(gmat))
+
+
+transitivity_g <- (3 * triad_g$X300)/(triad_g$X201 + 3 * triad_g$X300)
+transitivity_g
+
+
+
+```
+
+```{r layout}
+set.seed(2345)
+l <- layout_with_dh(g)  #https://igraph.org/r/doc/layout_with_mds.html
+plot(g, layout = l)
+
+l  #let us take a look at the coordinates
+l[1, 1] <- 4
+l[34, 1] <- -3.5
+plot(g, layout = l)
+
+
+```
+
+
+```{r 8th century undirected}
+
+
+
+```

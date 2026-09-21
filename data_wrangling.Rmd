@@ -3,6 +3,52 @@ title: "Week_2_eda"
 output: html_document
 date: "2026-09-07"
 ---
+## Data Theory
+Here only the highlights. 
+
+### Data
+*sermon internal/static (nodes):*
+1. Length sermon (static) 
+Hypo1:  More likely to connect with similar length (homophily)
+
+2. Topic => topic modelling (LDA)
+Hypo2: homophily
+
+3. Lectio (Gleb, PASSIM)
+Hypo3: Liturgical occasion (PASSIM)
+
+4. Liturgical occasion (PASSIM)
+
+5. Difficulty of language 
+- length of sentences
+- difficult words, technical theological terms (TF-IDF score)
+
+6. Collections:
+- antique collections (some collections are lost)
+- de alleluia
+
+7. subcollections de alleluia
+
+8. Proper names, i.e. Saint or Martyrs
+- Saints homophily 1 to many
+- Not same saint (homophily)
+- Saint in sequence of the feasts
+
+*manuscript internal (ties):*
+1. augustinian sermons only / mixed (not in collection/ eclectic always mixed)
+
+2. homiliary / lectio / other categories
+
+3. country
+
+*sermon context*
+1. if a sermon is already in a manuscript with another sermon, it will more likely to co-occur (weighted ties)
+
+2. the bigger a collection is, the more likely it is a set of sermons is picked rather than a single one. 
+
+3. ‘Mixed part’ is at least partially reflected in Possidius
+
+
 
 ```{r setup, include=FALSE, warning=F, echo=F}
 knitr::opts_chunk$set(echo = TRUE)
@@ -147,76 +193,4 @@ seSeDf_dir.to_excel(root_out + f"/se_se_dir_{f}.xlsx", index=False)
 seNodesDf.to_excel(root_out + f"/se_nodes_colls_{f}.xlsx", index=False)
 
 ```
-
-### Missing data choices
-
-, the manuscripts with unknown dates or unknown "waves" are removed from the dataset, until further notice 
-- [ ] TODO#1, review this choice based on the assumptions of RSiena later on
-
-```{r load nodes edges, warning=F}
-root_data_path = "F:/PhD/De Alleluia/data/deriv_data/"
-
-se_edge_path = "se_se_dir_070926.xlsx"
-se_node_path = "se_nodes_colls_070926.xlsx"
-
-se_edge <- read_excel(paste0(root_data_path, se_edge_path)) |> 
-  drop_na(century)
-# 9 manuscripts removed without dating
-
-# some nodes has duplicates and they are collapsed if one has 1 than 1 else 0 to be investigated
-se_nodes <- read_excel(paste0(root_data_path, se_node_path)) |> 
-  group_by(Id) |> 
-  summarise(
-    across(everything(), \(x) max(x, na.rm = TRUE)),
-    .groups = "drop"
-  )
-
-print(head(se_edge, 5))
-
-print(head(se_nodes, 5))
-```
-
-## Transpose to igraph
-
-```{r igraph, echo=FALSE}
-# edgelist into igraph object
-g <- graph_from_data_frame(se_edge, 
-                              vertices = se_nodes,
-                            directed = TRUE)
-
-# check attibutes
-vertex_attr_names(g)
-edge_attr_names(g)
-
-g_8 <- subgraph.edges(
-  g,
-  E(g)[century == 8],
-  delete.vertices = T
-)
-
-V(g_8)$color <- ifelse(
-  V(g_8)$alleluia == 1,
-  "red",
-  "lightgrey"
-)
-
-
-plot(
-  g_8,
-  vertex.color = V(g_8)$color,
-  vertex.label = NA,
-  edge.arrow.size = 0.3
-)
-```
-
-## Transpose it to RSiena data
-
-```{r rsiena transposition, warning=F}
-# make the igraph nx into an adjunction matrix
-adj <- as.matrix(as_adjacency_matrix(g, sparse = FALSE))
-
-# make into rsiena data network from adj
-
-```
-
 
