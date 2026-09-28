@@ -119,9 +119,7 @@ fpackage.check(packages)
 df <- fload("./data/data_deriv/20230621df_complete.rda")
 publications <- fload("./data/data_deriv/20230621list_publications_jt.rda")
 
-```
 
-```{r modelletje schatten}
 publications <- publications %>%
     bind_rows() %>%
     distinct(title, .keep_all = TRUE)
@@ -340,21 +338,3 @@ plot(gofi0)
 
 ```
 
-```{r sienaRI}
-install.packages("sienaRI")
-fpackage.check("sienaRI")
-
-# get parameters
-theta.eval <- ans$theta
-# and effects
-myeff.eval <- ans$effects
-
-
-# use sienaRI()
-RI <- interpret_size(ans, mydata, theta=theta.eval)
-RI
-print(RI, printSigma=TRUE)
-RI$RIActors
-
-
-```

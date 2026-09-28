@@ -13,6 +13,9 @@ The data is undirected. Because the directed data assumes that the compiler was 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(igraph)
 ```
 
 ```{r load nodes edges, warning=F, echo=F}
@@ -59,73 +62,14 @@ g <- graph_from_data_frame(se_edge,
 vertex_attr_names(g)
 edge_attr_names(g)
 
-```
+# prepare legend
+incl_colls <- c("Alleluia", "VDA", "Quinquaginta", "Lapsu Mundi", "SCP")
+coll_colors <- c("blue", "yellow", "orange", "purple", "darkgreen")
 
-```{r plot alleluia}
-plot_alleluia_century <- function(g_full, cent, delete_non_nodes) {
-  # slice graph
-  g_i <- subgraph.edges(
-    g_full,
-    E(g_full)[century == cent],
-    delete.vertices = delete_non_nodes
-  )
-  
-  # voeg een weight toe
-  E(g_i)$weight = 1
-  
-  G1 <- simplify(g_i, edge.attr.comb = list(weight = "sum"))
-  
-  # created weighted edges but normalised between 0 and 1
-  E(G1)$weight <- E(G1)$weight / max(E(G1)$weight)
-  
-  # maak kleuren
-  V(G1)$color <- ifelse(
-    V(G1)$alleluia_spring == 1,
-    "yellow",
-    ifelse(V(G1)$alleluia_easter == 1,
-           "green",
-           ifelse(
-              V(G1)$`alleluia_mixed?` == 1,
-              "red",
-              V(G1)$color <- ifelse(
-                V(G1)$alleluia_mixed == 1,
-                "orange",
-                ifelse(
-                  V(G1)$alleluia_after_425 == 1,
-                  "blue",
-                  "lightgrey"
-                )
-              ))))
-  
-  # layout
-  layout <- layout_with_mds(G1, dist = NULL, dim = 2)
-  # trek uit elkaar
-  layout <- norm_coords(layout, xmin = -50, xmax = 50, ymin = -50, ymax = 50)
-  # 
-  # # node size degree
-  V(G1)$size <- degree(G1) / mean_degree(G1) * 300 + 50
-  
-    # plot century
-  p1 <- plot(G1,
-    vertex.color = V(G1)$color,
-    vertex.label = NA,
-    layout=layout,
-    rescale=F
-  )
-  
-  return (p1)
-}
-
-cents <- seq(8, 13)
-
-par(mfrow = c(2, 3), mar= c(1,1,1,1))
-
-for (c in cents){
-  plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
-  title(main = paste("Century:", c))
-}
-
-
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend("topleft", legend =incl_colls, pch=16, pt.cex=3, cex=1.5, bty='n',
+    col = coll_colors)
+mtext("Included Collections", at=0.2, cex=2)
 ```
 
 ## Basic
@@ -204,6 +148,95 @@ se_edge |>
   labs(x='Century',
        y = "N manuscripts", 
        title="Number of manuscripts per century")
+```
+
+### Conclusion EDA
+The number of observations should be more reliabile if it is higher than 50 obervations. In this case, only the 9th to the 15th century can be used for observation and the 5th to the 8th century can be redirected to my qualitative collegues. The 16th century is underrepresented in this dataset, because it only includes manuscripts, which saw a steady decline in production from the 16th century, as well as, discussion about the validity of church fathers within the Reformation debate, resulting in a lower production of augustinian sermons in manuscripts. <b>
+
+
+```{r plot alleluia}
+plot_alleluia_century <- function(g_full, cent, delete_non_nodes) {
+  # slice graph
+  G1 <- subgraph.edges(
+    g_full,
+    E(g_full)[century == cent],
+    delete.vertices = delete_non_nodes
+  )
+  
+  # maak kleuren
+  colour_collection <- ifelse(
+    (V(G1)$lapsu == 1) & (cent >= 11), 
+            "purple", 
+    ifelse(V(G1)$alleluia == 1,
+        "blue",
+    ifelse(V(G1)$vda == 1, "yellow",
+    ifelse(V(G1)$quinquaginta == 1,
+           "orange",
+    ifelse((V(G1)$scp == 1) & (cent >= 12),
+           "darkgreen",
+                  "lightgrey"
+                )))))
+  
+  # layout
+  layout <- layout_with_mds(G1, dist = NULL, dim = 2)
+  # trek uit elkaar
+  layout <- norm_coords(layout, xmin = -75, xmax = 75, ymin = -50, ymax = 50)
+  # 
+  # # node size degree
+  V(G1)$size <- betweenness(G1) / max(betweenness(G1)) * 800 + 250
+  
+  # remove edges but keep layout
+  G1_edgeless = delete_edges(G1, edges=E(G1))
+  
+    # plot century
+  p1 <- plot(G1_edgeless,
+    vertex.color = adjustcolor(colour_collection, alpha.f = 0.8),
+    vertex.label = NA,
+    layout=layout,
+    rescale=F
+  )
+  
+  return (p1)
+}
+
+cents_early <- seq(9, 12)
+
+cens_late <- seq(13, 15)
+
+par(mfrow = c(2, 2), mar= c(1,1,1,1))
+
+for (c in cents_early){
+  plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
+  title(main = paste("Century:", c))
+}
+
+par(mfrow = c(2, 2), mar= c(1,1,1,1))
+
+for (c in cens_late){
+  plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
+  title(main = paste("Century:", c))
+}
+
+
+# to do:
+# misschien geen ties
+# alpha = 0.5
+# belangrijke collecties toevoegen
+# alleluia andere vorm
+# plaatje plotten
+# betweenness centrality
+
+# standaard -> legend apart, nu niet. 
+
+# global clustering coefficent ~ century
+
+```
+### Clustering coefitient
+The structure of the networks change over the centuries. In the graph, the centuries after the 12th century display stronger clustering. This can be tested with a global transitivity score, which can be seen in the next plot. 
+
+```{r clustering over centuries}
+df_results
+
 ```
 
 ### Type of Collection per century

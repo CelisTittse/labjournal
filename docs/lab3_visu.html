@@ -9,10 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Your Name" />
 
+<meta name="date" content="2026-09-21" />
 
-<title>Journal 1</title>
+<title>lab4_visu</title>
 
 <script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -38,10 +38,6 @@
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
-<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
-<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
-<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
 <link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
@@ -390,27 +386,138 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Journal 1</h1>
-<h4 class="author">Your Name</h4>
+<h1 class="title toc-ignore">lab4_visu</h1>
+<h4 class="date">2026-09-21</h4>
 
 </div>
 
 
-<script>
-  addClassKlippyTo("pre.r, pre.markdown");
-  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
-</script>
-<p>Last compiled on september, 2026</p>
-<p><br></p>
-<hr />
-<p>This is just an example page of your <span style="color: red;">lab
-journal</span>. You can journal the assignments of the first day
-here.</p>
-<hr />
-<pre class="r test"><code>print(&quot;Hello Lab Journal&quot;)</code></pre>
-<pre class="test2"><code>#&gt; [1] &quot;Hello Lab Journal&quot;</code></pre>
+<div id="visualisation-dudalling" class="section level2" number="1">
+<h2><span class="header-section-number">1</span> Visualisation
+dudalling</h2>
+<pre class="r"><code>library(igraph)
+g &lt;- make_graph(&quot;Zachary&quot;)
+plot(g)</code></pre>
+<p><img src="lab3_visu_files/figure-html/load-1.png" alt="" width="672" /></p>
+</div>
+<div id="eda" class="section level2" number="2">
+<h2><span class="header-section-number">2</span> EDA</h2>
+<div id="node-charactersists" class="section level3" number="2.1">
+<h3><span class="header-section-number">2.1</span> Node
+charactersists</h3>
+<pre class="r"><code>gmat &lt;- as_adjacency_matrix(g, type = &quot;both&quot;, sparse = FALSE)
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkpvdXJuYWwgMSINCiNiaWJsaW9ncmFwaHk6IHJlZmVyZW5jZXMuYmliDQphdXRob3I6ICJZb3VyIE5hbWUiDQotLS0NCg0KDQoNCmBgYHtyLCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRSwgcmVzdWx0cz0naGlkZSd9DQpsaWJyYXJ5KGtuaXRyKQ0KDQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUpDQpvcHRzX2NodW5rJHNldCh0aWR5Lm9wdHM9bGlzdCh3aWR0aC5jdXRvZmY9MTAwKSx0aWR5PVRSVUUsIHdhcm5pbmcgPSBGQUxTRSwgbWVzc2FnZSA9IEZBTFNFLGNvbW1lbnQgPSAiIz4iLCBjYWNoZT1UUlVFLCBjbGFzcy5zb3VyY2U9YygidGVzdCIpLCBjbGFzcy5vdXRwdXQ9YygidGVzdDIiKSkNCm9wdGlvbnMod2lkdGggPSAxMDApDQpyZ2w6OnNldHVwS25pdHIoKQ0KDQoNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCg0KYGBgDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQpMYXN0IGNvbXBpbGVkIG9uIGByIGZvcm1hdChTeXMudGltZSgpLCAnJUIsICVZJylgDQoNCjxicj4NCg0KLS0tLQ0KICANClRoaXMgaXMganVzdCBhbiBleGFtcGxlIHBhZ2Ugb2YgeW91ciBgciBjb2xvcml6ZSgibGFiIGpvdXJuYWwiLCAicmVkIilgLg0KWW91IGNhbiBqb3VybmFsIHRoZSBhc3NpZ25tZW50cyBvZiB0aGUgZmlyc3QgZGF5IGhlcmUuDQogIA0KDQotLS0tDQoNCg0KYGBge3J9DQpwcmludCgiSGVsbG8gTGFiIEpvdXJuYWwiKQ0KYGBgDQoNCg0KDQo=</div>
+# directed?
+isSymmetric.matrix(gmat)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code># Size
+# number of nodes
+vcount(g)</code></pre>
+<pre><code>## [1] 34</code></pre>
+<pre class="r"><code># number of edges
+ecount(g)</code></pre>
+<pre><code>## [1] 78</code></pre>
+<pre class="r"><code>par(mfrow = c(2, 2))
+
+# plot 1: degree distribution
+hist(table(igraph::degree(g)), xlab=&#39;in-degree&#39;, main= &#39;Histogram of in-degree&#39;)
+
+
+# plot 2: alle mogelijke trihoekjes
+trans = igraph::transitivity(g, type = c(&quot;localundirected&quot;), isolates = c(&quot;NaN&quot;, &quot;zero&quot;))
+hist(trans, xlab=&#39;Transitivity&#39;, main= &#39;Histogram of transitivity&#39;)
+
+# plot 3: betweenness
+between = igraph::betweenness(g, directed = FALSE, normalized = T)
+hist(trans, xlab=&#39;Betweenness&#39;, main= &#39;Histogram of Normalised betweenness&#39;)
+
+# plot 4: network
+V(g)$size &lt;- igraph::betweenness(g, directed = FALSE, normalized = T) * 100 + 10
+V(g)$color &lt;- igraph::betweenness(g, directed = FALSE, normalized = T) * 100
+layout = layout_with_mds(g, dim=2)
+
+plot(g, layout=layout)
+title(&quot;Network visualisation&quot;)</code></pre>
+<p><img src="lab3_visu_files/figure-html/EDA%20node%20charactersists-1.png" alt="" width="672" />
+# Edge characteristics</p>
+<pre class="r"><code>igraph::dyad_census(g)</code></pre>
+<pre><code>## Warning: `dyad_census()` requires a directed graph.</code></pre>
+<pre><code>## $mut
+## [1] 78
+## 
+## $asym
+## [1] 0
+## 
+## $null
+## [1] 483</code></pre>
+<pre class="r"><code>igraph::triad_census(g)</code></pre>
+<pre><code>## Warning in triad_census_impl(graph = graph): Triad census called on an undirected graph. All connections will be treated as mutual.
+## Source: misc/motifs.c:1157</code></pre>
+<pre><code>##  [1] 3971    0 1575    0    0    0    0    0    0    0  393    0    0    0    0   45</code></pre>
+<pre class="r"><code># I will use sna because it shows the names of the triads as well.
+sna::triad.census(gmat)</code></pre>
+<pre><code>##       003 012  102 021D 021U 021C 111D 111U 030T 030C 201 120D 120U 120C 210 300
+## [1,] 3971   0 1575    0    0    0    0    0    0    0 393    0    0    0   0  45</code></pre>
+<pre class="r"><code>unloadNamespace(&quot;sna&quot;)  
+
+igraph::transitivity(g, type = &quot;global&quot;)</code></pre>
+<pre><code>## [1] 0.256</code></pre>
+<pre class="r"><code>sna::gtrans(gmat)</code></pre>
+<pre><code>## [1] 0.256</code></pre>
+<pre class="r"><code>triad_g &lt;- data.frame(sna::triad.census(gmat))
+
+
+transitivity_g &lt;- (3 * triad_g$X300)/(triad_g$X201 + 3 * triad_g$X300)
+transitivity_g</code></pre>
+<pre><code>## [1] 0.256</code></pre>
+<pre class="r"><code>set.seed(2345)
+l &lt;- layout_with_dh(g)  #https://igraph.org/r/doc/layout_with_mds.html
+plot(g, layout = l)</code></pre>
+<p><img src="lab3_visu_files/figure-html/layout-1.png" alt="" width="672" /></p>
+<pre class="r"><code>l  #let us take a look at the coordinates</code></pre>
+<pre><code>##         [,1]    [,2]
+##  [1,] -0.817  5.4011
+##  [2,] -0.879  0.8957
+##  [3,]  3.430 -5.0398
+##  [4,] -7.230  2.1823
+##  [5,] -6.045  8.1675
+##  [6,] -4.092 11.3319
+##  [7,] -8.740  8.0888
+##  [8,] -4.427 -2.0488
+##  [9,]  6.994 -5.0413
+## [10,]  8.773 -8.1824
+## [11,] -3.741  8.5449
+## [12,]  1.913  8.6728
+## [13,] -5.548  4.6515
+## [14,]  0.896 -0.4920
+## [15,] 11.148 -3.6589
+## [16,] 19.758 -6.2099
+## [17,] -8.214 12.0062
+## [18,] -1.652  2.2368
+## [19,] 16.154 -4.8668
+## [20,]  6.214 -2.1504
+## [21,] 12.942 -5.7943
+## [22,] -4.190  0.6905
+## [23,] 11.713 -5.8146
+## [24,] 19.032  0.0254
+## [25,] 13.396  5.4797
+## [26,] 16.451  4.5099
+## [27,] 17.015 -2.5625
+## [28,] 14.286  1.6026
+## [29,]  8.628  2.1711
+## [30,] 20.266 -1.9373
+## [31,]  6.817  1.6830
+## [32,] 10.641  2.9637
+## [33,] 15.995 -7.5035
+## [34,] 13.656 -1.4905</code></pre>
+<pre class="r"><code>l[1, 1] &lt;- 4
+l[34, 1] &lt;- -3.5
+plot(g, layout = l)</code></pre>
+<p><img src="lab3_visu_files/figure-html/layout-2.png" alt="" width="672" /></p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogImxhYjRfdmlzdSINCm91dHB1dDogaHRtbF9kb2N1bWVudA0KZGF0ZTogIjIwMjYtMDktMjEiDQotLS0NCg0KYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9DQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUpDQpgYGANCg0KIyMgVmlzdWFsaXNhdGlvbiBkdWRhbGxpbmcNCg0KYGBge3IgbG9hZH0NCmxpYnJhcnkoaWdyYXBoKQ0KZyA8LSBtYWtlX2dyYXBoKCJaYWNoYXJ5IikNCnBsb3QoZykNCmBgYA0KDQojIyBFREENCiMjIyBOb2RlIGNoYXJhY3RlcnNpc3RzDQoNCmBgYHtyIEVEQSBub2RlIGNoYXJhY3RlcnNpc3RzfQ0KZ21hdCA8LSBhc19hZGphY2VuY3lfbWF0cml4KGcsIHR5cGUgPSAiYm90aCIsIHNwYXJzZSA9IEZBTFNFKQ0KDQojIGRpcmVjdGVkPw0KaXNTeW1tZXRyaWMubWF0cml4KGdtYXQpDQoNCiMgU2l6ZQ0KIyBudW1iZXIgb2Ygbm9kZXMNCnZjb3VudChnKQ0KIyBudW1iZXIgb2YgZWRnZXMNCmVjb3VudChnKQ0KDQpwYXIobWZyb3cgPSBjKDIsIDIpKQ0KDQojIHBsb3QgMTogZGVncmVlIGRpc3RyaWJ1dGlvbg0KaGlzdCh0YWJsZShpZ3JhcGg6OmRlZ3JlZShnKSksIHhsYWI9J2luLWRlZ3JlZScsIG1haW49ICdIaXN0b2dyYW0gb2YgaW4tZGVncmVlJykNCg0KDQojIHBsb3QgMjogYWxsZSBtb2dlbGlqa2UgdHJpaG9la2plcw0KdHJhbnMgPSBpZ3JhcGg6OnRyYW5zaXRpdml0eShnLCB0eXBlID0gYygibG9jYWx1bmRpcmVjdGVkIiksIGlzb2xhdGVzID0gYygiTmFOIiwgInplcm8iKSkNCmhpc3QodHJhbnMsIHhsYWI9J1RyYW5zaXRpdml0eScsIG1haW49ICdIaXN0b2dyYW0gb2YgdHJhbnNpdGl2aXR5JykNCg0KIyBwbG90IDM6IGJldHdlZW5uZXNzDQpiZXR3ZWVuID0gaWdyYXBoOjpiZXR3ZWVubmVzcyhnLCBkaXJlY3RlZCA9IEZBTFNFLCBub3JtYWxpemVkID0gVCkNCmhpc3QodHJhbnMsIHhsYWI9J0JldHdlZW5uZXNzJywgbWFpbj0gJ0hpc3RvZ3JhbSBvZiBOb3JtYWxpc2VkIGJldHdlZW5uZXNzJykNCg0KIyBwbG90IDQ6IG5ldHdvcmsNClYoZykkc2l6ZSA8LSBpZ3JhcGg6OmJldHdlZW5uZXNzKGcsIGRpcmVjdGVkID0gRkFMU0UsIG5vcm1hbGl6ZWQgPSBUKSAqIDEwMCArIDEwDQpWKGcpJGNvbG9yIDwtIGlncmFwaDo6YmV0d2Vlbm5lc3MoZywgZGlyZWN0ZWQgPSBGQUxTRSwgbm9ybWFsaXplZCA9IFQpICogMTAwDQpsYXlvdXQgPSBsYXlvdXRfd2l0aF9tZHMoZywgZGltPTIpDQoNCnBsb3QoZywgbGF5b3V0PWxheW91dCkNCnRpdGxlKCJOZXR3b3JrIHZpc3VhbGlzYXRpb24iKQ0KYGBgDQojIEVkZ2UgY2hhcmFjdGVyaXN0aWNzDQoNCmBgYHtyIGVkZ2VzfQ0KaWdyYXBoOjpkeWFkX2NlbnN1cyhnKQ0KDQppZ3JhcGg6OnRyaWFkX2NlbnN1cyhnKQ0KDQojIEkgd2lsbCB1c2Ugc25hIGJlY2F1c2UgaXQgc2hvd3MgdGhlIG5hbWVzIG9mIHRoZSB0cmlhZHMgYXMgd2VsbC4NCnNuYTo6dHJpYWQuY2Vuc3VzKGdtYXQpDQp1bmxvYWROYW1lc3BhY2UoInNuYSIpICANCg0KaWdyYXBoOjp0cmFuc2l0aXZpdHkoZywgdHlwZSA9ICJnbG9iYWwiKQ0Kc25hOjpndHJhbnMoZ21hdCkNCg0KdHJpYWRfZyA8LSBkYXRhLmZyYW1lKHNuYTo6dHJpYWQuY2Vuc3VzKGdtYXQpKQ0KDQoNCnRyYW5zaXRpdml0eV9nIDwtICgzICogdHJpYWRfZyRYMzAwKS8odHJpYWRfZyRYMjAxICsgMyAqIHRyaWFkX2ckWDMwMCkNCnRyYW5zaXRpdml0eV9nDQoNCg0KDQpgYGANCg0KYGBge3IgbGF5b3V0fQ0Kc2V0LnNlZWQoMjM0NSkNCmwgPC0gbGF5b3V0X3dpdGhfZGgoZykgICNodHRwczovL2lncmFwaC5vcmcvci9kb2MvbGF5b3V0X3dpdGhfbWRzLmh0bWwNCnBsb3QoZywgbGF5b3V0ID0gbCkNCg0KbCAgI2xldCB1cyB0YWtlIGEgbG9vayBhdCB0aGUgY29vcmRpbmF0ZXMNCmxbMSwgMV0gPC0gNA0KbFszNCwgMV0gPC0gLTMuNQ0KcGxvdChnLCBsYXlvdXQgPSBsKQ0KDQoNCmBgYA0KDQo=</div>
 
 
 </div>
@@ -448,7 +555,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("lab1.Rmd");
+  window.initializeSourceEmbed("lab3_visu.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

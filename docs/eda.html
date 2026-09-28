@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2026-09-21" />
+
+<title>EDA and visualisation</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="literature_review_hypotheses.html">Literature Review</a>
+    </li>
+    <li>
+      <a href="data_wrangling.html">Data</a>
+    </li>
+    <li>
+      <a href="eda.html">Exploratory EDA</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">EDA and visualisation</h1>
+<h4 class="date">2026-09-21</h4>
+
+</div>
+
+
+<div id="eda" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> EDA</h1>
+<div id="missing-data-choices" class="section level3" number="1.0.1">
+<h3><span class="header-section-number">1.0.1</span> Missing data
+choices</h3>
+<p>The manuscripts with unknown dates or unknown “waves” are removed
+from the dataset, until further notice.</p>
+<p>The data is undirected. Because the directed data assumes that the
+compiler was only able to choice (agency) a succession of sermons, se1
+-&gt; se2 -&gt; se3, but he/she compiles [se1, se2, se3] with knowledge
+of all three sermons.</p>
+<pre><code>## # A tibble: 5 × 6
+##   Source Target manuscript                                century Directed    Id
+##   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;                                       &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+## 1 se-230 se-114 Roma, Biblioteca Nazionale Centrale Vitt…       5 undirec…     0
+## 2 se-247 se-114 Roma, Biblioteca Nazionale Centrale Vitt…       5 undirec…     1
+## 3 se-247 se-230 Roma, Biblioteca Nazionale Centrale Vitt…       5 undirec…     2
+## 4 se-392 se-114 Roma, Biblioteca Nazionale Centrale Vitt…       5 undirec…     3
+## 5 se-392 se-230 Roma, Biblioteca Nazionale Centrale Vitt…       5 undirec…     4</code></pre>
+<pre><code>## # A tibble: 5 × 58
+##   Id     alleluia alleluia_spring alleluia_easter alleluia_mixed
+##   &lt;chr&gt;     &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
+## 1 se-1          1               0               0              0
+## 2 se-10         0               0               0              0
+## 3 se-100        0               0               0              0
+## 4 se-101        0               0               0              0
+## 5 se-102        0               0               0              0
+## # ℹ 53 more variables: `alleluia_mixed?` &lt;dbl&gt;, alleluia_after_425 &lt;dbl&gt;,
+## #   bobbio_II &lt;dbl&gt;, bobbio_III &lt;dbl&gt;, bobbio &lt;dbl&gt;, coniugali &lt;dbl&gt;,
+## #   bruxelles &lt;dbl&gt;, brux_paen &lt;dbl&gt;, brux_coniugali &lt;dbl&gt;, brux_allel &lt;dbl&gt;,
+## #   brux_cluny &lt;dbl&gt;, campanienne &lt;dbl&gt;, camp_monte &lt;dbl&gt;, camp_napels &lt;dbl&gt;,
+## #   carthusienne &lt;dbl&gt;, cluny &lt;dbl&gt;, colbertine &lt;dbl&gt;, bardi &lt;dbl&gt;,
+## #   bardi_I &lt;dbl&gt;, bardi_II &lt;dbl&gt;, bardi_III &lt;dbl&gt;, bardi_IV &lt;dbl&gt;,
+## #   bardi_V &lt;dbl&gt;, carnis &lt;dbl&gt;, diversis &lt;dbl&gt;, erfurt &lt;dbl&gt;, eremo &lt;dbl&gt;, …</code></pre>
+</div>
+<div id="transpose-to-igraph" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Transpose to
+igraph</h2>
+<pre><code>##  [1] &quot;name&quot;               &quot;alleluia&quot;           &quot;alleluia_spring&quot;   
+##  [4] &quot;alleluia_easter&quot;    &quot;alleluia_mixed&quot;     &quot;alleluia_mixed?&quot;   
+##  [7] &quot;alleluia_after_425&quot; &quot;bobbio_II&quot;          &quot;bobbio_III&quot;        
+## [10] &quot;bobbio&quot;             &quot;coniugali&quot;          &quot;bruxelles&quot;         
+## [13] &quot;brux_paen&quot;          &quot;brux_coniugali&quot;     &quot;brux_allel&quot;        
+## [16] &quot;brux_cluny&quot;         &quot;campanienne&quot;        &quot;camp_monte&quot;        
+## [19] &quot;camp_napels&quot;        &quot;carthusienne&quot;       &quot;cluny&quot;             
+## [22] &quot;colbertine&quot;         &quot;bardi&quot;              &quot;bardi_I&quot;           
+## [25] &quot;bardi_II&quot;           &quot;bardi_III&quot;          &quot;bardi_IV&quot;          
+## [28] &quot;bardi_V&quot;            &quot;carnis&quot;             &quot;diversis&quot;          
+## [31] &quot;erfurt&quot;             &quot;eremo&quot;              &quot;gallicana&quot;         
+## [34] &quot;germanica&quot;          &quot;lapsu&quot;              &quot;lorsch&quot;            
+## [37] &quot;lyon&quot;               &quot;mainz&quot;              &quot;marmoutier&quot;        
+## [40] &quot;paenitentia&quot;        &quot;diaconus&quot;           &quot;diaconus_wint&quot;     
+## [43] &quot;diaconus_summ&quot;      &quot;quattuor&quot;           &quot;quinquaginta&quot;      
+## [46] &quot;scp&quot;                &quot;scp_verbraken&quot;      &quot;sessorienne&quot;       
+## [49] &quot;tripartite&quot;         &quot;tripartite_I&quot;       &quot;tripartite_II&quot;     
+## [52] &quot;tripartite_III&quot;     &quot;vda&quot;                &quot;vd_a&quot;              
+## [55] &quot;vd_b&quot;               &quot;va_a&quot;               &quot;va_b&quot;              
+## [58] &quot;wolfenbuettel&quot;</code></pre>
+<pre><code>## [1] &quot;manuscript&quot; &quot;century&quot;    &quot;Directed&quot;   &quot;Id&quot;</code></pre>
+<p><img src="eda_files/figure-html/igraph-1.png" alt="" width="672" /></p>
+</div>
+<div id="basic" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Basic</h2>
+<pre class="r"><code># get n nodes (removed if degree = 0)
+century_count &lt;- function (g_full, cent) {
+  # slice graph
+  g_i &lt;- subgraph.edges(
+    g,
+    E(g)[century == cent],
+    delete.vertices = T
+  )
+  
+  n_unq_mss = length(unique(E(g_i)$manuscript))
+  
+  # voeg een weight toe
+  E(g_i)$weight = 1
+  
+  g_i &lt;- simplify(g_i, edge.attr.comb = list(weight = &quot;sum&quot;))
+  
+  # normalise weight
+  E(g_i)$weight &lt;- E(g_i)$weight / max(E(g_i)$weight)
+  avg_edges &lt;- if(n_unq_mss &gt; 0) ecount(g_i) / n_unq_mss else 0
+  
+  return(data.frame(
+    Century = cent,
+    Nodes = vcount(g_i),
+    Manuscripts = n_unq_mss,
+    Edges = ecount(g_i),
+    Avg_Edge_Per_MS = avg_edges,
+    Degree = igraph::mean_degree(g_i),
+    Transitivity = igraph::transitivity(g_i, type = &quot;global&quot;),
+    Density = igraph::edge_density(g_i),
+    stringsAsFactors = FALSE
+  ))
+}
+
+# Size
+# number of nodes
+vcount(g)</code></pre>
+<pre><code>## [1] 588</code></pre>
+<pre class="r"><code># number of edges
+ecount(g)</code></pre>
+<pre><code>## [1] 791802</code></pre>
+<pre class="r"><code>centuries &lt;- unique(E(g)$century)
+
+df_results &lt;- do.call(rbind, lapply(centuries, function(c) {
+  century_count(g_full = g, cent = c)
+}))
+
+knitr::kable(df_results)</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="9%" />
+<col width="7%" />
+<col width="14%" />
+<col width="7%" />
+<col width="19%" />
+<col width="12%" />
+<col width="16%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Century</th>
+<th align="right">Nodes</th>
+<th align="right">Manuscripts</th>
+<th align="right">Edges</th>
+<th align="right">Avg_Edge_Per_MS</th>
+<th align="right">Degree</th>
+<th align="right">Transitivity</th>
+<th align="right">Density</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">6.00000</td>
+<td align="right">3.00000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">38</td>
+<td align="right">3</td>
+<td align="right">332</td>
+<td align="right">110.66667</td>
+<td align="right">17.47368</td>
+<td align="right">1.0000000</td>
+<td align="right">0.4722617</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">55</td>
+<td align="right">6</td>
+<td align="right">680</td>
+<td align="right">113.33333</td>
+<td align="right">24.72727</td>
+<td align="right">0.9577109</td>
+<td align="right">0.4579125</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">107</td>
+<td align="right">17</td>
+<td align="right">1695</td>
+<td align="right">99.70588</td>
+<td align="right">31.68224</td>
+<td align="right">0.9053726</td>
+<td align="right">0.2988891</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">359</td>
+<td align="right">104</td>
+<td align="right">10412</td>
+<td align="right">100.11538</td>
+<td align="right">58.00557</td>
+<td align="right">0.7616285</td>
+<td align="right">0.1620267</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">267</td>
+<td align="right">51</td>
+<td align="right">7530</td>
+<td align="right">147.64706</td>
+<td align="right">56.40449</td>
+<td align="right">0.7963437</td>
+<td align="right">0.2120470</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">366</td>
+<td align="right">202</td>
+<td align="right">11811</td>
+<td align="right">58.47030</td>
+<td align="right">64.54098</td>
+<td align="right">0.7298697</td>
+<td align="right">0.1768246</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">455</td>
+<td align="right">426</td>
+<td align="right">30466</td>
+<td align="right">71.51643</td>
+<td align="right">133.91648</td>
+<td align="right">0.6899333</td>
+<td align="right">0.2949702</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="right">357</td>
+<td align="right">175</td>
+<td align="right">26766</td>
+<td align="right">152.94857</td>
+<td align="right">149.94958</td>
+<td align="right">0.8824093</td>
+<td align="right">0.4212067</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="right">397</td>
+<td align="right">155</td>
+<td align="right">49634</td>
+<td align="right">320.21935</td>
+<td align="right">250.04534</td>
+<td align="right">0.9468225</td>
+<td align="right">0.6314276</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="right">378</td>
+<td align="right">393</td>
+<td align="right">39804</td>
+<td align="right">101.28244</td>
+<td align="right">210.60317</td>
+<td align="right">0.8522012</td>
+<td align="right">0.5586291</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="right">196</td>
+<td align="right">12</td>
+<td align="right">6937</td>
+<td align="right">578.08333</td>
+<td align="right">70.78571</td>
+<td align="right">0.8678697</td>
+<td align="right">0.3630037</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>sf_se_data |&gt; 
+  mutate(century_str = fct_relevel(as.character(century), 
+            as.character(seq(4, 16)) 
+            )) %&gt;%
+  ggplot(aes(x = century, y=n_ses)) +
+    geom_smooth() +
+    labs(x = &quot;Century&quot;, 
+         y = &quot;ses/ms (log)&quot;, 
+         title = &quot;Number of authentic Augustinian sermons per manuscript&quot;,
+         subtitle = &quot;Centain sermons with an attributed century&quot;) +
+    scale_y_log10() +
+    theme_minimal()</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and
+## formula = &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="eda_files/figure-html/EDA%20undirected-1.png" alt="" width="672" /></p>
+<pre class="r"><code>se_edge |&gt; 
+  distinct(century, manuscript) |&gt; 
+  mutate(century_str = fct_relevel(as.character(century), 
+            as.character(seq(4, 16)) 
+            )) |&gt; 
+  group_by(century_str) |&gt; 
+  summarise(mss = n()) |&gt; 
+  as.data.frame() |&gt; 
+  ggplot(aes(x=century_str, y = mss)) +
+  geom_col() +
+  theme_minimal() +
+  labs(x=&#39;Century&#39;,
+       y = &quot;N manuscripts&quot;, 
+       title=&quot;Number of manuscripts per century&quot;)</code></pre>
+<p><img src="eda_files/figure-html/EDA%20undirected-2.png" alt="" width="672" /></p>
+<pre class="r"><code>plot_alleluia_century &lt;- function(g_full, cent, delete_non_nodes) {
+  # slice graph
+  G1 &lt;- subgraph.edges(
+    g_full,
+    E(g_full)[century == cent],
+    delete.vertices = delete_non_nodes
+  )
+  
+  # maak kleuren
+  colour_collection &lt;- ifelse(
+    (V(G1)$lapsu == 1) &amp; (cent &gt;= 11), 
+            &quot;purple&quot;, 
+    ifelse(V(G1)$alleluia == 1,
+        &quot;blue&quot;,
+    ifelse(V(G1)$vda == 1, &quot;yellow&quot;,
+    ifelse(V(G1)$quinquaginta == 1,
+           &quot;orange&quot;,
+    ifelse((V(G1)$scp == 1) &amp; (cent &gt;= 12),
+           &quot;darkgreen&quot;,
+                  &quot;lightgrey&quot;
+                )))))
+  
+  # layout
+  layout &lt;- layout_with_mds(G1, dist = NULL, dim = 2)
+  # trek uit elkaar
+  layout &lt;- norm_coords(layout, xmin = -75, xmax = 75, ymin = -50, ymax = 50)
+  # 
+  # # node size degree
+  V(G1)$size &lt;- betweenness(G1) / max(betweenness(G1)) * 800 + 250
+  
+  # remove edges but keep layout
+  G1_edgeless = delete_edges(G1, edges=E(G1))
+  
+    # plot century
+  p1 &lt;- plot(G1_edgeless,
+    vertex.color = adjustcolor(colour_collection, alpha.f = 0.8),
+    vertex.label = NA,
+    layout=layout,
+    rescale=F
+  )
+  
+  return (p1)
+}
+
+cents_early &lt;- seq(9, 12)
+
+cens_late &lt;- seq(13, 15)
+
+par(mfrow = c(2, 2), mar= c(1,1,1,1))
+
+for (c in cents_early){
+  plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
+  title(main = paste(&quot;Century:&quot;, c))
+}</code></pre>
+<p><img src="eda_files/figure-html/plot%20alleluia-1.png" alt="" width="672" /></p>
+<pre class="r"><code>par(mfrow = c(3, 1), mar= c(1,1,1,1))
+
+for (c in cens_late){
+  plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
+  title(main = paste(&quot;Century:&quot;, c))
+}</code></pre>
+<p><img src="eda_files/figure-html/plot%20alleluia-2.png" alt="" width="672" /></p>
+<pre class="r"><code># to do:
+# misschien geen ties
+# alpha = 0.5
+# belangrijke collecties toevoegen
+# alleluia andere vorm
+# plaatje plotten
+# betweenness centrality
+
+# standaard -&gt; legend apart, nu niet. 
+
+# global clustering coefficent ~ century</code></pre>
+<div id="type-of-collection-per-century" class="section level3"
+number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Type of Collection
+per century</h3>
+<p>-&gt; TODO: preek matrix | per century | kleurtjes per subcollectie |
+Freq Ms</p>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkVEQSBhbmQgdmlzdWFsaXNhdGlvbiINCm91dHB1dDogaHRtbF9kb2N1bWVudA0KZGF0ZTogIjIwMjYtMDktMjEiDQotLS0NCg0KIyBFREENCg0KIyMjIE1pc3NpbmcgZGF0YSBjaG9pY2VzDQpUaGUgbWFudXNjcmlwdHMgd2l0aCB1bmtub3duIGRhdGVzIG9yIHVua25vd24gIndhdmVzIiBhcmUgcmVtb3ZlZCBmcm9tIHRoZSBkYXRhc2V0LCB1bnRpbCBmdXJ0aGVyIG5vdGljZS4NCg0KVGhlIGRhdGEgaXMgdW5kaXJlY3RlZC4gQmVjYXVzZSB0aGUgZGlyZWN0ZWQgZGF0YSBhc3N1bWVzIHRoYXQgdGhlIGNvbXBpbGVyIHdhcyBvbmx5IGFibGUgdG8gY2hvaWNlIChhZ2VuY3kpIGEgc3VjY2Vzc2lvbiBvZiBzZXJtb25zLCBzZTEgLT4gc2UyIC0+IHNlMywgYnV0IGhlL3NoZSBjb21waWxlcyBbc2UxLCBzZTIsIHNlM10gd2l0aCBrbm93bGVkZ2Ugb2YgYWxsIHRocmVlIHNlcm1vbnMuIA0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShyZWFkeGwpDQpsaWJyYXJ5KGlncmFwaCkNCmBgYA0KDQpgYGB7ciBsb2FkIG5vZGVzIGVkZ2VzLCB3YXJuaW5nPUYsIGVjaG89Rn0NCnJvb3RfZGF0YV9wYXRoID0gIi4vZGF0YS9kYXRhX2Rlcml2LyINCg0Kc2VfZWRnZV9wYXRoID0gInNlX3NlX3VuZGlyXzA4MDkyNi54bHN4Ig0Kc2Vfbm9kZV9wYXRoID0gInNlX25vZGVzX2NvbGxzXzA4MDkyNi54bHN4Ig0KDQpyYXdfc2VfZGF0YSA9IHJlYWRfZXhjZWwoIi4vZGF0YS9kYXRhX3Jhdy9zZl9tc3Nfb2t0XzI1Lnhsc3giKSB8PiANCiAgZHJvcF9uYShjZW50dXJ5KQ0KDQpzZV9lZGdlIDwtIHJlYWRfZXhjZWwocGFzdGUwKHJvb3RfZGF0YV9wYXRoLCBzZV9lZGdlX3BhdGgpKSB8PiANCiAgZHJvcF9uYShjZW50dXJ5KQ0KIyA5IG1hbnVzY3JpcHRzIHJlbW92ZWQgd2l0aG91dCBkYXRpbmcNCg0KIyBzb21lIG5vZGVzIGhhcyBkdXBsaWNhdGVzIGFuZCB0aGV5IGFyZSBjb2xsYXBzZWQgaWYgb25lIGhhcyAxIHRoYW4gMSBlbHNlIDAgdG8gYmUgaW52ZXN0aWdhdGVkDQpzZV9ub2RlcyA8LSByZWFkX2V4Y2VsKHBhc3RlMChyb290X2RhdGFfcGF0aCwgc2Vfbm9kZV9wYXRoKSkgfD4gDQogIGdyb3VwX2J5KElkKSB8PiANCiAgc3VtbWFyaXNlKA0KICAgIGFjcm9zcyhldmVyeXRoaW5nKCksIFwoeCkgbWF4KHgsIG5hLnJtID0gVFJVRSkpLA0KICAgIC5ncm91cHMgPSAiZHJvcCINCiAgKQ0KDQojIG1ha2UgcmF3IGRhdGEgY2VudHVyeSAtPiBpbnQNCnNmX3NlX2RhdGEgPC0gcmF3X3NlX2RhdGEgfD4NCiAgbXV0YXRlKGNlbnR1cnkgPSBhcy5pbnRlZ2VyKGNlbnR1cnkpLA0KICAgICAgICAgbl9zZXMgPSBzdHJfY291bnQoY2VydGFpbiwgIiAiKSArIDEpIHw+IA0KICBkcm9wX25hKCkNCiAgDQpwcmludChoZWFkKHNlX2VkZ2UsIDUpKQ0KDQpwcmludChoZWFkKHNlX25vZGVzLCA1KSkNCmBgYA0KDQojIyBUcmFuc3Bvc2UgdG8gaWdyYXBoDQoNCmBgYHtyIGlncmFwaCwgZWNobz1GQUxTRX0NCiMgZWRnZWxpc3QgaW50byBpZ3JhcGggb2JqZWN0DQpnIDwtIGdyYXBoX2Zyb21fZGF0YV9mcmFtZShzZV9lZGdlLCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICB2ZXJ0aWNlcyA9IHNlX25vZGVzLA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRpcmVjdGVkID0gRikNCg0KIyBjaGVjayBhdHRpYnV0ZXMNCnZlcnRleF9hdHRyX25hbWVzKGcpDQplZGdlX2F0dHJfbmFtZXMoZykNCg0KIyBwcmVwYXJlIGxlZ2VuZA0KaW5jbF9jb2xscyA8LSBjKCJBbGxlbHVpYSIsICJWREEiLCAiUXVpbnF1YWdpbnRhIiwgIkxhcHN1IE11bmRpIiwgIlNDUCIpDQpjb2xsX2NvbG9ycyA8LSBjKCJibHVlIiwgInllbGxvdyIsICJvcmFuZ2UiLCAicHVycGxlIiwgImRhcmtncmVlbiIpDQoNCnBsb3QoTlVMTCAseGF4dD0nbicseWF4dD0nbicsYnR5PSduJyx5bGFiPScnLHhsYWI9JycsIHhsaW09MDoxLCB5bGltPTA6MSkNCmxlZ2VuZCgidG9wbGVmdCIsIGxlZ2VuZCA9aW5jbF9jb2xscywgcGNoPTE2LCBwdC5jZXg9MywgY2V4PTEuNSwgYnR5PSduJywNCiAgICBjb2wgPSBjb2xsX2NvbG9ycykNCm10ZXh0KCJJbmNsdWRlZCBDb2xsZWN0aW9ucyIsIGF0PTAuMiwgY2V4PTIpDQpgYGANCg0KIyMgQmFzaWMNCmBgYHtyIEVEQSB1bmRpcmVjdGVkLCB3YXJuaW5nPUZ9DQojIGdldCBuIG5vZGVzIChyZW1vdmVkIGlmIGRlZ3JlZSA9IDApDQpjZW50dXJ5X2NvdW50IDwtIGZ1bmN0aW9uIChnX2Z1bGwsIGNlbnQpIHsNCiAgIyBzbGljZSBncmFwaA0KICBnX2kgPC0gc3ViZ3JhcGguZWRnZXMoDQogICAgZywNCiAgICBFKGcpW2NlbnR1cnkgPT0gY2VudF0sDQogICAgZGVsZXRlLnZlcnRpY2VzID0gVA0KICApDQogIA0KICBuX3VucV9tc3MgPSBsZW5ndGgodW5pcXVlKEUoZ19pKSRtYW51c2NyaXB0KSkNCiAgDQogICMgdm9lZyBlZW4gd2VpZ2h0IHRvZQ0KICBFKGdfaSkkd2VpZ2h0ID0gMQ0KICANCiAgZ19pIDwtIHNpbXBsaWZ5KGdfaSwgZWRnZS5hdHRyLmNvbWIgPSBsaXN0KHdlaWdodCA9ICJzdW0iKSkNCiAgDQogICMgbm9ybWFsaXNlIHdlaWdodA0KICBFKGdfaSkkd2VpZ2h0IDwtIEUoZ19pKSR3ZWlnaHQgLyBtYXgoRShnX2kpJHdlaWdodCkNCiAgYXZnX2VkZ2VzIDwtIGlmKG5fdW5xX21zcyA+IDApIGVjb3VudChnX2kpIC8gbl91bnFfbXNzIGVsc2UgMA0KICANCiAgcmV0dXJuKGRhdGEuZnJhbWUoDQogICAgQ2VudHVyeSA9IGNlbnQsDQogICAgTm9kZXMgPSB2Y291bnQoZ19pKSwNCiAgICBNYW51c2NyaXB0cyA9IG5fdW5xX21zcywNCiAgICBFZGdlcyA9IGVjb3VudChnX2kpLA0KICAgIEF2Z19FZGdlX1Blcl9NUyA9IGF2Z19lZGdlcywNCiAgICBEZWdyZWUgPSBpZ3JhcGg6Om1lYW5fZGVncmVlKGdfaSksDQogICAgVHJhbnNpdGl2aXR5ID0gaWdyYXBoOjp0cmFuc2l0aXZpdHkoZ19pLCB0eXBlID0gImdsb2JhbCIpLA0KICAgIERlbnNpdHkgPSBpZ3JhcGg6OmVkZ2VfZGVuc2l0eShnX2kpLA0KICAgIHN0cmluZ3NBc0ZhY3RvcnMgPSBGQUxTRQ0KICApKQ0KfQ0KDQojIFNpemUNCiMgbnVtYmVyIG9mIG5vZGVzDQp2Y291bnQoZykNCiMgbnVtYmVyIG9mIGVkZ2VzDQplY291bnQoZykNCg0KY2VudHVyaWVzIDwtIHVuaXF1ZShFKGcpJGNlbnR1cnkpDQoNCmRmX3Jlc3VsdHMgPC0gZG8uY2FsbChyYmluZCwgbGFwcGx5KGNlbnR1cmllcywgZnVuY3Rpb24oYykgew0KICBjZW50dXJ5X2NvdW50KGdfZnVsbCA9IGcsIGNlbnQgPSBjKQ0KfSkpDQoNCmtuaXRyOjprYWJsZShkZl9yZXN1bHRzKQ0KDQpzZl9zZV9kYXRhIHw+IA0KICBtdXRhdGUoY2VudHVyeV9zdHIgPSBmY3RfcmVsZXZlbChhcy5jaGFyYWN0ZXIoY2VudHVyeSksIA0KICAgICAgICAgICAgYXMuY2hhcmFjdGVyKHNlcSg0LCAxNikpIA0KICAgICAgICAgICAgKSkgJT4lDQogIGdncGxvdChhZXMoeCA9IGNlbnR1cnksIHk9bl9zZXMpKSArDQogICAgZ2VvbV9zbW9vdGgoKSArDQogICAgbGFicyh4ID0gIkNlbnR1cnkiLCANCiAgICAgICAgIHkgPSAic2VzL21zIChsb2cpIiwgDQogICAgICAgICB0aXRsZSA9ICJOdW1iZXIgb2YgYXV0aGVudGljIEF1Z3VzdGluaWFuIHNlcm1vbnMgcGVyIG1hbnVzY3JpcHQiLA0KICAgICAgICAgc3VidGl0bGUgPSAiQ2VudGFpbiBzZXJtb25zIHdpdGggYW4gYXR0cmlidXRlZCBjZW50dXJ5IikgKw0KICAgIHNjYWxlX3lfbG9nMTAoKSArDQogICAgdGhlbWVfbWluaW1hbCgpDQoNCnNlX2VkZ2UgfD4gDQogIGRpc3RpbmN0KGNlbnR1cnksIG1hbnVzY3JpcHQpIHw+IA0KICBtdXRhdGUoY2VudHVyeV9zdHIgPSBmY3RfcmVsZXZlbChhcy5jaGFyYWN0ZXIoY2VudHVyeSksIA0KICAgICAgICAgICAgYXMuY2hhcmFjdGVyKHNlcSg0LCAxNikpIA0KICAgICAgICAgICAgKSkgfD4gDQogIGdyb3VwX2J5KGNlbnR1cnlfc3RyKSB8PiANCiAgc3VtbWFyaXNlKG1zcyA9IG4oKSkgfD4gDQogIGFzLmRhdGEuZnJhbWUoKSB8PiANCiAgZ2dwbG90KGFlcyh4PWNlbnR1cnlfc3RyLCB5ID0gbXNzKSkgKw0KICBnZW9tX2NvbCgpICsNCiAgdGhlbWVfbWluaW1hbCgpICsNCiAgbGFicyh4PSdDZW50dXJ5JywNCiAgICAgICB5ID0gIk4gbWFudXNjcmlwdHMiLCANCiAgICAgICB0aXRsZT0iTnVtYmVyIG9mIG1hbnVzY3JpcHRzIHBlciBjZW50dXJ5IikNCmBgYA0KDQoNCmBgYHtyIHBsb3QgYWxsZWx1aWF9DQpwbG90X2FsbGVsdWlhX2NlbnR1cnkgPC0gZnVuY3Rpb24oZ19mdWxsLCBjZW50LCBkZWxldGVfbm9uX25vZGVzKSB7DQogICMgc2xpY2UgZ3JhcGgNCiAgRzEgPC0gc3ViZ3JhcGguZWRnZXMoDQogICAgZ19mdWxsLA0KICAgIEUoZ19mdWxsKVtjZW50dXJ5ID09IGNlbnRdLA0KICAgIGRlbGV0ZS52ZXJ0aWNlcyA9IGRlbGV0ZV9ub25fbm9kZXMNCiAgKQ0KICANCiAgIyBtYWFrIGtsZXVyZW4NCiAgY29sb3VyX2NvbGxlY3Rpb24gPC0gaWZlbHNlKA0KICAgIChWKEcxKSRsYXBzdSA9PSAxKSAmIChjZW50ID49IDExKSwgDQogICAgICAgICAgICAicHVycGxlIiwgDQogICAgaWZlbHNlKFYoRzEpJGFsbGVsdWlhID09IDEsDQogICAgICAgICJibHVlIiwNCiAgICBpZmVsc2UoVihHMSkkdmRhID09IDEsICJ5ZWxsb3ciLA0KICAgIGlmZWxzZShWKEcxKSRxdWlucXVhZ2ludGEgPT0gMSwNCiAgICAgICAgICAgIm9yYW5nZSIsDQogICAgaWZlbHNlKChWKEcxKSRzY3AgPT0gMSkgJiAoY2VudCA+PSAxMiksDQogICAgICAgICAgICJkYXJrZ3JlZW4iLA0KICAgICAgICAgICAgICAgICAgImxpZ2h0Z3JleSINCiAgICAgICAgICAgICAgICApKSkpKQ0KICANCiAgIyBsYXlvdXQNCiAgbGF5b3V0IDwtIGxheW91dF93aXRoX21kcyhHMSwgZGlzdCA9IE5VTEwsIGRpbSA9IDIpDQogICMgdHJlayB1aXQgZWxrYWFyDQogIGxheW91dCA8LSBub3JtX2Nvb3JkcyhsYXlvdXQsIHhtaW4gPSAtNzUsIHhtYXggPSA3NSwgeW1pbiA9IC01MCwgeW1heCA9IDUwKQ0KICAjIA0KICAjICMgbm9kZSBzaXplIGRlZ3JlZQ0KICBWKEcxKSRzaXplIDwtIGJldHdlZW5uZXNzKEcxKSAvIG1heChiZXR3ZWVubmVzcyhHMSkpICogODAwICsgMjUwDQogIA0KICAjIHJlbW92ZSBlZGdlcyBidXQga2VlcCBsYXlvdXQNCiAgRzFfZWRnZWxlc3MgPSBkZWxldGVfZWRnZXMoRzEsIGVkZ2VzPUUoRzEpKQ0KICANCiAgICAjIHBsb3QgY2VudHVyeQ0KICBwMSA8LSBwbG90KEcxX2VkZ2VsZXNzLA0KICAgIHZlcnRleC5jb2xvciA9IGFkanVzdGNvbG9yKGNvbG91cl9jb2xsZWN0aW9uLCBhbHBoYS5mID0gMC44KSwNCiAgICB2ZXJ0ZXgubGFiZWwgPSBOQSwNCiAgICBsYXlvdXQ9bGF5b3V0LA0KICAgIHJlc2NhbGU9Rg0KICApDQogIA0KICByZXR1cm4gKHAxKQ0KfQ0KDQpjZW50c19lYXJseSA8LSBzZXEoOSwgMTIpDQoNCmNlbnNfbGF0ZSA8LSBzZXEoMTMsIDE1KQ0KDQpwYXIobWZyb3cgPSBjKDIsIDIpLCBtYXI9IGMoMSwxLDEsMSkpDQoNCmZvciAoYyBpbiBjZW50c19lYXJseSl7DQogIHBsb3RfYWxsZWx1aWFfY2VudHVyeShnX2Z1bGw9ZywgY2VudD1jLCBkZWxldGVfbm9uX25vZGVzPVRSVUUpDQogIHRpdGxlKG1haW4gPSBwYXN0ZSgiQ2VudHVyeToiLCBjKSkNCn0NCg0KcGFyKG1mcm93ID0gYygzLCAxKSwgbWFyPSBjKDEsMSwxLDEpKQ0KDQpmb3IgKGMgaW4gY2Vuc19sYXRlKXsNCiAgcGxvdF9hbGxlbHVpYV9jZW50dXJ5KGdfZnVsbD1nLCBjZW50PWMsIGRlbGV0ZV9ub25fbm9kZXM9VFJVRSkNCiAgdGl0bGUobWFpbiA9IHBhc3RlKCJDZW50dXJ5OiIsIGMpKQ0KfQ0KDQoNCiMgdG8gZG86DQojIG1pc3NjaGllbiBnZWVuIHRpZXMNCiMgYWxwaGEgPSAwLjUNCiMgYmVsYW5ncmlqa2UgY29sbGVjdGllcyB0b2V2b2VnZW4NCiMgYWxsZWx1aWEgYW5kZXJlIHZvcm0NCiMgcGxhYXRqZSBwbG90dGVuDQojIGJldHdlZW5uZXNzIGNlbnRyYWxpdHkNCg0KIyBzdGFuZGFhcmQgLT4gbGVnZW5kIGFwYXJ0LCBudSBuaWV0LiANCg0KIyBnbG9iYWwgY2x1c3RlcmluZyBjb2VmZmljZW50IH4gY2VudHVyeQ0KDQpgYGANCg0KDQoNCiMjIyBUeXBlIG9mIENvbGxlY3Rpb24gcGVyIGNlbnR1cnkNCi0+IFRPRE86IHByZWVrIG1hdHJpeCB8IHBlciBjZW50dXJ5IHwga2xldXJ0amVzIHBlciBzdWJjb2xsZWN0aWUgfCBGcmVxIE1zIA0K</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("eda.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

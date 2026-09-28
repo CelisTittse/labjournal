@@ -74,10 +74,6 @@ py_config()
 # activate
 py_available(initialize = TRUE)
 
-# check if packages are available
-py_module_available("pandas") 
-py_module_available("openpyxl")
-
 # install packages
 py_require(c("pandas", "openpyxl"))
 
@@ -167,15 +163,17 @@ def collection_dictionary_list (coll_df: pd.DataFrame) -> dict:
 import os
 import pandas as pd
 from datetime import datetime
+os.getcwd()
 
-root = r.root
-ms_se_path = r.ms_se_path
-colls_path = r.colls_path
-root_out = r.root_out
-save_dataframes = r.save_sermons
+root_in = r.root
+ms_se_path = f"{root_in}/{r.ms_se_path}"
+colls_path = f"{root_in}/{r.colls_path}"
+root_out = "./data/data_deriv"
+save_dataframes = False
 
-msSeDf = pd.read_excel(os.path.join(root, ms_se_path))
-collDf = pd.read_excel(os.path.join(root, colls_path))
+
+msSeDf = pd.read_excel(ms_se_path)
+collDf = pd.read_excel(colls_path)
 
 collCleanD = collection_dictionary_list(collDf)
 
@@ -184,7 +182,7 @@ seSeDf_dir = se_se_nx_df(ms_se_df=msSeDf, directed=True)
 
 seNodesDf = se_nodes_nx_df(se_se_df=seSeDf_undir, colls_d=collCleanD)
 
-if (save_dataframes == TRUE) {
+if save_dataframes:
   now = datetime.now()
   f = now.strftime("%d%m%y")
   
@@ -193,9 +191,10 @@ if (save_dataframes == TRUE) {
   seSeDf_dir.to_excel(root_out + f"/se_se_dir_{f}.xlsx", index=False)
   
   seNodesDf.to_excel(root_out + f"/se_nodes_colls_{f}.xlsx", index=False)
-} else {
+  
+else:
   print("Not saved")
-}
+
 
 ```
 

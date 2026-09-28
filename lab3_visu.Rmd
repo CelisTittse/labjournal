@@ -21,7 +21,6 @@ plot(g)
 
 ```{r EDA node charactersists}
 gmat <- as_adjacency_matrix(g, type = "both", sparse = FALSE)
-print(gmat)
 
 # directed?
 isSymmetric.matrix(gmat)
@@ -32,21 +31,27 @@ vcount(g)
 # number of edges
 ecount(g)
 
-# degree distribution
-igraph::degree(g)
-hist(table(degree(g)), xlab='in-degree', main= 'Histogram of in-degree')
+par(mfrow = c(2, 2))
 
-# alle mogelijke trihoekjes
-igraph::transitivity(g, type = c("localundirected"), isolates = c("NaN", "zero"))
+# plot 1: degree distribution
+hist(table(igraph::degree(g)), xlab='in-degree', main= 'Histogram of in-degree')
 
-# betweenness
-igraph::betweenness(g, directed = FALSE, normalized = T)
 
+# plot 2: alle mogelijke trihoekjes
+trans = igraph::transitivity(g, type = c("localundirected"), isolates = c("NaN", "zero"))
+hist(trans, xlab='Transitivity', main= 'Histogram of transitivity')
+
+# plot 3: betweenness
+between = igraph::betweenness(g, directed = FALSE, normalized = T)
+hist(trans, xlab='Betweenness', main= 'Histogram of Normalised betweenness')
+
+# plot 4: network
 V(g)$size <- igraph::betweenness(g, directed = FALSE, normalized = T) * 100 + 10
 V(g)$color <- igraph::betweenness(g, directed = FALSE, normalized = T) * 100
-plot(g)
+layout = layout_with_mds(g, dim=2)
 
-# met u-palette kleur geven aan betweenness
+plot(g, layout=layout)
+title("Network visualisation")
 ```
 # Edge characteristics
 
@@ -58,10 +63,6 @@ igraph::triad_census(g)
 # I will use sna because it shows the names of the triads as well.
 sna::triad.census(gmat)
 unloadNamespace("sna")  
-
-plot(c(0, 1, 2, 3), c(3971, 1575, 393, 300))
-#I will detach this package again, otherwise it will interfere with all kind of functions from igraph, and my students will hate me for that.
-
 
 igraph::transitivity(g, type = "global")
 sna::gtrans(gmat)
@@ -89,9 +90,3 @@ plot(g, layout = l)
 
 ```
 
-
-```{r 8th century undirected}
-
-
-
-```

@@ -1,0 +1,4088 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2026-09-14" />
+
+<title>lab3</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="literature_review_hypotheses.html">Literature Review</a>
+    </li>
+    <li>
+      <a href="data_wrangling.html">Data</a>
+    </li>
+    <li>
+      <a href="eda.html">Exploratory EDA</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">lab3</h1>
+<h4 class="date">2026-09-14</h4>
+
+</div>
+
+
+<div id="algemene-functies" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Algemene functies</h1>
+<pre><code>## Loading required package: devtools</code></pre>
+<pre><code>## Loading required package: usethis</code></pre>
+<pre><code>## [[1]]
+## NULL
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## NULL</code></pre>
+<pre><code>## Warning: `install_github()` was deprecated in devtools
+## 2.5.0.
+## ℹ Please use pak::pak(&quot;user/repo&quot;) instead.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to
+## see where this warning was generated.</code></pre>
+<pre><code>## Using GitHub PAT from the git credential store.</code></pre>
+<pre><code>## Skipping install of &#39;RsienaTwoStep&#39; from a github remote, the SHA1 (8071f56c) has not changed since last install.
+##   Use `force = TRUE` to force installation</code></pre>
+<pre><code>## Loading required package: RsienaTwoStep</code></pre>
+<pre><code>## Loading required package: foreach</code></pre>
+<pre><code>## 
+## Attaching package: &#39;foreach&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
+## 
+##     accumulate, when</code></pre>
+<pre><code>## [[1]]
+## NULL</code></pre>
+<div id="data" class="section level3" number="1.0.1">
+<h3><span class="header-section-number">1.0.1</span> Data</h3>
+<p>ego netwerk</p>
+<pre class="r"><code>ts_net1</code></pre>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+##  [1,]    0    0    0    0    0    0    0    0    0     0
+##  [2,]    0    0    1    0    0    0    0    0    0     0
+##  [3,]    1    0    0    0    0    1    0    0    0     0
+##  [4,]    0    0    0    0    0    0    0    0    1     0
+##  [5,]    0    0    0    0    0    0    0    0    0     0
+##  [6,]    0    0    0    0    0    0    0    0    1     1
+##  [7,]    1    0    0    0    0    0    0    0    0     0
+##  [8,]    0    0    0    0    0    0    0    0    0     1
+##  [9,]    0    0    0    1    0    0    0    1    0     0
+## [10,]    0    0    0    0    0    0    0    1    1     0</code></pre>
+<pre class="r"><code>net1g &lt;- graph_from_adjacency_matrix(ts_net1, mode = &quot;directed&quot;)
+coords &lt;- layout_(net1g, nicely())  #let us keep the layout
+par(mar = c(0.1, 0.1, 0.1, 0.1))
+{
+    plot.igraph(net1g, layout = coords)
+    graphics::box()
+}</code></pre>
+<p><img src="lab3_files/figure-html/data-1.png" alt="" width="672" /></p>
+<pre class="r"><code>ego &lt;- ts_select(net = ts_net1)
+
+# we hebben het over ego 5
+ego</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>options &lt;- ts_alternatives_ministep(net = ts_net1, ego = ego)
+options[[1]]</code></pre>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+##  [1,]    0    0    0    0    0    0    0    0    0     0
+##  [2,]    0    0    1    0    0    0    0    0    0     0
+##  [3,]    1    0    0    0    0    1    0    0    0     0
+##  [4,]    0    0    0    0    0    0    0    0    1     0
+##  [5,]    1    0    0    0    0    0    0    0    0     0
+##  [6,]    0    0    0    0    0    0    0    0    1     1
+##  [7,]    1    0    0    0    0    0    0    0    0     0
+##  [8,]    0    0    0    0    0    0    0    0    0     1
+##  [9,]    0    0    0    1    0    0    0    1    0     0
+## [10,]    0    0    0    0    0    0    0    1    1     0</code></pre>
+<pre class="r"><code>plots &lt;- lapply(options, graph_from_adjacency_matrix, mode = &quot;directed&quot;)
+par(mar = c(0, 0, 0, 0) + 0.1)
+par(mfrow = c(2, 2))
+
+fplot &lt;- function(x) {
+    plot.igraph(x, layout = coords, margin = 0)
+    graphics::box()
+}
+
+lapply(plots, fplot)</code></pre>
+<p><img src="lab3_files/figure-html/possibilties-1.png" alt="" width="672" /><img src="lab3_files/figure-html/possibilties-2.png" alt="" width="672" /></p>
+<pre><code>## [[1]]
+## NULL
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## NULL
+## 
+## [[4]]
+## NULL
+## 
+## [[5]]
+## NULL
+## 
+## [[6]]
+## NULL
+## 
+## [[7]]
+## NULL
+## 
+## [[8]]
+## NULL
+## 
+## [[9]]
+## NULL
+## 
+## [[10]]
+## NULL</code></pre>
+<p><img src="lab3_files/figure-html/possibilties-3.png" alt="" width="672" /></p>
+<pre class="r"><code># out-degree 
+ts_degree(net = options[[1]], ego = ego)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>packages = c(&quot;stringdist&quot;, &quot;stringi&quot;, &quot;tidyverse&quot;, &quot;kableExtra&quot;)
+
+fpackage.check(packages)</code></pre>
+<pre><code>## Loading required package: stringdist</code></pre>
+<pre><code>## 
+## Attaching package: &#39;stringdist&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<pre><code>## Loading required package: stringi</code></pre>
+<pre><code>## Loading required package: kableExtra</code></pre>
+<pre><code>## 
+## Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     group_rows</code></pre>
+<pre><code>## [[1]]
+## NULL
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## NULL
+## 
+## [[4]]
+## NULL</code></pre>
+<pre class="r"><code>df &lt;- fload(&quot;./data/data_deriv/20230621df_complete.rda&quot;)
+publications &lt;- fload(&quot;./data/data_deriv/20230621list_publications_jt.rda&quot;)
+
+
+publications &lt;- publications %&gt;%
+    bind_rows() %&gt;%
+    distinct(title, .keep_all = TRUE)
+
+# select scholars
+df %&gt;%
+    filter(affil1 == &quot;RU&quot; | affil2 == &quot;RU&quot;) %&gt;%
+    filter(discipline == &quot;sociology&quot;) -&gt; df_sel
+
+fshowdf(df_sel)</code></pre>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+id
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+uni
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+discipline
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+year
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+name
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+affil1
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+affil2
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+position
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+np
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+lastname
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+firstname
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+ini
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+gender
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+gs_id
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+gs_name
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+gs_homepage
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+gs_field
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+gs_i10_index
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+gs_h_index
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+gs_total_cites
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+gs_affiliation
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+471b42
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Ronald Batenburg
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+full_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+batenburg
+</td>
+<td style="text-align:left;">
+ronald
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+UK7nVSEAAAAJ
+</td>
+<td style="text-align:left;">
+Ronald Batenburg
+</td>
+<td style="text-align:left;">
+<a href="https://www.nivel.nl/nl/ronald-batenburg"
+class="uri">https://www.nivel.nl/nl/ronald-batenburg</a>
+</td>
+<td style="text-align:left;">
+Gezondheidszorg
+</td>
+<td style="text-align:right;">
+94
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+4306
+</td>
+<td style="text-align:left;">
+Programmaleider NIVEL en bijzonder hoogleraar Radboud Universiteit
+Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+31144d
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Katia Begall
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+assistant_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+begall
+</td>
+<td style="text-align:left;">
+katia
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+e7zfTqMAAAAJ
+</td>
+<td style="text-align:left;">
+Katia Begall
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+family sociology
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+1268
+</td>
+<td style="text-align:left;">
+Radboud University Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+888093
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Hidde Bekhuis
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+other
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+bekhuis
+</td>
+<td style="text-align:left;">
+hidde
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+Q4saWX8AAAAJ
+</td>
+<td style="text-align:left;">
+Hidde Bekhuis
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Sociologie
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+458
+</td>
+<td style="text-align:left;">
+Post Doc Sociology, Radboud University Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c47638
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Lonneke van den Berg
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+postdoc
+</td>
+<td style="text-align:left;">
+van den
+</td>
+<td style="text-align:left;">
+berg
+</td>
+<td style="text-align:left;">
+lonneke
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+vzBNQ1kAAAAJ
+</td>
+<td style="text-align:left;">
+Lonneke van den Berg
+</td>
+<td style="text-align:left;">
+<a href="https://lonnekevandenberg.com/"
+class="uri">https://lonnekevandenberg.com/</a>
+</td>
+<td style="text-align:left;">
+Family sociology
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+79
+</td>
+<td style="text-align:left;">
+Netherlands Interdisciplinary Demographic Institute (NIDI)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f99757
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Lieselotte Blommaert
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+assistant_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+blommaert
+</td>
+<td style="text-align:left;">
+lieselotte
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+RG54uasAAAAJ
+</td>
+<td style="text-align:left;">
+Lieselotte Blommaert
+</td>
+<td style="text-align:left;">
+<a href="http://www.ru.nl/english/people/blommaert-e/"
+class="uri">http://www.ru.nl/english/people/blommaert-e/</a>
+</td>
+<td style="text-align:left;">
+Labor market
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+479
+</td>
+<td style="text-align:left;">
+Sociology/Social Cultural Research, Radboud University, Nijmegen, the
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7e85d6
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Rob Eisinga
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+assistant_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+eisinga
+</td>
+<td style="text-align:left;">
+rob
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+GDHdsXAAAAAJ
+</td>
+<td style="text-align:left;">
+Rob Eisinga
+</td>
+<td style="text-align:left;">
+<a href="http://robeisinga.ruhosting.nl/"
+class="uri">http://robeisinga.ruhosting.nl/</a>
+</td>
+<td style="text-align:left;">
+research methods
+</td>
+<td style="text-align:right;">
+83
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+6401
+</td>
+<td style="text-align:left;">
+Professor social science research methods, Radboud University Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5f9d45
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Maurice Gesthuizen
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+assistant_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+gesthuizen
+</td>
+<td style="text-align:left;">
+maurice
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+n6hiblQAAAAJ
+</td>
+<td style="text-align:left;">
+Maurice Gesthuizen
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Sociology
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+2972
+</td>
+<td style="text-align:left;">
+Assistant professor
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3e9d6d
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Nella Geurts
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+postdoc
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+geurts
+</td>
+<td style="text-align:left;">
+nella
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+VCTvbTkAAAAJ
+</td>
+<td style="text-align:left;">
+Nella Geurts
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Sociology
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+90
+</td>
+<td style="text-align:left;">
+Department of Sociology, Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7f8ff4
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Saskia Glas
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+assistant_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+glas
+</td>
+<td style="text-align:left;">
+saskia
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+ZMc0j2YAAAAJ
+</td>
+<td style="text-align:left;">
+Saskia Glas
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Gender
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+223
+</td>
+<td style="text-align:left;">
+Assistant Professor (tenured), Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6075fe
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Margriet van Hek
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+assistant_prof
+</td>
+<td style="text-align:left;">
+van
+</td>
+<td style="text-align:left;">
+hek
+</td>
+<td style="text-align:left;">
+margriet
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+ZvLlx2EAAAAJ
+</td>
+<td style="text-align:left;">
+Margriet van Hek
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Sociology
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+487
+</td>
+<td style="text-align:left;">
+Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2d4a95
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Remco Hoekman
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+other
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+hoekman
+</td>
+<td style="text-align:left;">
+remco
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+LsMimOEAAAAJ
+</td>
+<td style="text-align:left;">
+Remco Hoekman
+</td>
+<td style="text-align:left;">
+<a
+href="https://www.mulierinstituut.nl/over-mulier/medewerkers/remco-hoekman/"
+class="uri">https://www.mulierinstituut.nl/over-mulier/medewerkers/remco-hoekman/</a>
+</td>
+<td style="text-align:left;">
+sport sociology
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+918
+</td>
+<td style="text-align:left;">
+Director, Mulier Institute / Senior researcher, Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+61b8a6
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Bas Hofstra
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+assistant_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+hofstra
+</td>
+<td style="text-align:left;">
+bas
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Nx7pDywAAAAJ
+</td>
+<td style="text-align:left;">
+Bas Hofstra
+</td>
+<td style="text-align:left;">
+<a href="http://www.bashofstra.com/"
+class="uri">http://www.bashofstra.com/</a>
+</td>
+<td style="text-align:left;">
+Sociology of science
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+966
+</td>
+<td style="text-align:left;">
+Assistant Professor, Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+07b8a5
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Judith Koops
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+postdoc
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+koops
+</td>
+<td style="text-align:left;">
+judith
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+kLiOlQoAAAAJ
+</td>
+<td style="text-align:left;">
+Judith C. Koops
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+family demography
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:left;">
+Dr. Family Demographer, Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1bf89e
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Gerbert Kraaykamp
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+full_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+kraaykamp
+</td>
+<td style="text-align:left;">
+gerbert
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+l8aM4jAAAAAJ
+</td>
+<td style="text-align:left;">
+Gerbert Kraaykamp
+</td>
+<td style="text-align:left;">
+<a href="https://www.ru.nl/english/people/kraaykamp-g/"
+class="uri">https://www.ru.nl/english/people/kraaykamp-g/</a>
+</td>
+<td style="text-align:left;">
+social stratification
+</td>
+<td style="text-align:right;">
+107
+</td>
+<td style="text-align:right;">
+51
+</td>
+<td style="text-align:right;">
+9279
+</td>
+<td style="text-align:left;">
+Professor of Sociology, Radboud Universiteit Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f618fc
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Roza Meuleman
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+assistant_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+meuleman
+</td>
+<td style="text-align:left;">
+roza
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+iKs_5WkAAAAJ
+</td>
+<td style="text-align:left;">
+Roza Meuleman
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Cultural Sociology
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+308
+</td>
+<td style="text-align:left;">
+Assistant Professor - Sociology - Radboud University Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dad54c
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Michael Savelkoul
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+assistant_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+savelkoul
+</td>
+<td style="text-align:left;">
+michael
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+_f3krXUAAAAJ
+</td>
+<td style="text-align:left;">
+Michael Savelkoul
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+722
+</td>
+<td style="text-align:left;">
+Assistant Professor - Sociology, Radboud University Nijmegen, the
+Netherlands
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a576d6
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Peer Scheepers
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+full_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+scheepers
+</td>
+<td style="text-align:left;">
+peer
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+hPeXxvEAAAAJ
+</td>
+<td style="text-align:left;">
+peer scheepers
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+sociale wetenschappen
+</td>
+<td style="text-align:right;">
+190
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+16727
+</td>
+<td style="text-align:left;">
+hoogleraar methodologie, faculteit der sociale wetenschappen radboud
+universiteit
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5da2d4
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Niels Spierings
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+associate_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+spierings
+</td>
+<td style="text-align:left;">
+niels
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+cy3Ye6sAAAAJ
+</td>
+<td style="text-align:left;">
+Niels Spierings
+</td>
+<td style="text-align:left;">
+<a href="https://www.ru.nl/english/people/spierings-c/"
+class="uri">https://www.ru.nl/english/people/spierings-c/</a>
+</td>
+<td style="text-align:left;">
+politics
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+2673
+</td>
+<td style="text-align:left;">
+Associate Professor of Sociology, Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+07231a
+</td>
+<td style="text-align:left;">
+RU/RUG
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Jochem Tolsma
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+RUG
+</td>
+<td style="text-align:left;">
+full_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+tolsma
+</td>
+<td style="text-align:left;">
+jochem
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+Iu23-90AAAAJ
+</td>
+<td style="text-align:left;">
+Jochem Tolsma
+</td>
+<td style="text-align:left;">
+<a href="http://www.jochemtolsma.nl/"
+class="uri">http://www.jochemtolsma.nl/</a>
+</td>
+<td style="text-align:left;">
+social divisions between groups
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+2888
+</td>
+<td style="text-align:left;">
+Professor, Radboud University Nijmegen / University of Groningen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b65f6f
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Ellen Verbakel
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+full_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+verbakel
+</td>
+<td style="text-align:left;">
+ellen
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+w2McVJAAAAAJ
+</td>
+<td style="text-align:left;">
+Ellen Verbakel
+</td>
+<td style="text-align:left;">
+<a href="http://www.ellenverbakel.nl/"
+class="uri">http://www.ellenverbakel.nl/</a>
+</td>
+<td style="text-align:left;">
+Family
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+2242
+</td>
+<td style="text-align:left;">
+Professor of Sociology, Department of Sociology, Radboud University
+Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5e2898
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Mark Visser
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+assistant_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+visser
+</td>
+<td style="text-align:left;">
+mark
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+ItITloQAAAAJ
+</td>
+<td style="text-align:left;">
+Mark Visser
+</td>
+<td style="text-align:left;">
+<a href="https://www.researchgate.net/profile/Mark_Visser"
+class="uri">https://www.researchgate.net/profile/Mark_Visser</a>
+</td>
+<td style="text-align:left;">
+life course
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+580
+</td>
+<td style="text-align:left;">
+Assistant Professor, Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9ab0fc
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Maarten Wolbers
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+full_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+wolbers
+</td>
+<td style="text-align:left;">
+maarten
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+TqKrXnMAAAAJ
+</td>
+<td style="text-align:left;">
+Maarten HJ Wolbers
+</td>
+<td style="text-align:left;">
+<a href="http://www.socsci.ru.nl/maartenw/"
+class="uri">http://www.socsci.ru.nl/maartenw/</a>
+</td>
+<td style="text-align:left;">
+school-to-work transitions
+</td>
+<td style="text-align:right;">
+65
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+4380
+</td>
+<td style="text-align:left;">
+Professor of Sociology, Radboud University, Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6cca60
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Carlijn Bussemakers
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+bussemakers
+</td>
+<td style="text-align:left;">
+carlijn
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+bDPtkIoAAAAJ
+</td>
+<td style="text-align:left;">
+Carlijn Bussemakers
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+102
+</td>
+<td style="text-align:left;">
+Unknown affiliation
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4ed5be
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Rob Franken
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+franken
+</td>
+<td style="text-align:left;">
+rob
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f92019
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Mustafa Firat
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+firat
+</td>
+<td style="text-align:left;">
+mustafa
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+rrh0V7IAAAAJ
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f782c2
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Aysegül Güneyli
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+guneyli
+</td>
+<td style="text-align:left;">
+aysegul
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+513b49
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Inge Hendriks
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+hendriks
+</td>
+<td style="text-align:left;">
+inge
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+e37333
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Thijmen Jeroense
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+jeroense
+</td>
+<td style="text-align:left;">
+thijmen
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+izq-KNUAAAAJ
+</td>
+<td style="text-align:left;">
+Thijmen Jeroense
+</td>
+<td style="text-align:left;">
+<a href="https://www.ru.nl/personen/jeroense-t/"
+class="uri">https://www.ru.nl/personen/jeroense-t/</a>
+</td>
+<td style="text-align:left;">
+Political Participation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+PhD candidate, Radboud University Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b672bd
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Rachel Kollar
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+kollar
+</td>
+<td style="text-align:left;">
+rachel
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+b96_CCUAAAAJ
+</td>
+<td style="text-align:left;">
+Rachel Kollar
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Migration
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:left;">
+PhD Candidate Radboud University, Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ac8ab3
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Nik Linders
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+linders
+</td>
+<td style="text-align:left;">
+nik
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b6cedc
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Renae Loh
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+loh
+</td>
+<td style="text-align:left;">
+renae
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+tFaMPOQAAAAJ
+</td>
+<td style="text-align:left;">
+Renae Sze Ming Loh
+</td>
+<td style="text-align:left;">
+<a href="http://renaeloh.com/" class="uri">http://renaeloh.com/</a>
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+182
+</td>
+<td style="text-align:left;">
+PhD candidate, Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+e2ebbb
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Maikel Meijeren
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+meijeren
+</td>
+<td style="text-align:left;">
+maikel
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a527b8
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Carly van Mensvoort
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+van
+</td>
+<td style="text-align:left;">
+mensvoort
+</td>
+<td style="text-align:left;">
+carly
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+z6iMs-UAAAAJ
+</td>
+<td style="text-align:left;">
+Carly van Mensvoort
+</td>
+<td style="text-align:left;">
+<a href="https://www.ru.nl/english/people/mensvoort-c-van/"
+class="uri">https://www.ru.nl/english/people/mensvoort-c-van/</a>
+</td>
+<td style="text-align:left;">
+Gender inequality
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+48
+</td>
+<td style="text-align:left;">
+Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1e61cb
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Anne Maaike Mulders
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+mulders
+</td>
+<td style="text-align:left;">
+anne
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+554613
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Katrin Müller
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+muller
+</td>
+<td style="text-align:left;">
+katrin
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7c14e8
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Klara Raiber
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+raiber
+</td>
+<td style="text-align:left;">
+klara
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+xE65HUcAAAAJ
+</td>
+<td style="text-align:left;">
+Klara Raiber
+</td>
+<td style="text-align:left;">
+<a href="https://www.ru.nl/english/people/raiber-k/"
+class="uri">https://www.ru.nl/english/people/raiber-k/</a>
+</td>
+<td style="text-align:left;">
+informal care
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:left;">
+PhD candidate, Radboud University Nijmegen
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+809f71
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Marlou Ramaekers
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+ramaekers
+</td>
+<td style="text-align:left;">
+marlou
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+fp99JAQAAAAJ
+</td>
+<td style="text-align:left;">
+Marlou Ramaekers
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Sociology
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+Data Manager and Researcher
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c1722b
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Sara Wiertsema
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+wiertsema
+</td>
+<td style="text-align:left;">
+sara
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+wgQQD6kAAAAJ
+</td>
+<td style="text-align:left;">
+Sara Wiertsema
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Sociology
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+PhD candidate, Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a00209
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Janos Betko
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+betko
+</td>
+<td style="text-align:left;">
+janos
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+Cvdrl6AAAAAJ
+</td>
+<td style="text-align:left;">
+Janos Betko
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+welfare
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:left;">
+Radboud University
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8e7b43
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Jansje van Middendorp
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+van
+</td>
+<td style="text-align:left;">
+middendorp
+</td>
+<td style="text-align:left;">
+jansje
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+gs0li6MAAAAJ
+</td>
+<td style="text-align:left;">
+Jansje van Middendorp
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+vrijwilligers
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+Buitenpromovendus Radboud Universiteit
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+91db4e
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Elize Vis
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+vis
+</td>
+<td style="text-align:left;">
+elize
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bb8ffa
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Tijmen Weber
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+phd
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+weber
+</td>
+<td style="text-align:left;">
+tijmen
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+KfLALRIAAAAJ
+</td>
+<td style="text-align:left;">
+Tijmen Weber
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Sociology
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:left;">
+Lecturer Statistics and Research, HAN University of Applied Sciences
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05a9d1
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Elissa El Khawli
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+other
+</td>
+<td style="text-align:left;">
+el
+</td>
+<td style="text-align:left;">
+khawli
+</td>
+<td style="text-align:left;">
+elissa
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+2wDZZbsAAAAJ
+</td>
+<td style="text-align:left;">
+Elissa El Khawli
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:left;">
+Assistant Professor, Erasmus University Rotterdam
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+683c64
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Carl Sterkens
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+other
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+sterkens
+</td>
+<td style="text-align:left;">
+carl
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+e5d4c4
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Paul Vermeer
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+other
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+vermeer
+</td>
+<td style="text-align:left;">
+paul
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+0e20be
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Malou Grubben
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+other
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+grubben
+</td>
+<td style="text-align:left;">
+malou
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1c7266
+</td>
+<td style="text-align:left;">
+RUG/RU
+</td>
+<td style="text-align:left;">
+sociology
+</td>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Marcel Lubbers
+</td>
+<td style="text-align:left;">
+RUG
+</td>
+<td style="text-align:left;">
+RU
+</td>
+<td style="text-align:left;">
+full_prof
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+lubbers
+</td>
+<td style="text-align:left;">
+marcel
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+078qsZoAAAAJ
+</td>
+<td style="text-align:left;">
+Marcel Lubbers
+</td>
+<td style="text-align:left;">
+<a href="https://www.uu.nl/staff/MLubbers"
+class="uri">https://www.uu.nl/staff/MLubbers</a>
+</td>
+<td style="text-align:left;">
+Nationalism
+</td>
+<td style="text-align:right;">
+91
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+8010
+</td>
+<td style="text-align:left;">
+Professor in Interdisciplinary Social Science | ERCOMER | Utrecht
+University
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre class="r"><code>f_pubnets &lt;- function(df_scholars = df, list_publications = publications, discip = &quot;sociology&quot;, affiliation = &quot;RU&quot;,
+    waves = list(wave1 = c(2018, 2019, 2020), wave2 = c(2021, 2022, 2023))) {
+
+    publications &lt;- list_publications %&gt;%
+        bind_rows() %&gt;%
+        distinct(title, .keep_all = TRUE)
+
+    df_scholars %&gt;%
+        filter(affil1 == affiliation | affil2 == affiliation) %&gt;%
+        filter(discipline == discip) -&gt; df_sel
+
+    networklist &lt;- list()
+    for (wave in 1:length(waves)) {
+        networklist[[wave]] &lt;- matrix(0, nrow = nrow(df_sel), ncol = nrow(df_sel))
+    }
+
+    publicationlist &lt;- list()
+    for (wave in 1:length(waves)) {
+        publicationlist[[wave]] &lt;- publications %&gt;%
+            filter(gs_id %in% df_sel$gs_id) %&gt;%
+            filter(year %in% waves[[wave]]) %&gt;%
+            select(author) %&gt;%
+            lapply(str_split, pattern = &quot;,&quot;)
+    }
+
+    publicationlist2 &lt;- list()
+    for (wave in 1:length(waves)) {
+        publicationlist2[[wave]] &lt;- publicationlist[[wave]]$author %&gt;%
+            # lowercase
+        lapply(tolower) %&gt;%
+            # Removing diacritics
+        lapply(stri_trans_general, id = &quot;latin-ascii&quot;) %&gt;%
+            # only last name
+        lapply(word, start = -1, sep = &quot; &quot;) %&gt;%
+            # only last last name
+        lapply(word, start = -1, sep = &quot;-&quot;)
+    }
+
+    for (wave in 1:length(waves)) {
+        # let us remove all publications with only one author
+        remove &lt;- which(sapply(publicationlist2[[wave]], FUN = function(x) length(x) == 1) == TRUE)
+        publicationlist2[[wave]] &lt;- publicationlist2[[wave]][-remove]
+    }
+
+    for (wave in 1:length(waves)) {
+        pubs &lt;- publicationlist2[[wave]]
+        for (ego in 1:nrow(df_sel)) {
+            # which ego?
+            lastname_ego &lt;- df_sel$lastname[ego]
+            # for all publications
+            for (pub in 1:length(pubs)) {
+                # only continue if ego is author of pub
+                if (lastname_ego %in% pubs[[pub]]) {
+                  aut_pot &lt;- which.max(pubs[[pub]] %in% lastname_ego)
+                  # only continue if ego is first author of pub
+                  if (aut_pot == 1) {
+                    # check all alters/co-authors
+                    for (alter in 1:nrow(df_sel)) {
+                      # which alter
+                      lastname_alter &lt;- df_sel$lastname[alter]
+                      if (lastname_alter %in% pubs[[pub]]) {
+                        networklist[[wave]][ego, alter] &lt;- networklist[[wave]][ego, alter] + 1
+                      }
+                    }
+                  }
+                }
+            }
+        }
+    }
+    return(list(df = df_sel, network = networklist))
+}
+
+output &lt;- f_pubnets()
+df_soc &lt;- output[[1]]
+df_network &lt;- output[[2]]</code></pre>
+</div>
+</div>
+<div id="inladen-en-omvormen-van-de-data" class="section level1"
+number="2">
+<h1><span class="header-section-number">2</span> inladen en omvormen van
+de data</h1>
+<pre class="r"><code>wave1 &lt;- df_network[[1]]
+wave2 &lt;- df_network[[2]]
+
+wave1</code></pre>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13] [,14] [,15] [,16] [,17]
+##  [1,]    9    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+##  [2,]    0    2    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+##  [3,]    0    0    2    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+##  [4,]    0    0    0    1    0    0    0    0    0     0     0     0     0     0     0     0     0
+##  [5,]    0    0    0    0    7    0    3    0    0     0     0     0     0     0     1     0     0
+##  [6,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+##  [7,]    0    0    0    0    0    0    1    0    0     0     0     0     0     0     0     0     0
+##  [8,]    0    0    0    0    0    0    0    3    0     0     0     0     0     0     0     0     0
+##  [9,]    0    0    0    0    0    0    0    0    5     0     0     0     0     0     0     0     2
+## [10,]    0    0    0    0    0    0    0    0    0     4     0     0     0     2     0     0     0
+## [11,]    0    0    0    0    0    0    0    0    0     0     6     0     0     0     0     0     0
+## [12,]    0    0    0    0    0    0    0    0    0     0     0     3     0     0     0     0     0
+## [13,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [14,]    2    0    0    0    0    0    0    0    0     0     0     0     0     5     1     0     0
+## [15,]    0    0    0    0    0    0    0    0    0     0     0     0     0     2     3     0     0
+## [16,]    0    0    0    0    0    0    0    0    0     1     0     0     0     0     0     6     4
+## [17,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     1
+## [18,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [19,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [20,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [21,]    0    0    0    0    0    0    7    0    0     0     0     0     0     5     0     0     2
+## [22,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [23,]    0    0    0    0    0    0    0    0    0     0     0     0     0     2     0     0     0
+## [24,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [25,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [26,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [27,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [28,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [29,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [30,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [31,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [32,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [33,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [34,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [35,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [36,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [37,]    0    0    0    0    0    0    0    0    0     0     0     0     0     2     0     0     0
+## [38,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [39,]    0    0    0    0    0    0    2    0    0     0     0     0     0     0     0     0     2
+## [40,]    0    0    0    0    0    0    1    0    0     0     0     0     0     0     0     0     0
+## [41,]   11    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     1
+## [42,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [43,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [44,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [45,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     4
+## [46,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     0
+## [47,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0     0     0     1
+##       [,18] [,19] [,20] [,21] [,22] [,23] [,24] [,25] [,26] [,27] [,28] [,29] [,30] [,31] [,32]
+##  [1,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [2,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [3,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [4,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [5,]     1     0     0     0     3     0     0     0     0     0     0     0     0     0     0
+##  [6,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [7,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [8,]     2     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [9,]     4     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [10,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [11,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [12,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [13,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [14,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [15,]     0     1     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [16,]     0     2     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [17,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [18,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [19,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [20,]     0     0     2     0     0     0     0     0     0     0     0     0     0     0     0
+## [21,]     0     0     0     8     3     0     0     0     0     0     0     0     0     0     0
+## [22,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [23,]     0     1     0     0     0     2     0     0     0     0     0     0     0     0     0
+## [24,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [25,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [26,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [27,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [28,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [29,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [30,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [31,]     0     0     0     0     0     0     0     0     0     0     0     0     0     2     0
+## [32,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [33,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [34,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [35,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [36,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [37,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [38,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [39,]     2     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [40,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [41,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [42,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [43,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [44,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [45,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [46,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [47,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##       [,33] [,34] [,35] [,36] [,37] [,38] [,39] [,40] [,41] [,42] [,43] [,44] [,45] [,46] [,47]
+##  [1,]     0     0     0     0     0     0     0     0     6     0     0     0     0     0     0
+##  [2,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [3,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [4,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [5,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [6,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [7,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+##  [8,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     2
+##  [9,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     1
+## [10,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [11,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [12,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [13,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [14,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [15,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     2
+## [16,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     2
+## [17,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [18,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [19,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [20,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [21,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [22,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [23,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [24,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [25,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [26,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [27,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [28,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [29,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [30,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [31,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [32,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [33,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [34,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [35,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [36,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [37,]     0     0     0     0     2     0     0     0     0     0     0     0     0     0     0
+## [38,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [39,]     0     0     0     0     0     0     2     0     0     0     0     0     0     0     0
+## [40,]     0     0     0     0     0     0     0     2     0     0     0     0     0     0     0
+## [41,]     0     0     0     0     0     0     0     0    13     0     0     0     0     0     0
+## [42,]     0     0     0     0     0     0     0     0     0     4     0     0     0     0     0
+## [43,]     0     0     0     0     0     0     0     0     0     0     2     0     0     0     0
+## [44,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [45,]     0     0     0     0     0     0     0     0     0     0     0     0     4     0     0
+## [46,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+## [47,]     0     0     0     0     0     0     0     0     0     0     0     0     0     0     7</code></pre>
+<pre class="r"><code># let us put the diagonal to zero
+diag(wave1) &lt;- 0
+diag(wave2) &lt;- 0
+
+# we want a binary tie (not a weighted tie)
+wave1[wave1 &gt; 1] &lt;- 1
+wave2[wave2 &gt; 1] &lt;- 1
+
+# put the nets in an array
+net_soc_array &lt;- array(data = c(wave1, wave2), dim = c(dim(wave1), 2))
+
+# dependent
+net &lt;- sienaDependent(net_soc_array)</code></pre>
+<pre class="r"><code>wave1_nex &lt;- graph_from_adjacency_matrix(wave2, mode = &quot;directed&quot;)
+
+coords &lt;- layout_(wave1_nex, nicely())  #let us keep the layout
+par(mar = c(0.1, 0.1, 0.1, 0.1))
+
+fplot &lt;- function(x) {
+    plot.igraph(x, layout = coords, margin = 0)
+    graphics::box()
+}
+
+fplot(wave1_nex)</code></pre>
+<p><img src="lab3_files/figure-html/plot-1.png" alt="" width="672" /></p>
+</div>
+<div id="independent-variables" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> independent
+variables</h1>
+<pre class="r"><code># gender
+gender &lt;- as.numeric(df_soc$gender == &quot;female&quot;)
+
+# co = constant 
+gender &lt;- coCovar(gender)
+
+# toevoegen in het model
+mydata &lt;- sienaDataCreate(net, gender)
+
+# create effects structure
+myeff &lt;- getEffects(mydata)
+# effectsDocumentation(myeff)
+
+ifelse(!dir.exists(&quot;results&quot;), dir.create(&quot;results&quot;), FALSE)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>print01Report(mydata, modelname = &quot;./results/soc_init&quot;)</code></pre>
+<div id="hypotheses-toevoegen-als-model" class="section level3"
+number="3.0.1">
+<h3><span class="header-section-number">3.0.1</span> hypotheses
+toevoegen als model</h3>
+<pre class="r"><code>myeff &lt;- includeEffects(myeff, 
+                        isolateNet, 
+                        inPop, 
+                        outAct, 
+                        inAct, 
+                        transTrip)  # we know that quite a lot of staff has not published with someone else</code></pre>
+<pre><code>##   effectNumber effectName             shortName  include fix   test  initialValue parm
+## 1  21          transitive triplets    transTrip  TRUE    FALSE FALSE          0   0   
+## 2  78          indegree - popularity  inPop      TRUE    FALSE FALSE          0   0   
+## 3 115          outdegree - activity   outAct     TRUE    FALSE FALSE          0   0   
+## 4 124          indegree - activity(#) inAct      TRUE    FALSE FALSE          0   1   
+## 5 158          network-isolate        isolateNet TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>myeff &lt;- includeEffects(myeff, sameX, egoX, altX, interaction1 = &quot;gender&quot;)</code></pre>
+<pre><code>##   effectNumber effectName   shortName include fix   test  initialValue parm
+## 1 262          gender alter altX      TRUE    FALSE FALSE          0   0   
+## 2 277          gender ego   egoX      TRUE    FALSE FALSE          0   0   
+## 3 333          same gender  sameX     TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>myAlgorithm &lt;- sienaAlgorithmCreate(projname = &quot;soc_init&quot;)</code></pre>
+<pre><code>## If you use this algorithm object, siena07 will create/use an output file soc_init.txt .</code></pre>
+<pre class="r"><code>(ans &lt;- siena07(myAlgorithm, data = mydata, effects = myeff))</code></pre>
+<pre><code>## Estimates, standard errors and convergence t-ratios
+## 
+##                                   Estimate   Standard   Convergence 
+##                                                Error      t-ratio   
+## 
+## Rate parameters: 
+##   0        Rate parameter          4.1257  ( 1.0085   )             
+## 
+## Other parameters: 
+##    1. eval outdegree (density)    -2.4391  ( 0.7679   )   -0.0669   
+##    2. eval reciprocity             2.3814  ( 0.6595   )   -0.0316   
+##    3. eval transitive triplets     0.7829  ( 0.3687   )   -0.1093   
+##    4. eval indegree - popularity   0.2224  ( 0.0547   )   -0.0290   
+##    5. eval outdegree - activity    0.0172  ( 0.1043   )   -0.0650   
+##    6. eval indegree - activity(1) -0.4516  ( 0.3959   )   -0.1062   
+##    7. eval network-isolate         2.4927  ( 1.2511   )   -0.0003   
+##    8. eval gender alter           -0.3970  ( 0.3053   )    0.0511   
+##    9. eval gender ego              0.1383  ( 0.4125   )   -0.0031   
+##   10. eval same gender             0.1522  ( 0.2981   )   -0.0714   
+## 
+## Overall maximum convergence ratio:    0.1484 
+## 
+## 
+## Total of 2834 iteration steps.</code></pre>
+<pre class="r"><code># (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
+# further
+(ans &lt;- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans, returnDeps = TRUE))</code></pre>
+<pre><code>## Estimates, standard errors and convergence t-ratios
+## 
+##                                   Estimate   Standard   Convergence 
+##                                                Error      t-ratio   
+## 
+## Rate parameters: 
+##   0        Rate parameter          3.9851  ( 0.9619   )             
+## 
+## Other parameters: 
+##    1. eval outdegree (density)    -2.4514  ( 0.7224   )    0.0685   
+##    2. eval reciprocity             2.3794  ( 0.6387   )    0.0109   
+##    3. eval transitive triplets     0.8048  ( 0.3509   )    0.0157   
+##    4. eval indegree - popularity   0.2206  ( 0.0541   )    0.0458   
+##    5. eval outdegree - activity    0.0137  ( 0.1005   )    0.0275   
+##    6. eval indegree - activity(1) -0.4351  ( 0.2796   )    0.0198   
+##    7. eval network-isolate         2.4465  ( 1.0799   )   -0.1226   
+##    8. eval gender alter           -0.4058  ( 0.2825   )   -0.0571   
+##    9. eval gender ego              0.1634  ( 0.3547   )    0.0311   
+##   10. eval same gender             0.1698  ( 0.2625   )    0.0656   
+## 
+## Overall maximum convergence ratio:    0.1474 
+## 
+## 
+## Total of 2728 iteration steps.</code></pre>
+<pre class="r"><code>ans</code></pre>
+<pre><code>## Estimates, standard errors and convergence t-ratios
+## 
+##                                   Estimate   Standard   Convergence 
+##                                                Error      t-ratio   
+## 
+## Rate parameters: 
+##   0        Rate parameter          3.9851  ( 0.9619   )             
+## 
+## Other parameters: 
+##    1. eval outdegree (density)    -2.4514  ( 0.7224   )    0.0685   
+##    2. eval reciprocity             2.3794  ( 0.6387   )    0.0109   
+##    3. eval transitive triplets     0.8048  ( 0.3509   )    0.0157   
+##    4. eval indegree - popularity   0.2206  ( 0.0541   )    0.0458   
+##    5. eval outdegree - activity    0.0137  ( 0.1005   )    0.0275   
+##    6. eval indegree - activity(1) -0.4351  ( 0.2796   )    0.0198   
+##    7. eval network-isolate         2.4465  ( 1.0799   )   -0.1226   
+##    8. eval gender alter           -0.4058  ( 0.2825   )   -0.0571   
+##    9. eval gender ego              0.1634  ( 0.3547   )    0.0311   
+##   10. eval same gender             0.1698  ( 0.2625   )    0.0656   
+## 
+## Overall maximum convergence ratio:    0.1474 
+## 
+## 
+## Total of 2728 iteration steps.</code></pre>
+<pre class="r"><code>GeodesicDistribution &lt;- function(i, data, sims, period, groupName, varName, levls = c(1:5, Inf), cumulative = TRUE,
+    ...) {
+    x &lt;- networkExtraction(i, data, sims, period, groupName, varName)
+    require(sna)
+    a &lt;- sna::geodist(symmetrize(x))$gdist
+    if (cumulative) {
+        gdi &lt;- sapply(levls, function(i) {
+            sum(a &lt;= i)
+        })
+    } else {
+        gdi &lt;- sapply(levls, function(i) {
+            sum(a == i)
+        })
+    }
+    names(gdi) &lt;- as.character(levls)
+    gdi
+}
+
+# The following function is taken from the help page for sienaTest
+
+testall &lt;- function(ans) {
+    for (i in which(ans$test)) {
+        sct &lt;- score.Test(ans, i)
+        cat(ans$requestedEffects$effectName[i], &quot;\n&quot;)
+        print(sct)
+    }
+    invisible(score.Test(ans))
+}
+
+gofi0 &lt;- sienaGOF(ans, IndegreeDistribution, verbose = FALSE, join = TRUE, varName = &quot;net&quot;)
+gofo0 &lt;- sienaGOF(ans, OutdegreeDistribution, verbose = FALSE, join = TRUE, varName = &quot;net&quot;)
+gof0.gd &lt;- sienaGOF(ans, GeodesicDistribution, cumulative = FALSE, verbose = FALSE, join = TRUE, varName = &quot;net&quot;)</code></pre>
+<pre><code>## Loading required package: sna</code></pre>
+<pre><code>## Loading required package: statnet.common</code></pre>
+<pre><code>## 
+## Attaching package: &#39;statnet.common&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     attr, order, replace</code></pre>
+<pre><code>## Loading required package: network</code></pre>
+<pre><code>## 
+## &#39;network&#39; 1.20.0 (2026-02-06), part of the Statnet Project
+## * &#39;news(package=&quot;network&quot;)&#39; for changes since last version
+## * &#39;citation(&quot;network&quot;)&#39; for citation information
+## * &#39;https://statnet.org&#39; for help, support, and other information</code></pre>
+<pre><code>## 
+## Attaching package: &#39;network&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:igraph&#39;:
+## 
+##     %c%, %s%, add.edges, add.vertices, delete.edges, delete.vertices, get.edge.attribute,
+##     get.edges, get.vertex.attribute, is.bipartite, is.directed, list.edge.attributes,
+##     list.vertex.attributes, set.edge.attribute, set.vertex.attribute</code></pre>
+<pre><code>## sna: Tools for Social Network Analysis
+## Version 2.8 created on 2024-09-07.
+## copyright (c) 2005, Carter T. Butts, University of California-Irvine
+##  For citation information, type citation(&quot;sna&quot;).
+##  Type help(package=&quot;sna&quot;) to get started.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;sna&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:igraph&#39;:
+## 
+##     betweenness, bonpow, closeness, components, degree, dyad.census, evcent, hierarchy,
+##     is.connected, neighborhood, triad.census</code></pre>
+<pre class="r"><code>gof0.tc &lt;- sienaGOF(ans, TriadCensus, verbose = FALSE, join = TRUE, varName = &quot;net&quot;)
+
+
+plot(gofi0)</code></pre>
+<p><img src="lab3_files/figure-html/verdere%20testen-1.png" alt="" width="672" /></p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogImxhYjMiDQpvdXRwdXQ6IGh0bWxfZG9jdW1lbnQNCmRhdGU6ICIyMDI2LTA5LTE0Ig0KYmlibGlvZ3JhcGh5OiByZWZlcmVuY2VzLmJpYg0KLS0tDQoNCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQ0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0KYGBgDQoNCiMgQWxnZW1lbmUgZnVuY3RpZXMNCg0KYGBge3IgZ2VuZXJhbCBmdW5jdGlvbnMsIGVjaG89Rn0NCiMgY2hlY2sgaWYgcGFja2FnZXMgYXJlIGF2YWlsYWJsZQ0KZnBhY2thZ2UuY2hlY2sgPC0gZnVuY3Rpb24ocGFja2FnZXMpIHsNCiAgICBsYXBwbHkocGFja2FnZXMsIEZVTiA9IGZ1bmN0aW9uKHgpIHsNCiAgICAgICAgaWYgKCFyZXF1aXJlKHgsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSkpIHsNCiAgICAgICAgICAgIGluc3RhbGwucGFja2FnZXMoeCwgZGVwZW5kZW5jaWVzID0gVFJVRSkNCiAgICAgICAgICAgIGxpYnJhcnkoeCwgY2hhcmFjdGVyLm9ubHkgPSBUUlVFKQ0KICAgICAgICB9DQogICAgfSkNCn0NCg0KIyBzYXZlIGZpbGUgaW4gZGF0YS9kYXRhX2Rlcml2DQpmc2F2ZSA8LSBmdW5jdGlvbih4LCBmaWxlID0gTlVMTCwgbG9jYXRpb24gPSAiLi9kYXRhL2RhdGFfZGVyaXYvIikgew0KICAgIGlmZWxzZSghZGlyLmV4aXN0cygiZGF0YSIpLCBkaXIuY3JlYXRlKCJkYXRhIiksIEZBTFNFKQ0KICAgIGlmZWxzZSghZGlyLmV4aXN0cygiZGF0YS9kYXRhX2Rlcml2IiksIGRpci5jcmVhdGUoImRhdGEvZGF0YV9kZXJpdiIpLCBGQUxTRSkNCiAgICBpZiAoaXMubnVsbChmaWxlKSkNCiAgICAgICAgZmlsZSA9IGRlcGFyc2Uoc3Vic3RpdHV0ZSh4KSkNCiAgICBkYXRlbmFtZSA8LSBzdWJzdHIoZ3N1YigiWzotXSIsICIiLCBTeXMudGltZSgpKSwgMSwgOCkNCiAgICB0b3RhbG5hbWUgPC0gcGFzdGUobG9jYXRpb24sIGRhdGVuYW1lLCBmaWxlLCAiLnJkYSIsIHNlcCA9ICIiKQ0KICAgIHNhdmUoeCwgZmlsZSA9IHRvdGFsbmFtZSkgICNuZWVkIHRvIGZpeCBpZiBmaWxlIGlzIHJlbG9hZGVkIGFzIGlucHV0IG5hbWUsIG5vdCBhcyB4LiANCn0NCg0KIyBsb2FkIGZpbGUgbmFtZQ0KZmxvYWQgPC0gZnVuY3Rpb24oZmlsZW5hbWUpIHsNCiAgICBsb2FkKGZpbGVuYW1lKQ0KICAgIGdldChscygpW2xzKCkgIT0gImZpbGVuYW1lIl0pDQp9DQoNCiMgc2hvdyBiZWF1dGlmeWwgZGYNCmZzaG93ZGYgPC0gZnVuY3Rpb24oeCwgLi4uKSB7DQogICAga25pdHI6OmthYmxlKHgsIGRpZ2l0cyA9IDIsICJodG1sIiwgLi4uKSAlPiUNCiAgICAgICAga2FibGVFeHRyYTo6a2FibGVfc3R5bGluZyhib290c3RyYXBfb3B0aW9ucyA9IGMoInN0cmlwZWQiLCAiaG92ZXIiKSkgJT4lDQogICAgICAgIGthYmxlRXh0cmE6OnNjcm9sbF9ib3god2lkdGggPSAiMTAwJSIsIGhlaWdodCA9ICIzMDBweCIpDQp9DQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7DQogICAgc3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KQ0KfQ0KDQpgYGANCg0KYGBge3IgcGFja2FnZXMsIGVjaG89Rn0NCnBhY2thZ2VzID0gYygiUlNpZW5hIiwgImRldnRvb2xzIiwgImlncmFwaCIpDQpmcGFja2FnZS5jaGVjayhwYWNrYWdlcykNCg0KZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKCdKb2NoZW1Ub2xzbWEvUnNpZW5hVHdvU3RlcCcsIGJ1aWxkX3ZpZ25ldHRlcz1UUlVFKQ0KcGFja2FnZXMgPSBjKCJSc2llbmFUd29TdGVwIikNCmZwYWNrYWdlLmNoZWNrKHBhY2thZ2VzKQ0KDQpzZXQuc2VlZCgyNDU1MzI1MykNCmBgYA0KDQojIyMgRGF0YQ0KDQplZ28gbmV0d2Vyaw0KDQpgYGB7ciBkYXRhfQ0KdHNfbmV0MQ0KDQpuZXQxZyA8LSBncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgodHNfbmV0MSwgbW9kZSA9ICJkaXJlY3RlZCIpDQpjb29yZHMgPC0gbGF5b3V0XyhuZXQxZywgbmljZWx5KCkpICAjbGV0IHVzIGtlZXAgdGhlIGxheW91dA0KcGFyKG1hciA9IGMoMC4xLCAwLjEsIDAuMSwgMC4xKSkNCnsNCiAgICBwbG90LmlncmFwaChuZXQxZywgbGF5b3V0ID0gY29vcmRzKQ0KICAgIGdyYXBoaWNzOjpib3goKQ0KfQ0KDQoNCmVnbyA8LSB0c19zZWxlY3QobmV0ID0gdHNfbmV0MSkNCg0KIyB3ZSBoZWJiZW4gaGV0IG92ZXIgZWdvIDUNCmVnbw0KDQpgYGANCg0KYGBge3IgcG9zc2liaWx0aWVzfQ0Kb3B0aW9ucyA8LSB0c19hbHRlcm5hdGl2ZXNfbWluaXN0ZXAobmV0ID0gdHNfbmV0MSwgZWdvID0gZWdvKQ0Kb3B0aW9uc1tbMV1dDQoNCg0KcGxvdHMgPC0gbGFwcGx5KG9wdGlvbnMsIGdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeCwgbW9kZSA9ICJkaXJlY3RlZCIpDQpwYXIobWFyID0gYygwLCAwLCAwLCAwKSArIDAuMSkNCnBhcihtZnJvdyA9IGMoMiwgMikpDQoNCmZwbG90IDwtIGZ1bmN0aW9uKHgpIHsNCiAgICBwbG90LmlncmFwaCh4LCBsYXlvdXQgPSBjb29yZHMsIG1hcmdpbiA9IDApDQogICAgZ3JhcGhpY3M6OmJveCgpDQp9DQoNCmxhcHBseShwbG90cywgZnBsb3QpDQoNCmBgYA0KDQpgYGB7ciBuZXh0IHN0ZXBzfQ0KIyBvdXQtZGVncmVlIA0KdHNfZGVncmVlKG5ldCA9IG9wdGlvbnNbWzFdXSwgZWdvID0gZWdvKQ0KDQoNCmBgYA0KDQpgYGB7ciBtb2RlbGxldGplIHNjaGF0dGVufQ0KcGFja2FnZXMgPSBjKCJzdHJpbmdkaXN0IiwgInN0cmluZ2kiLCAidGlkeXZlcnNlIiwgImthYmxlRXh0cmEiKQ0KDQpmcGFja2FnZS5jaGVjayhwYWNrYWdlcykNCg0KZGYgPC0gZmxvYWQoIi4vZGF0YS9kYXRhX2Rlcml2LzIwMjMwNjIxZGZfY29tcGxldGUucmRhIikNCnB1YmxpY2F0aW9ucyA8LSBmbG9hZCgiLi9kYXRhL2RhdGFfZGVyaXYvMjAyMzA2MjFsaXN0X3B1YmxpY2F0aW9uc19qdC5yZGEiKQ0KDQoNCnB1YmxpY2F0aW9ucyA8LSBwdWJsaWNhdGlvbnMgJT4lDQogICAgYmluZF9yb3dzKCkgJT4lDQogICAgZGlzdGluY3QodGl0bGUsIC5rZWVwX2FsbCA9IFRSVUUpDQoNCiMgc2VsZWN0IHNjaG9sYXJzDQpkZiAlPiUNCiAgICBmaWx0ZXIoYWZmaWwxID09ICJSVSIgfCBhZmZpbDIgPT0gIlJVIikgJT4lDQogICAgZmlsdGVyKGRpc2NpcGxpbmUgPT0gInNvY2lvbG9neSIpIC0+IGRmX3NlbA0KDQpmc2hvd2RmKGRmX3NlbCkNCmBgYA0KDQpgYGB7cn0NCmZfcHVibmV0cyA8LSBmdW5jdGlvbihkZl9zY2hvbGFycyA9IGRmLCBsaXN0X3B1YmxpY2F0aW9ucyA9IHB1YmxpY2F0aW9ucywgZGlzY2lwID0gInNvY2lvbG9neSIsIGFmZmlsaWF0aW9uID0gIlJVIiwNCiAgICB3YXZlcyA9IGxpc3Qod2F2ZTEgPSBjKDIwMTgsIDIwMTksIDIwMjApLCB3YXZlMiA9IGMoMjAyMSwgMjAyMiwgMjAyMykpKSB7DQoNCiAgICBwdWJsaWNhdGlvbnMgPC0gbGlzdF9wdWJsaWNhdGlvbnMgJT4lDQogICAgICAgIGJpbmRfcm93cygpICU+JQ0KICAgICAgICBkaXN0aW5jdCh0aXRsZSwgLmtlZXBfYWxsID0gVFJVRSkNCg0KICAgIGRmX3NjaG9sYXJzICU+JQ0KICAgICAgICBmaWx0ZXIoYWZmaWwxID09IGFmZmlsaWF0aW9uIHwgYWZmaWwyID09IGFmZmlsaWF0aW9uKSAlPiUNCiAgICAgICAgZmlsdGVyKGRpc2NpcGxpbmUgPT0gZGlzY2lwKSAtPiBkZl9zZWwNCg0KICAgIG5ldHdvcmtsaXN0IDwtIGxpc3QoKQ0KICAgIGZvciAod2F2ZSBpbiAxOmxlbmd0aCh3YXZlcykpIHsNCiAgICAgICAgbmV0d29ya2xpc3RbW3dhdmVdXSA8LSBtYXRyaXgoMCwgbnJvdyA9IG5yb3coZGZfc2VsKSwgbmNvbCA9IG5yb3coZGZfc2VsKSkNCiAgICB9DQoNCiAgICBwdWJsaWNhdGlvbmxpc3QgPC0gbGlzdCgpDQogICAgZm9yICh3YXZlIGluIDE6bGVuZ3RoKHdhdmVzKSkgew0KICAgICAgICBwdWJsaWNhdGlvbmxpc3RbW3dhdmVdXSA8LSBwdWJsaWNhdGlvbnMgJT4lDQogICAgICAgICAgICBmaWx0ZXIoZ3NfaWQgJWluJSBkZl9zZWwkZ3NfaWQpICU+JQ0KICAgICAgICAgICAgZmlsdGVyKHllYXIgJWluJSB3YXZlc1tbd2F2ZV1dKSAlPiUNCiAgICAgICAgICAgIHNlbGVjdChhdXRob3IpICU+JQ0KICAgICAgICAgICAgbGFwcGx5KHN0cl9zcGxpdCwgcGF0dGVybiA9ICIsIikNCiAgICB9DQoNCiAgICBwdWJsaWNhdGlvbmxpc3QyIDwtIGxpc3QoKQ0KICAgIGZvciAod2F2ZSBpbiAxOmxlbmd0aCh3YXZlcykpIHsNCiAgICAgICAgcHVibGljYXRpb25saXN0Mltbd2F2ZV1dIDwtIHB1YmxpY2F0aW9ubGlzdFtbd2F2ZV1dJGF1dGhvciAlPiUNCiAgICAgICAgICAgICMgbG93ZXJjYXNlDQogICAgICAgIGxhcHBseSh0b2xvd2VyKSAlPiUNCiAgICAgICAgICAgICMgUmVtb3ZpbmcgZGlhY3JpdGljcw0KICAgICAgICBsYXBwbHkoc3RyaV90cmFuc19nZW5lcmFsLCBpZCA9ICJsYXRpbi1hc2NpaSIpICU+JQ0KICAgICAgICAgICAgIyBvbmx5IGxhc3QgbmFtZQ0KICAgICAgICBsYXBwbHkod29yZCwgc3RhcnQgPSAtMSwgc2VwID0gIiAiKSAlPiUNCiAgICAgICAgICAgICMgb25seSBsYXN0IGxhc3QgbmFtZQ0KICAgICAgICBsYXBwbHkod29yZCwgc3RhcnQgPSAtMSwgc2VwID0gIi0iKQ0KICAgIH0NCg0KICAgIGZvciAod2F2ZSBpbiAxOmxlbmd0aCh3YXZlcykpIHsNCiAgICAgICAgIyBsZXQgdXMgcmVtb3ZlIGFsbCBwdWJsaWNhdGlvbnMgd2l0aCBvbmx5IG9uZSBhdXRob3INCiAgICAgICAgcmVtb3ZlIDwtIHdoaWNoKHNhcHBseShwdWJsaWNhdGlvbmxpc3QyW1t3YXZlXV0sIEZVTiA9IGZ1bmN0aW9uKHgpIGxlbmd0aCh4KSA9PSAxKSA9PSBUUlVFKQ0KICAgICAgICBwdWJsaWNhdGlvbmxpc3QyW1t3YXZlXV0gPC0gcHVibGljYXRpb25saXN0Mltbd2F2ZV1dWy1yZW1vdmVdDQogICAgfQ0KDQogICAgZm9yICh3YXZlIGluIDE6bGVuZ3RoKHdhdmVzKSkgew0KICAgICAgICBwdWJzIDwtIHB1YmxpY2F0aW9ubGlzdDJbW3dhdmVdXQ0KICAgICAgICBmb3IgKGVnbyBpbiAxOm5yb3coZGZfc2VsKSkgew0KICAgICAgICAgICAgIyB3aGljaCBlZ28/DQogICAgICAgICAgICBsYXN0bmFtZV9lZ28gPC0gZGZfc2VsJGxhc3RuYW1lW2Vnb10NCiAgICAgICAgICAgICMgZm9yIGFsbCBwdWJsaWNhdGlvbnMNCiAgICAgICAgICAgIGZvciAocHViIGluIDE6bGVuZ3RoKHB1YnMpKSB7DQogICAgICAgICAgICAgICAgIyBvbmx5IGNvbnRpbnVlIGlmIGVnbyBpcyBhdXRob3Igb2YgcHViDQogICAgICAgICAgICAgICAgaWYgKGxhc3RuYW1lX2VnbyAlaW4lIHB1YnNbW3B1Yl1dKSB7DQogICAgICAgICAgICAgICAgICBhdXRfcG90IDwtIHdoaWNoLm1heChwdWJzW1twdWJdXSAlaW4lIGxhc3RuYW1lX2VnbykNCiAgICAgICAgICAgICAgICAgICMgb25seSBjb250aW51ZSBpZiBlZ28gaXMgZmlyc3QgYXV0aG9yIG9mIHB1Yg0KICAgICAgICAgICAgICAgICAgaWYgKGF1dF9wb3QgPT0gMSkgew0KICAgICAgICAgICAgICAgICAgICAjIGNoZWNrIGFsbCBhbHRlcnMvY28tYXV0aG9ycw0KICAgICAgICAgICAgICAgICAgICBmb3IgKGFsdGVyIGluIDE6bnJvdyhkZl9zZWwpKSB7DQogICAgICAgICAgICAgICAgICAgICAgIyB3aGljaCBhbHRlcg0KICAgICAgICAgICAgICAgICAgICAgIGxhc3RuYW1lX2FsdGVyIDwtIGRmX3NlbCRsYXN0bmFtZVthbHRlcl0NCiAgICAgICAgICAgICAgICAgICAgICBpZiAobGFzdG5hbWVfYWx0ZXIgJWluJSBwdWJzW1twdWJdXSkgew0KICAgICAgICAgICAgICAgICAgICAgICAgbmV0d29ya2xpc3RbW3dhdmVdXVtlZ28sIGFsdGVyXSA8LSBuZXR3b3JrbGlzdFtbd2F2ZV1dW2VnbywgYWx0ZXJdICsgMQ0KICAgICAgICAgICAgICAgICAgICAgIH0NCiAgICAgICAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgICAgIH0NCiAgICAgICAgICAgIH0NCiAgICAgICAgfQ0KICAgIH0NCiAgICByZXR1cm4obGlzdChkZiA9IGRmX3NlbCwgbmV0d29yayA9IG5ldHdvcmtsaXN0KSkNCn0NCg0Kb3V0cHV0IDwtIGZfcHVibmV0cygpDQpkZl9zb2MgPC0gb3V0cHV0W1sxXV0NCmRmX25ldHdvcmsgPC0gb3V0cHV0W1syXV0NCg0KDQpgYGANCg0KIyBpbmxhZGVuIGVuIG9tdm9ybWVuIHZhbiBkZSBkYXRhDQoNCmBgYHtyfQ0Kd2F2ZTEgPC0gZGZfbmV0d29ya1tbMV1dDQp3YXZlMiA8LSBkZl9uZXR3b3JrW1syXV0NCg0Kd2F2ZTENCg0KIyBsZXQgdXMgcHV0IHRoZSBkaWFnb25hbCB0byB6ZXJvDQpkaWFnKHdhdmUxKSA8LSAwDQpkaWFnKHdhdmUyKSA8LSAwDQoNCiMgd2Ugd2FudCBhIGJpbmFyeSB0aWUgKG5vdCBhIHdlaWdodGVkIHRpZSkNCndhdmUxW3dhdmUxID4gMV0gPC0gMQ0Kd2F2ZTJbd2F2ZTIgPiAxXSA8LSAxDQoNCiMgcHV0IHRoZSBuZXRzIGluIGFuIGFycmF5DQpuZXRfc29jX2FycmF5IDwtIGFycmF5KGRhdGEgPSBjKHdhdmUxLCB3YXZlMiksIGRpbSA9IGMoZGltKHdhdmUxKSwgMikpDQoNCiMgZGVwZW5kZW50DQpuZXQgPC0gc2llbmFEZXBlbmRlbnQobmV0X3NvY19hcnJheSkNCmBgYA0KDQpgYGB7ciBwbG90fQ0Kd2F2ZTFfbmV4IDwtIGdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeCh3YXZlMiwgbW9kZSA9ICJkaXJlY3RlZCIpDQoNCmNvb3JkcyA8LSBsYXlvdXRfKHdhdmUxX25leCwgbmljZWx5KCkpICAjbGV0IHVzIGtlZXAgdGhlIGxheW91dA0KcGFyKG1hciA9IGMoMC4xLCAwLjEsIDAuMSwgMC4xKSkNCg0KZnBsb3QgPC0gZnVuY3Rpb24oeCkgew0KICAgIHBsb3QuaWdyYXBoKHgsIGxheW91dCA9IGNvb3JkcywgbWFyZ2luID0gMCkNCiAgICBncmFwaGljczo6Ym94KCkNCn0NCg0KZnBsb3Qod2F2ZTFfbmV4KQ0KDQoNCg0KDQpgYGANCg0KIyBpbmRlcGVuZGVudCB2YXJpYWJsZXMNCg0KYGBge3J9DQojIGdlbmRlcg0KZ2VuZGVyIDwtIGFzLm51bWVyaWMoZGZfc29jJGdlbmRlciA9PSAiZmVtYWxlIikNCg0KIyBjbyA9IGNvbnN0YW50IA0KZ2VuZGVyIDwtIGNvQ292YXIoZ2VuZGVyKQ0KDQojIHRvZXZvZWdlbiBpbiBoZXQgbW9kZWwNCm15ZGF0YSA8LSBzaWVuYURhdGFDcmVhdGUobmV0LCBnZW5kZXIpDQoNCiMgY3JlYXRlIGVmZmVjdHMgc3RydWN0dXJlDQpteWVmZiA8LSBnZXRFZmZlY3RzKG15ZGF0YSkNCiMgZWZmZWN0c0RvY3VtZW50YXRpb24obXllZmYpDQoNCmlmZWxzZSghZGlyLmV4aXN0cygicmVzdWx0cyIpLCBkaXIuY3JlYXRlKCJyZXN1bHRzIiksIEZBTFNFKQ0KcHJpbnQwMVJlcG9ydChteWRhdGEsIG1vZGVsbmFtZSA9ICIuL3Jlc3VsdHMvc29jX2luaXQiKQ0KYGBgDQoNCiMjIyBoeXBvdGhlc2VzIHRvZXZvZWdlbiBhbHMgbW9kZWwNCg0KYGBge3IgbW9kZWx9DQpteWVmZiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZiwgDQogICAgICAgICAgICAgICAgICAgICAgICBpc29sYXRlTmV0LCANCiAgICAgICAgICAgICAgICAgICAgICAgIGluUG9wLCANCiAgICAgICAgICAgICAgICAgICAgICAgIG91dEFjdCwgDQogICAgICAgICAgICAgICAgICAgICAgICBpbkFjdCwgDQogICAgICAgICAgICAgICAgICAgICAgICB0cmFuc1RyaXApICAjIHdlIGtub3cgdGhhdCBxdWl0ZSBhIGxvdCBvZiBzdGFmZiBoYXMgbm90IHB1Ymxpc2hlZCB3aXRoIHNvbWVvbmUgZWxzZQ0KDQpteWVmZiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZiwgc2FtZVgsIGVnb1gsIGFsdFgsIGludGVyYWN0aW9uMSA9ICJnZW5kZXIiKQ0KDQpgYGANCg0KYGBge3J9DQpteUFsZ29yaXRobSA8LSBzaWVuYUFsZ29yaXRobUNyZWF0ZShwcm9qbmFtZSA9ICJzb2NfaW5pdCIpDQooYW5zIDwtIHNpZW5hMDcobXlBbGdvcml0aG0sIGRhdGEgPSBteWRhdGEsIGVmZmVjdHMgPSBteWVmZikpDQojICh0aGUgb3V0ZXIgcGFyZW50aGVzZXMgbGVhZCB0byBwcmludGluZyB0aGUgb2J0YWluZWQgcmVzdWx0IG9uIHRoZSBzY3JlZW4pIGlmIG5lY2Vzc2FyeSwgZXN0aW1hdGUNCiMgZnVydGhlcg0KKGFucyA8LSBzaWVuYTA3KG15QWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYsIHByZXZBbnMgPSBhbnMsIHJldHVybkRlcHMgPSBUUlVFKSkNCg0KYW5zDQoNCmBgYA0KDQpgYGB7ciB2ZXJkZXJlIHRlc3Rlbn0NCkdlb2Rlc2ljRGlzdHJpYnV0aW9uIDwtIGZ1bmN0aW9uKGksIGRhdGEsIHNpbXMsIHBlcmlvZCwgZ3JvdXBOYW1lLCB2YXJOYW1lLCBsZXZscyA9IGMoMTo1LCBJbmYpLCBjdW11bGF0aXZlID0gVFJVRSwNCiAgICAuLi4pIHsNCiAgICB4IDwtIG5ldHdvcmtFeHRyYWN0aW9uKGksIGRhdGEsIHNpbXMsIHBlcmlvZCwgZ3JvdXBOYW1lLCB2YXJOYW1lKQ0KICAgIHJlcXVpcmUoc25hKQ0KICAgIGEgPC0gc25hOjpnZW9kaXN0KHN5bW1ldHJpemUoeCkpJGdkaXN0DQogICAgaWYgKGN1bXVsYXRpdmUpIHsNCiAgICAgICAgZ2RpIDwtIHNhcHBseShsZXZscywgZnVuY3Rpb24oaSkgew0KICAgICAgICAgICAgc3VtKGEgPD0gaSkNCiAgICAgICAgfSkNCiAgICB9IGVsc2Ugew0KICAgICAgICBnZGkgPC0gc2FwcGx5KGxldmxzLCBmdW5jdGlvbihpKSB7DQogICAgICAgICAgICBzdW0oYSA9PSBpKQ0KICAgICAgICB9KQ0KICAgIH0NCiAgICBuYW1lcyhnZGkpIDwtIGFzLmNoYXJhY3RlcihsZXZscykNCiAgICBnZGkNCn0NCg0KIyBUaGUgZm9sbG93aW5nIGZ1bmN0aW9uIGlzIHRha2VuIGZyb20gdGhlIGhlbHAgcGFnZSBmb3Igc2llbmFUZXN0DQoNCnRlc3RhbGwgPC0gZnVuY3Rpb24oYW5zKSB7DQogICAgZm9yIChpIGluIHdoaWNoKGFucyR0ZXN0KSkgew0KICAgICAgICBzY3QgPC0gc2NvcmUuVGVzdChhbnMsIGkpDQogICAgICAgIGNhdChhbnMkcmVxdWVzdGVkRWZmZWN0cyRlZmZlY3ROYW1lW2ldLCAiXG4iKQ0KICAgICAgICBwcmludChzY3QpDQogICAgfQ0KICAgIGludmlzaWJsZShzY29yZS5UZXN0KGFucykpDQp9DQoNCmdvZmkwIDwtIHNpZW5hR09GKGFucywgSW5kZWdyZWVEaXN0cmlidXRpb24sIHZlcmJvc2UgPSBGQUxTRSwgam9pbiA9IFRSVUUsIHZhck5hbWUgPSAibmV0IikNCmdvZm8wIDwtIHNpZW5hR09GKGFucywgT3V0ZGVncmVlRGlzdHJpYnV0aW9uLCB2ZXJib3NlID0gRkFMU0UsIGpvaW4gPSBUUlVFLCB2YXJOYW1lID0gIm5ldCIpDQpnb2YwLmdkIDwtIHNpZW5hR09GKGFucywgR2VvZGVzaWNEaXN0cmlidXRpb24sIGN1bXVsYXRpdmUgPSBGQUxTRSwgdmVyYm9zZSA9IEZBTFNFLCBqb2luID0gVFJVRSwgdmFyTmFtZSA9ICJuZXQiKQ0KZ29mMC50YyA8LSBzaWVuYUdPRihhbnMsIFRyaWFkQ2Vuc3VzLCB2ZXJib3NlID0gRkFMU0UsIGpvaW4gPSBUUlVFLCB2YXJOYW1lID0gIm5ldCIpDQoNCg0KcGxvdChnb2ZpMCkNCg0KYGBgDQoNCg==</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("lab3.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
