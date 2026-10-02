@@ -281,7 +281,7 @@ myeff <- includeEffects(myeff,
                         inPop, 
                         outAct, 
                         inAct, 
-                        transTrip)  # we know that quite a lot of staff has not published with someone else
+                        transTrip)  
 
 myeff <- includeEffects(myeff, sameX, egoX, altX, interaction1 = "gender")
 

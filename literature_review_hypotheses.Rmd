@@ -33,3 +33,6 @@ Based on manuscript and textual evidence, scholars have reconstructed the collec
 - Zwinggi: Augustine preached a coherent series during an Easter Octave in Hippo (se-119, se-240, se-241, se-242, se-243, se-251, se-147, se-148, and se-260) <br>
 - Partoens: se-107 and maybe se-73, se-85, se-92, and se-94 are textual independent of Lapsu Mundi, evident by Brussel KB 14920-22 (Coll. Bruxelles) and Vat. lat. 471. <br>
 - Partoens?: The Alleluia collection consists of three subcollections preached on Spring, Easter, and a mixed form on the latter Verbraken identifies a six additional sermons in between the mixed version. <br>
+
+
+### Data model:

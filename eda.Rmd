@@ -11,7 +11,7 @@ The manuscripts with unknown dates or unknown "waves" are removed from the datas
 
 The data is undirected. Because the directed data assumes that the compiler was only able to choice (agency) a succession of sermons, se1 -> se2 -> se3, but he/she compiles [se1, se2, se3] with knowledge of all three sermons. 
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warning=F}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readxl)
@@ -235,9 +235,47 @@ for (c in cens_late){
 The structure of the networks change over the centuries. In the graph, the centuries after the 12th century display stronger clustering. This can be tested with a global transitivity score, which can be seen in the next plot. 
 
 ```{r clustering over centuries}
-df_results
+df_results |> 
+  filter(Century %in% seq(8, 15)) |> 
+  ggplot(aes(Century, Transitivity)) +
+  geom_col() +
+  theme_minimal() +
+  labs(title = "Clustering coefficient per century", 
+       x = "Century", 
+       y = "Clustering coefficient")
 
 ```
+### 
 
+```{r degree probability, warning=F}
+sf_se_analysis <- sf_se_data |> 
+  filter(century %in% seq(8, 15))
+
+sf_se_analysis |> 
+  filter(n_ses < 100) |> 
+  ggplot(aes(x = n_ses, fill=as.character(century))) +
+  geom_histogram(binwidth = 1) +
+  theme_minimal() +
+  scale_y_log10() +
+  facet_wrap(vars(century))
+
+
+for (c in unique(sf_se_analysis$century)){
+  df <- sf_se_analysis |> 
+    filter(century == c)
+
+  tibble(Degree = 1:max(df$n_ses), Count = tabulate(df$n_ses))
+  
+  degree_dist = tibble(Degree = 1:max(df$n_ses), Count = tabulate(df$n_ses))
+  
+  degree_dist = degree_dist %>% mutate(Density = Count / sum(Count)) %>% filter(Density > 0)
+  
+  model = lm(log(Density) ~ log(Degree), data = degree_dist)
+  print("Century:", str(c))
+  print(coef(model))
+
+}
+
+```
 ### Type of Collection per century
 -> TODO: preek matrix | per century | kleurtjes per subcollectie | Freq Ms 
