@@ -49,6 +49,11 @@ Hypo3: Liturgical occasion (PASSIM)
 3. ‘Mixed part’ is at least partially reflected in Possidius
 
 
+## Binary observed model
+
+The idea is to create a binary model, based on 95% IC outside random model. The distribution of sermons frequence, manuscript length per century. 
+
+
 
 ```{r setup, include=FALSE, warning=F, echo=F}
 knitr::opts_chunk$set(echo = TRUE)
@@ -75,7 +80,7 @@ py_config()
 py_available(initialize = TRUE)
 
 # install packages
-py_require(c("pandas", "openpyxl"))
+py_require(c("pandas", "openpyxl", "tqdm"))
 
 ```
 
@@ -88,6 +93,9 @@ The sermons dont have agency by themselves by compilers chose to copy sermons in
 
 ```{python edgelist and nodes creation functions}
 import pandas as pd
+import random
+from tqdm import tqdm
+
 # create edgelist per manuscript undirected
 def undirected_se_se (se_list:list, ms:str, century:int|str = None) -> list[list]:
     sub_se_se_l = []
@@ -107,6 +115,43 @@ def directed_se_se (se_list:list, ms:str, century:int|str = None) -> list[list]:
         se2 = se_list[i+1]
         sub_se_se_l.append((se1, se2, ms, century, 'directed'))
     return sub_se_se_l
+  
+  
+def swap_sermon_between_mss (ms_se_l: list[tuple]) -> list[tuple]:
+  idx = range(len(ms_se_l))
+  # pick random two ms-se edges
+  i1, i2 = random.sample(idx, 2)
+  # swap sermon between mss
+  ms_se_l[i1][1], ms_se_l[i2][1] = ms_se_l[i2][1], ms_se_l[i1][1]
+  
+  return ms_se_l
+  
+
+# create ms-se edgelist, undirected, without differentation of century
+def create_random_se_se (sub_df: pd.DataFrame, randomise_perc:float=0.2) -> list[tuple]:
+
+  ms_se_list = []
+  for ms, ses_str in zip(sub_df['shelfmark'], sub_df['certain']):
+    if isinstance(ses_str, str):
+        ses = [se for se in ses_str.split(', ') if se and isinstance(se, str)]
+
+        for se in ses:
+          ms_se_list.append((ms, se))
+
+
+  for i in tdqm(range(len(ms_se_list) * randomise_perc)):
+    ms_se_list = swap_sermon_between_mss(ms_se_l=ms_se_list)
+
+  # make se-se network
+  se_se_randomised = []
+  for ms1, se1 in ms_se_list:
+    for ms2, se2 in ms_se_list:
+      if se1 > se2 and ms1 == ms2:
+        se_se_randomised.append((se1, se2))
+
+  return se_se_randomised
+    
+    
 
 # create se-se edgelist with century, directed, manuscript attributes
 def se_se_nx_df (ms_se_df: pd.DataFrame, directed:bool=False)-> pd.DataFrame:

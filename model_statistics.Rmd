@@ -1,0 +1,80 @@
+---
+title: "model_definition"
+author: "Celis Tittse"
+date: "2026-10-02"
+output: html_document
+---
+
+# Model definition
+
+### Sermon
+
+A sermon is a text found in a manuscript. A excerpted (shortened) sermon is summarised as the full sermon, because not every sermon is correctly annotated as excerpted.
+
+### Manuscript
+
+- A manuscript is a set of authentic Augustinian sermons [se1, se2, se3 etc.], where all the inserted other sermons are invisible.
+
+- A manuscript is the product of deliberate selection of existing sermons, because we see these sermons in earlier manuscripts and it takes time to write it down.
+
+- A manuscript in this analysis is a observation of an co-occurrence of a set of sermons.
+
+- A manuscript is created in one century and the mss with more or unknown centuries (n=11) are omitted.
+
+### Edge
+
+- An edge is created when two sermons co-occur in the same manuscript.
+
+- The nodes are fully connected over all sermons in the same manuscript. N = (n - 1)\*n / 2
+
+- The network is weighted by the sum of mss were the ego and alter co-occur
+
+### Transformation to binary network
+
+- Every century a new network is created to analysis the network dynamics
+
+- A null model is created to analyse which sermons have connections that can also be expected from random change. In other words, two sermons are connected when they occur together in a manuscript more often than expected under a null model.
+
+  - The null model preserves the manuscript size structure by swopping sermons between manuscripts before it is made into a network.
+
+### Robustness check
+
+- The uncertainty number per sermon is calculated per century.
+
+  - Per century, check manuscripts with double literature and count the number of disputed sermons (certain - uncertain).
+
+  - Randomly remove sermons in that rate in manuscripts without double literature.
+
+  - Randomly remove [0, 0.2, 0.5, and 0.9] manuscripts.
+
+  - Perform above mentioned null-model for final binary wave dataset.
+
+## Statistics based on research question
+
+- RQ1: Are two sermons that are connected on t0 more likely to be also connected on t1?
+
+  - Stat: lagged tie persistance. It works on dyad level: tie survival, tie formation. Or Jaccard simiarity for outgoing ties effect (p. 138, statistic 16) or maintenance (endowment for creation) (31. p. 192)
+
+- RQ2: Does sermons homophily on sermon level similarity contribute to forming or presistence of edges? (for features see: data_wrangling)
+
+  - Stat: covariate effect (egoPlusAltX) (3. p. 167) or sameX (106. p. 155)
+
+  - covariate-related similarity (simX, 96. p. 154) for LDA because similarity in latent space.
+
+- RQ3: Do proposed collection and subcollection membership predict non-random co-occurance?
+
+  - Stat: also same covariate =\> sameX (106. p. 155)
+
+Potential:
+
+- density effect (out-degree sum) -\> distribution of popularity of sermons
+
+- cycle3 (hoeveel 3 circles zijn er) or number of dense triads -\> proxy for clusterings co-officient
+
+- degree activity plus popularity effect (31. p. 166)
+
+- Number of ministeps
+
+Vragen:
+
+- En als ik heel veel subcollecties heb, maar ik ben alleen benieuwd naar een paar hoe werkt dat en kan ik ze differentieren? Variable als Same VDA - VDA (1) vertaald als "same collection"

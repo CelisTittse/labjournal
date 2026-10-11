@@ -660,7 +660,8 @@ knitr::kable(df_results)</code></pre>
          subtitle = &quot;Centain sermons with an attributed century&quot;) +
     scale_y_log10() +
     theme_minimal()</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula = &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and
+## formula = &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
 <p><img src="eda_files/figure-html/EDA%20undirected-1.png" alt="" width="672" /></p>
 <pre class="r"><code>se_edge |&gt; 
   distinct(century, manuscript) |&gt; 

@@ -16,6 +16,8 @@ navbar:
         href: intro.html
       - text: "Literature Review"
         href: literature_review_hypotheses.html
+      - text: "Model Definition"
+        href: "model_statistics.Rmd"
       - text: "Data"
         href: data_wrangling.html
       - text: "Exploratory EDA"
