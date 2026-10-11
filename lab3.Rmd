@@ -266,7 +266,7 @@ gender <- coCovar(gender)
 mydata <- sienaDataCreate(net, gender)
 
 # create effects structure
-myeff <- getEffects(mydata)
+myeff_colls <- getEffects(mydata)
 # effectsDocumentation(myeff)
 
 ifelse(!dir.exists("results"), dir.create("results"), FALSE)
@@ -277,13 +277,13 @@ print01Report(mydata, modelname = "./results/soc_init")
 
 ```{r model}
 myeff <- includeEffects(myeff, 
-                        isolateNet, 
+                        cycle3, # clusterings cooficient
                         inPop, 
                         outAct, 
                         inAct, 
                         transTrip)  
 
-myeff <- includeEffects(myeff, sameX, egoX, altX, interaction1 = "gender")
+myeff <- includeEffects(myeff, sameX, interaction1 = "gender")
 
 ```
 
@@ -329,8 +329,11 @@ testall <- function(ans) {
 }
 
 gofi0 <- sienaGOF(ans, IndegreeDistribution, verbose = FALSE, join = TRUE, varName = "net")
+
 gofo0 <- sienaGOF(ans, OutdegreeDistribution, verbose = FALSE, join = TRUE, varName = "net")
+
 gof0.gd <- sienaGOF(ans, GeodesicDistribution, cumulative = FALSE, verbose = FALSE, join = TRUE, varName = "net")
+
 gof0.tc <- sienaGOF(ans, TriadCensus, verbose = FALSE, join = TRUE, varName = "net")
 
 

@@ -406,11 +406,12 @@ div.tocify {
 ## 
 ## [[3]]
 ## NULL</code></pre>
-<pre><code>## Warning: `install_github()` was deprecated in devtools 2.5.0.
+<pre><code>## Warning: `install_github()` was deprecated in devtools
+## 2.5.0.
 ## ℹ Please use pak::pak(&quot;user/repo&quot;) instead.
 ## This warning is displayed once per session.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.</code></pre>
+## Call `lifecycle::last_lifecycle_warnings()` to
+## see where this warning was generated.</code></pre>
 <pre><code>## Using GitHub PAT from the git credential store.</code></pre>
 <pre><code>## Skipping install of &#39;RsienaTwoStep&#39; from a github remote, the SHA1 (8071f56c) has not changed since last install.
 ##   Use `force = TRUE` to force installation</code></pre>
@@ -3859,24 +3860,24 @@ toevoegen als model</h3>
 ##                                                Error      t-ratio   
 ## 
 ## Rate parameters: 
-##   0        Rate parameter          4.0941  ( 1.0368   )             
+##   0        Rate parameter          4.0050  ( 0.9612   )             
 ## 
 ## Other parameters: 
-##    1. eval outdegree (density)    -2.4916  ( 0.8579   )   -0.0197   
-##    2. eval reciprocity             2.3693  ( 0.5933   )   -0.0236   
-##    3. eval transitive triplets     0.7605  ( 0.4036   )    0.0030   
-##    4. eval indegree - popularity   0.2241  ( 0.0591   )    0.0437   
-##    5. eval outdegree - activity    0.0204  ( 0.1139   )   -0.0188   
-##    6. eval indegree - activity(1) -0.4172  ( 0.2736   )   -0.0224   
-##    7. eval network-isolate         2.4424  ( 1.4907   )    0.0137   
-##    8. eval gender alter           -0.4179  ( 0.3277   )   -0.0337   
-##    9. eval gender ego              0.1511  ( 0.3481   )   -0.0006   
-##   10. eval same gender             0.1463  ( 0.2753   )   -0.0039   
+##    1. eval outdegree (density)    -2.4507  ( 0.8019   )    0.0365   
+##    2. eval reciprocity             2.3120  ( 0.6098   )   -0.0668   
+##    3. eval transitive triplets     0.7719  ( 0.3556   )    0.0187   
+##    4. eval indegree - popularity   0.2211  ( 0.0617   )    0.0582   
+##    5. eval outdegree - activity    0.0141  ( 0.1065   )    0.0188   
+##    6. eval indegree - activity(1) -0.4022  ( 0.3002   )    0.0018   
+##    7. eval network-isolate         2.4342  ( 1.4679   )   -0.0587   
+##    8. eval gender alter           -0.3916  ( 0.2970   )    0.0270   
+##    9. eval gender ego              0.1512  ( 0.3675   )    0.0121   
+##   10. eval same gender             0.1473  ( 0.3025   )    0.0031   
 ## 
-## Overall maximum convergence ratio:    0.1257 
+## Overall maximum convergence ratio:    0.1642 
 ## 
 ## 
-## Total of 2557 iteration steps.</code></pre>
+## Total of 2578 iteration steps.</code></pre>
 <pre class="r"><code># (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
 # further
 (ans &lt;- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans, returnDeps = TRUE))</code></pre>
@@ -3886,24 +3887,24 @@ toevoegen als model</h3>
 ##                                                Error      t-ratio   
 ## 
 ## Rate parameters: 
-##   0        Rate parameter          4.1074  ( 0.9294   )             
+##   0        Rate parameter          4.0471  ( 0.9854   )             
 ## 
 ## Other parameters: 
-##    1. eval outdegree (density)    -2.4349  ( 0.8184   )   -0.0536   
-##    2. eval reciprocity             2.3861  ( 0.5930   )    0.0251   
-##    3. eval transitive triplets     0.8242  ( 0.3999   )   -0.0021   
-##    4. eval indegree - popularity   0.2195  ( 0.0536   )   -0.0559   
-##    5. eval outdegree - activity    0.0137  ( 0.1069   )   -0.0133   
-##    6. eval indegree - activity(1) -0.4520  ( 0.3160   )   -0.0434   
-##    7. eval network-isolate         2.4867  ( 1.3078   )    0.0507   
-##    8. eval gender alter           -0.4117  ( 0.2957   )    0.0427   
-##    9. eval gender ego              0.1452  ( 0.3715   )   -0.0162   
-##   10. eval same gender             0.1626  ( 0.2874   )   -0.0315   
+##    1. eval outdegree (density)    -2.4680  ( 0.7383   )   -0.0026   
+##    2. eval reciprocity             2.3510  ( 0.6075   )   -0.0383   
+##    3. eval transitive triplets     0.7870  ( 0.3653   )   -0.0426   
+##    4. eval indegree - popularity   0.2194  ( 0.0611   )   -0.0143   
+##    5. eval outdegree - activity    0.0181  ( 0.0959   )   -0.0117   
+##    6. eval indegree - activity(1) -0.4222  ( 0.2574   )   -0.0584   
+##    7. eval network-isolate         2.4088  ( 1.4766   )   -0.1127   
+##    8. eval gender alter           -0.4047  ( 0.2929   )   -0.0492   
+##    9. eval gender ego              0.1489  ( 0.3665   )   -0.0434   
+##   10. eval same gender             0.1504  ( 0.2672   )   -0.0279   
 ## 
-## Overall maximum convergence ratio:    0.1435 
+## Overall maximum convergence ratio:    0.2001 
 ## 
 ## 
-## Total of 2770 iteration steps.</code></pre>
+## Total of 2710 iteration steps.</code></pre>
 <pre class="r"><code>ans</code></pre>
 <pre><code>## Estimates, standard errors and convergence t-ratios
 ## 
@@ -3911,24 +3912,24 @@ toevoegen als model</h3>
 ##                                                Error      t-ratio   
 ## 
 ## Rate parameters: 
-##   0        Rate parameter          4.1074  ( 0.9294   )             
+##   0        Rate parameter          4.0471  ( 0.9854   )             
 ## 
 ## Other parameters: 
-##    1. eval outdegree (density)    -2.4349  ( 0.8184   )   -0.0536   
-##    2. eval reciprocity             2.3861  ( 0.5930   )    0.0251   
-##    3. eval transitive triplets     0.8242  ( 0.3999   )   -0.0021   
-##    4. eval indegree - popularity   0.2195  ( 0.0536   )   -0.0559   
-##    5. eval outdegree - activity    0.0137  ( 0.1069   )   -0.0133   
-##    6. eval indegree - activity(1) -0.4520  ( 0.3160   )   -0.0434   
-##    7. eval network-isolate         2.4867  ( 1.3078   )    0.0507   
-##    8. eval gender alter           -0.4117  ( 0.2957   )    0.0427   
-##    9. eval gender ego              0.1452  ( 0.3715   )   -0.0162   
-##   10. eval same gender             0.1626  ( 0.2874   )   -0.0315   
+##    1. eval outdegree (density)    -2.4680  ( 0.7383   )   -0.0026   
+##    2. eval reciprocity             2.3510  ( 0.6075   )   -0.0383   
+##    3. eval transitive triplets     0.7870  ( 0.3653   )   -0.0426   
+##    4. eval indegree - popularity   0.2194  ( 0.0611   )   -0.0143   
+##    5. eval outdegree - activity    0.0181  ( 0.0959   )   -0.0117   
+##    6. eval indegree - activity(1) -0.4222  ( 0.2574   )   -0.0584   
+##    7. eval network-isolate         2.4088  ( 1.4766   )   -0.1127   
+##    8. eval gender alter           -0.4047  ( 0.2929   )   -0.0492   
+##    9. eval gender ego              0.1489  ( 0.3665   )   -0.0434   
+##   10. eval same gender             0.1504  ( 0.2672   )   -0.0279   
 ## 
-## Overall maximum convergence ratio:    0.1435 
+## Overall maximum convergence ratio:    0.2001 
 ## 
 ## 
-## Total of 2770 iteration steps.</code></pre>
+## Total of 2710 iteration steps.</code></pre>
 <pre class="r"><code>GeodesicDistribution &lt;- function(i, data, sims, period, groupName, varName, levls = c(1:5, Inf), cumulative = TRUE,
     ...) {
     x &lt;- networkExtraction(i, data, sims, period, groupName, varName)

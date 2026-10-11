@@ -1,0 +1,553 @@
+---
+title: "binary_model"
+author: "Celis Tittse"
+date: "2026-10-05"
+output: html_document
+---
+
+# Binary observed model
+
+We're going to work with threshold.
+
+```{r setup, include=FALSE, warning=F, echo=F}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(igraph)
+
+# check if packages are available
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+
+packages = c("RSiena", "devtools", "igraph")
+fpackage.check(packages)
+
+set.seed(24553253)
+
+```
+
+```{r load nodes edges, warning=F, echo=F}
+root_data_path = "./data/data_deriv/"
+
+load_adj_matrix <- function(file_name) {
+  df <- read_csv(paste0(root_data_path, file_name), show_col_types = FALSE)
+  
+  nodes <- df[[1]]
+  mx <- as.matrix(df[, -1])
+  
+  rownames(mx) <- nodes
+  colnames(mx) <- colnames(df)[-1]
+  
+  return(mx)
+}
+
+# ======= WAVES ADJUNCTION MATRICES ==========
+# 9TH TO 12TH CENTURY
+se_adj_9_f = "se_se_filta5%_c9_adj_061026.csv"
+se_adj_10_f = "se_se_filta5%_c10_adj_061026.csv"
+se_adj_11_f = "se_se_filta5%_c11_adj_061026.csv"
+se_adj_12_f = "se_se_filta5%_c12_adj_061026.csv"
+
+se_adj_9 <- load_adj_matrix(se_adj_9_f)
+se_adj_10 <- load_adj_matrix(se_adj_10_f)
+se_adj_11 <- load_adj_matrix(se_adj_11_f)
+se_adj_12 <- load_adj_matrix(se_adj_12_f)
+
+se_node_path = "se_nodes_colls_080926.xlsx"
+# some nodes has duplicates and they are collapsed if one has 1 than 1 else 0 to be investigated
+se_nodes <- read_excel(paste0(root_data_path, se_node_path)) |> 
+  group_by(Id) |> 
+  summarise(
+    across(everything(), \(x) max(x, na.rm = TRUE)),
+    .groups = "drop"
+  )
+
+# make raw data century -> int
+sf_se_data <- raw_se_data |>
+  mutate(century = as.integer(century),
+         n_ses = str_count(certain, " ") + 1) |> 
+  drop_na()
+
+coll_ref_df <- read_excel('./data/data_raw/collections.xlsx', sheet="coll_cato")
+
+```
+
+### Synchronise the nodes
+
+The nodes are sometimes with zero degree, if they didn't have any edges that could not be explained by random chance (alpha=0.05)
+
+```{r plot}
+# from matrix to igraph
+g9 <- graph_from_adjacency_matrix(se_adj_9, mode = "max", diag = F)
+g10 <- graph_from_adjacency_matrix(se_adj_10, mode = "max", diag = F)
+g11 <- graph_from_adjacency_matrix(se_adj_11, mode = "max", diag = F)
+g12 <- graph_from_adjacency_matrix(se_adj_12, mode = "max", diag = F)
+
+# remove unused 
+g9_cleaned <- delete_vertices(g9, V(g9)[degree(g9) == 0])
+g10_cleaned <- delete_vertices(g10, V(g10)[degree(g10) == 0])
+g11_cleaned <- delete_vertices(g11, V(g11)[degree(g11) == 0])
+g12_cleaned <- delete_vertices(g12, V(g12)[degree(g12) == 0])
+
+plot_graph <- function (g){
+  # layout
+  layout <- layout_with_mds(g, dist = NULL, dim = 2)
+  
+  V(g)$size <- 150
+  
+    # plot century
+  p1 <- plot(g,
+    vertex.label = NA,
+    layout=layout,
+    rescale=F,
+    main=paste0("n nodes = ", length(V(g)))
+)
+  p1
+}
+
+par(mfrow=c(2, 2), mar= c(1,1,1,1))
+
+for (g_i in list(g9_cleaned, g10_cleaned, g11_cleaned, g12_cleaned)){
+  plot_graph(g_i)
+}
+
+```
+
+```{r node sync}
+mats <- list(
+  se_adj_9,
+  se_adj_10,
+  se_adj_11,
+  se_adj_12
+)
+
+
+# drop nodes with no edges
+ses_lists <- lapply(mats, function(m) {
+  keep <- rowSums(m != 0) > 0 | colSums(m != 0) > 0
+  m[keep, keep, drop = T]
+  return (colnames(m))
+})
+
+# all sermons
+all_node_sermons <- unique(unlist(ses_lists))
+
+# filter on relevant nodes
+df <- se_nodes |> 
+  filter(Id %in% all_node_sermons)
+
+# sermons with ties that lack a row in se_nodes
+setdiff(all_node_sermons, se_nodes$Id)
+
+# pad a matrix to the full set of ids, filling gaps with 0
+pad_matrix = function(m, ids) {
+  out = matrix(0, nrow = length(ids), ncol = length(ids),
+               dimnames = list(ids, ids))
+  shared = intersect(ids, rownames(m))
+  out[shared, shared] = m[shared, shared]
+  out[is.na(out)] = 0
+  diag(out) = 0
+  out
+}
+
+mats_sync = lapply(mats, pad_matrix, ids = df$Id)
+
+# make matrix waves
+wave_9  <- mats_sync[[1]]
+wave_10 <- mats_sync[[2]]
+wave_11 <- mats_sync[[3]]
+wave_12 <- mats_sync[[4]]
+
+# uniform the waves with the node attibutions
+wave_9 <- wave_9[df$Id, df$Id, drop = FALSE]
+wave_10 <- wave_10[df$Id, df$Id, drop = FALSE]
+wave_11 <- wave_11[df$Id, df$Id, drop = FALSE]
+wave_12 <- wave_12[df$Id, df$Id, drop = FALSE]
+
+
+# print identical nodes to next wave
+identical(rownames(wave_9), rownames(wave_10))
+identical(rownames(wave_10), rownames(wave_11))
+identical(rownames(wave_11), rownames(wave_12))
+
+isSymmetric(wave_12)
+
+```
+
+```{r eda sync}
+# get n nodes (removed if degree = 0)
+century_count <- function (g_i, cent) {
+  n_unq_mss = length(unique(E(g_i)$manuscript))
+  
+  # voeg een weight toe
+  E(g_i)$weight = 1
+  
+  g_i <- simplify(g_i, edge.attr.comb = list(weight = "sum"))
+  
+  # normalise weight
+  E(g_i)$weight <- E(g_i)$weight / max(E(g_i)$weight)
+  avg_edges <- if(n_unq_mss > 0) ecount(g_i) / n_unq_mss else 0
+  
+  return(data.frame(
+    Century = cent,
+    Nodes = vcount(g_i),
+    Edges = ecount(g_i),
+    Degree = igraph::mean_degree(g_i),
+    Transitivity = igraph::transitivity(g_i, type = "global"),
+    Density = igraph::edge_density(g_i),
+    stringsAsFactors = FALSE
+  ))
+}
+
+centuries <- seq(9, 12)
+
+g9_sync <- graph_from_adjacency_matrix(wave_9, mode = "max", diag = F)
+g10_sync <- graph_from_adjacency_matrix(wave_10, mode = "max", diag = F) 
+g11_sync <- graph_from_adjacency_matrix(wave_11, mode = "max", diag = F) 
+g12_sync <- graph_from_adjacency_matrix(wave_12, mode = "max", diag = F)
+
+plot_graph(g12_sync)
+
+g_full <- list(g9_sync, g10_sync, g11_sync, g12_sync)
+
+df_results <- do.call(rbind, lapply(seq_along(g_full), function(i) {
+  century_count(g_i = g_full[[i]], cent = centuries[i])
+}))
+
+knitr::kable(df_results)
+
+
+
+```
+
+### EDA comparative
+
+When comparing the EDA of the weighted full network with the not-random network, a few things stick out on the three measurements: Degree, Transitivity, and Density. Degree, the number of degrees is far lower, which totally is expected when removing 95% of the edges that could also be attributed to random selection. Transitivity, the global transitivity or clustering coeffient is higher in the 10 and 11th century compared to the full graph. Furthermore, the decline we see in clustering in the full model is not translated into the non-random model. The 10th century shows three distinct clusters with a few isolated triplets and doubles, which result in a high potential for fully connected triplets. Density, the density is far lower than the fully connected model. This is to be expected for the same reason as lower degree.
+
+## Maintenance
+
+The question is if the number of connects remain the same ones formed. First have a look to what extent this happens.
+
+```{r maintance}
+waves = list(wave_9 = wave_9, wave_10 = wave_10, wave_11 = wave_11, wave_12 = wave_12)
+
+changes <- do.call(rbind, lapply(1:3, function(i){
+  a = waves[[i]]
+  b = waves[[i+1]]
+  
+  tri <- upper.tri(a)
+  data.frame(
+    period = paste(i, names(waves)[i], "-", names(waves)[i + 1]),
+    created    = sum(a[tri] == 0 & b[tri] == 1),
+    dissolved  = sum(a[tri] == 1 & b[tri] == 0),
+    maintained = sum(a[tri] == 1 & b[tri] == 1)
+  )
+}))
+
+print(changes)
+
+changes_long <- pivot_longer(changes, cols = c(maintained, created, dissolved),
+                    names_to = "change", values_to = "ties")
+
+ggplot(changes_long, aes(x = period, y = ties, fill = change)) +
+  geom_col() +
+  labs(x = NULL, y = "Number of ties", fill = NULL,
+       title = "Tie maintenance 9th - 12th century") +
+  theme_minimal() 
+
+```
+
+```{r collection edges, warning=F}
+pre_8C_colls = coll_ref_df |> 
+  mutate(century = as.integer(century)) |> 
+  filter(century < 13)
+         # !str_starts(collection, 'alleluia'))
+
+colls = intersect(pre_8C_colls$collection, names(se_nodes))
+
+# how many edges with both sermons in the collection
+count_edges = function(m, coll) {
+  ids = se_nodes$Id[which(se_nodes[[coll]] == 1)]
+  ids = intersect(ids, rownames(m))
+  sub = m[ids, ids, drop = FALSE]
+  sum(sub[upper.tri(sub)] == 1, na.rm = TRUE)
+}
+
+edge_df = expand.grid(collection = colls, wave = names(waves),
+                      stringsAsFactors = FALSE) |>
+  rowwise() |>
+  mutate(edges = count_edges(waves[[wave]], collection),
+         n_sermons = sum(se_nodes[[collection]] == 1, na.rm = TRUE)) |>
+  ungroup() |>
+  mutate(relative = edges / (n_sermons * (n_sermons - 1) / 2),
+         wave = factor(wave, levels = names(waves)),
+         collection = factor(collection, levels = rev(colls)))
+
+edge_df |> 
+  filter(n_sermons > 5) |> 
+  ggplot(aes(x = wave, y = collection, fill = relative)) +
+  geom_tile(colour = "white") +
+  geom_text(aes(label = sprintf("%.2f", relative)), size = 2) +
+  scale_fill_gradient(low = "white", high = "darkred") +
+  labs(x = NULL, y = NULL, fill = NULL,
+       title = "Edge density within each collection",
+       subtitle = "Collections up to the 12th century with more than 10 sermons") +
+  theme_minimal()
+```
+
+The results of this collection EDA are interesting. First of all, the relative number of more telling than the absolute number because VDA is a large collection with 100% non-random occurence in the dataset. What this tells us is the following. We have non-random edges for four centuries. The relative number shows us the observed edges divided by the total number of potential undirected edges given the number of sermons in a collection. observed sermons / (n \* n-1) / 2 \| n = number of sermons in collection.
+
+On the de Alleluia collections. The simplest difference is the prevelance of the mixed? against mixed, although this could also hint at other collections in which some of these extra sermons (ss 152 to 156) occur like VA_a, especially the combination s151 and se152 doesnt occur often, ss 153-156 more regular. Furthermore, Alleluia doesnt seem to be non-random in the sample, compared to others. In contract to Lapsu Mundi that used the Alleluia as source. That collection took off in the 12th century although created in the 11th century.
+
+However, we will retain them for comparison.
+
+As reference corpus, we will include a set of collections. The problem however is the overlap between multiple collections. For example, sessorienne and camp_napels share is signficant (\~5 sermons) with VD_b which make them indirectly important. Two collections stand out: quinquaginta, vda (split in va_b and vd_a), and scp because it is a big collection.
+
+```{r correcting for overlap with Alleluia }
+allel_colls = names(se_nodes)[str_starts(names(se_nodes), "alleluia")]
+other_colls = setdiff(colls, allel_colls)
+
+overlap_df = expand.grid(collection = other_colls, alleluia = allel_colls,
+                         stringsAsFactors = FALSE) |>
+  rowwise() |>
+  mutate(shared = sum(se_nodes[[collection]] == 1 & se_nodes[[alleluia]] == 1,
+                      na.rm = TRUE),
+         n_sermons = sum(se_nodes[[collection]] == 1, na.rm = TRUE),
+        share = shared / sum(se_nodes[[alleluia]] == 1, na.rm = TRUE)) |>
+  ungroup() |>
+  group_by(collection) |>
+  filter(sum(shared) > 0) |>  # filter on not common sermon with alleluia
+  ungroup() |>
+  mutate(alleluia = factor(alleluia, levels = allel_colls),
+         collection = factor(collection, levels = rev(other_colls)))
+
+overlap_df |> 
+  ggplot(aes(x = alleluia, y = collection, fill = share)) +
+  geom_tile(colour = "white") +
+  geom_text(aes(label = sprintf("%.2f", share)), size = 2) +
+  scale_fill_gradient(low = "white", high = "darkblue") +
+  labs(x = NULL, y = NULL, fill = NULL,
+       title = "Sermons shared between the alleluia collections and other collections",
+       subtitle = "Collections up to the 12th century") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+PERC_OVERLAP = 0.5
+
+allel_size = colSums(se_nodes[allel_colls] == 1, na.rm = TRUE)
+
+overlap_df |>
+  mutate(allel_n = allel_size[as.character(alleluia)],
+         share_of_alleluia = shared / allel_n,
+         share_of_collection = shared / n_sermons) |>
+  filter(share_of_alleluia > PERC_OVERLAP) |>
+  arrange(alleluia, desc(share_of_alleluia)) |>
+  select(alleluia, collection, shared, allel_n, n_sermons,
+         share_of_alleluia, share_of_collection) |>
+  knitr::kable(digits=2)
+
+```
+
+For the collections that share a huge number, we can see: - brux_allel, the portion of bruxelles that realise on Alleluia Spring (56% A-\>Br, and 36% Br-\>A) - SCP, large collection from the 12th century, that incorporated the easter Alleluia. - Gallicana U A easter = se {147, 191, 224, 242, 243, 251, 263} out of 22 sermons, Wolfenbuettel U A easter = se {147, 240, 241, 242, 243, 251} out of 73 sermons, I think Gallicana is the more interesting one, but maybe both - lapsu used alleluia spring.
+
+Maybe make decendents a different category. From the literature we know that bruxelles and lapsu are textually related to the alleluia collection.
+
+**Seperate independent variables:**
+
+- Alleluia, Alleluia spring, A easter, A mixed, and mixed?
+
+**Combined correction variables:**
+
+- Desendents
+
+  - Lapsu mundi
+
+  - Bruxelles-Alleluia
+
+- Overlap
+
+  - SCP
+
+  - De Verbis Apostoli (version A)
+
+  - Gallicana
+
+  - Wolfenbuettel? (doesnt really occur in the corpus)
+  
+# RSiena
+```{r siena object}
+# put the nets in an array
+net_soc_array <- array(data = c(wave_9, wave_10, wave_11, wave_12), dim = c(dim(wave_9), 4))
+
+print(dim(wave_9))
+
+# dependent
+net <- sienaDependent(net_soc_array, type = "oneMode")
+net
+
+```
+
+```{r model schatten}
+# make dummies of relv cols 
+dummy <- function(cols) coCovar(as.numeric(rowSums(df[cols] == 1, na.rm = TRUE) > 0), centered = FALSE)
+
+covars = c("allel", "allel_spr", "allel_eas", "allel_mix", "allel_mixq",
+           "descendant", "overlap")
+
+dummy_cols <- c("alleluia", "alleluia_spring", "alleluia_easter",
+               "alleluia_mixed", "alleluia_mixed?")
+
+mydata = sienaDataCreate(
+  net        = net,
+  allel_spr  = dummy("alleluia_spring"), # alleluia as a whole is not include because it overlaps
+  allel_eas  = dummy("alleluia_easter"),
+  allel_mix  = dummy("alleluia_mixed"),
+  allel_mixq = dummy("alleluia_mixed?"),
+  descendant = dummy(c("lapsu", "brux_allel")),
+  overlap    = dummy(c("scp", "va_a", "gallicana"))
+)
+
+myeff <- getEffects(mydata)
+
+myeff <- includeEffects(myeff, 
+                        gwesp, 
+                        inPop)
+for (v in covars) {
+  myeff = includeEffects(myeff, egoXaltX, egoPlusAltX, interaction1 = v)
+}
+
+myeff
+
+# maintaince of existing ties or "do two sermons signficantly reappear in next century"
+# however, the maintaince works sort of the same as density because almost no edges are removed (87) out of 7401 created and 4194 maintained. 
+```
+
+page 167: For non-directed networks there is only one degree assortativity effect, the degree assortativity
+effect which is the outdegree-indegree version18 still with short name outInAss. There is also
+only one GWESP effect, called simply gwesp. So GWESP added. 
+
+The algorithm shows an insignficant result on the subcollections of the A. However, the summed effect is significant (<0.001). The interpretation in my opinion is that the overlap between the collection with other collections interferes with the smaller collections. 
+
+```{r run model}
+myAlgorithm <- sienaAlgorithmCreate(projname = "alleluia_3")
+
+
+(ans <- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans, returnDeps = TRUE, 
+                useCluster = TRUE, nbrNodes = 4))
+
+summary(ans)
+
+
+```
+ convergence max = 0.25 nu op 0.21 dus close, maar prima (https://www.stats.ox.ac.uk/~snijders/siena/basic_RSiena.html)
+
+
+```{r goodness of fit}
+
+gofi0 <- sienaGOF(ans, IndegreeDistribution, verbose = FALSE, 
+                  join = TRUE, varName = "net")
+
+gofi0[[1]]
+
+gof0.tc <- sienaGOF(ans, TriadCensus, verbose = FALSE, join = TRUE, varName = "net")
+
+# de alleluia together 
+Multipar.RSiena(ans, c(4:11))
+
+
+plot(gofi0)
+plot(gof0.tc)
+
+tt = test_time(ans)
+
+summary(tt)
+
+```
+
+```{r model 2}
+mydata = sienaDataCreate(
+  net        = net,
+  allel_full  = dummy("alleluia"),
+  descendant = dummy(c("lapsu", "brux_allel")),
+  overlap    = dummy(c("scp", "va_a", "gallicana"))
+)
+
+myeff = getEffects(mydata)
+myeff = includeEffects(myeff, gwesp, inPop)
+
+covars = c("allel_full", "descendant", "overlap")
+
+for (v in covars) {
+  myeff = includeEffects(myeff, egoXaltX, egoPlusAltX, interaction1 = v)
+}
+
+print(myeff)
+
+ans2 = siena07(myAlgorithm, data = mydata, effects = myeff, returnDeps = TRUE,
+               useCluster = TRUE, nbrNodes = 4, prevAns = ans)
+
+summary(ans2)
+
+gof2.deg = sienaGOF(ans2, IndegreeDistribution, varName = "fit_degree", join = TRUE)
+
+plot(gof2.deg)
+
+
+```
+
+
+The triadcensus is well predicted, however, the degree distribution is far lower than expected. The p value of degree is good but i dont trust it. 
+
+A century by century analysis doesnt converge, with a error on phase 2. Furthermore, the model generally runs for two hours, making adjustments time consuming. 
+
+
+```{r model per century}
+# myalg = sienaAlgorithmCreate(projname = NULL, nsub = 3, n3 = 500, seed = 2026)
+# 
+# allel_cols = c("alleluia_spring", "alleluia_easter",
+#                "alleluia_mixed", "alleluia_mixed?")
+# 
+# dummy_rows = function(cols, keep) {
+#   coCovar(as.numeric(rowSums(df[keep, cols, drop = FALSE] == 1, na.rm = TRUE) > 0))
+# }
+# 
+# fit_period = function(w1, w2, prev = NULL, drop_isolates = FALSE, n_cores = 12, return_deps = FALSE) {
+#   keep = rep(TRUE, nrow(w1))
+#   if (drop_isolates) keep = (rowSums(w1) + rowSums(w2)) > 0
+#   w1 = w1[keep, keep]
+#   w2 = w2[keep, keep]
+# 
+#   d = sienaDataCreate(
+#     net        = sienaDependent(array(c(w1, w2), dim = c(dim(w1), 2))),
+#     allel_full = dummy_rows(allel_cols, keep),
+#     descendant = dummy_rows(c("lapsu", "brux_allel"), keep),
+#     overlap    = dummy_rows(c("scp", "va_a", "gallicana"), keep)
+#   )
+#   e = getEffects(d)
+#   e = includeEffects(e, transTriads)
+#   for (v in c("allel_full", "descendant", "overlap")) {
+#     e = includeEffects(e, egoXaltX, egoPlusAltX, interaction1 = v)
+#   }
+#   siena07(myalg, data = d, effects = e, prevAns = prev,
+#           returnDeps = return_deps, batch = TRUE, silent = F,
+#           useCluster = TRUE, nbrNodes = n_cores)
+# }
+# 
+# ans_p1 = fit_period(wave_9, wave_10)
+# ans_p2 = fit_period(wave_10, wave_11, prev = ans_p1)
+# ans_p3 = fit_period(wave_11, wave_12, prev = ans_p2, return_deps=TRUE)
+# 
+# gof3.deg = sienaGOF(ans_p3, IndegreeDistribution, varName = "fit_degree", join = TRUE)
+# 
+# plot(gof3.deg)
+
+```
+The model doesn't converge between century 9 and 10. 

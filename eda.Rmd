@@ -113,7 +113,7 @@ vcount(g)
 # number of edges
 ecount(g)
 
-centuries <- unique(E(g)$century)
+centuries <- seq(9, 12)
 
 df_results <- do.call(rbind, lapply(centuries, function(c) {
   century_count(g_full = g, cent = c)
@@ -164,18 +164,15 @@ plot_alleluia_century <- function(g_full, cent, delete_non_nodes) {
   )
   
   # maak kleuren
-  colour_collection <- ifelse(
-    (V(G1)$lapsu == 1) & (cent >= 11), 
-            "purple", 
-    ifelse(V(G1)$alleluia == 1,
-        "blue",
+  colour_collection <- (
+    ifelse((V(G1)$lapsu == 1) & (cent >= 11), "purple", 
+    ifelse(V(G1)$alleluia == 1, "blue",
     ifelse(V(G1)$vda == 1, "yellow",
-    ifelse(V(G1)$quinquaginta == 1,
-           "orange",
-    ifelse((V(G1)$scp == 1) & (cent >= 12),
-           "darkgreen",
+    ifelse(V(G1)$quinquaginta == 1, "orange",
+    ifelse((V(G1)$scp == 1) & (cent >= 12), "darkgreen",
                   "lightgrey"
-                )))))
+                ))))))
+  
   
   # layout
   layout <- layout_with_mds(G1, dist = NULL, dim = 2)
@@ -210,26 +207,16 @@ for (c in cents_early){
   title(main = paste("Century:", c))
 }
 
-par(mfrow = c(2, 2), mar= c(1,1,1,1))
-
-for (c in cens_late){
-  plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
-  title(main = paste("Century:", c))
-}
+# par(mfrow = c(2, 2), mar= c(1,1,1,1))
+# 
+# for (c in cens_late){
+#   plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
+#   title(main = paste("Century:", c))
+# }
 
 
 # to do:
-# misschien geen ties
-# alpha = 0.5
-# belangrijke collecties toevoegen
-# alleluia andere vorm
-# plaatje plotten
-# betweenness centrality
-
-# standaard -> legend apart, nu niet. 
-
-# global clustering coefficent ~ century
-
+# opslaan met .png en weer inladen. 
 ```
 ### Clustering coefitient
 The structure of the networks change over the centuries. In the graph, the centuries after the 12th century display stronger clustering. This can be tested with a global transitivity score, which can be seen in the next plot. 

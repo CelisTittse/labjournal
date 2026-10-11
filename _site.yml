@@ -16,10 +16,18 @@ navbar:
         href: intro.html
       - text: "Literature Review"
         href: literature_review_hypotheses.html
+      - text: "Model Definition"
+        href: "model_statistics.Rmd"
       - text: "Data"
         href: data_wrangling.html
       - text: "Exploratory EDA"
         href: eda.html
+      - text: "Model High Middle Ages Collections"
+        href: rsiena_model.html
+      - text: "Model results"
+        href: alleluia.txt
+      - text: "Model Effects"
+        href: myeff.html
 
   right:
   - icon: fab fa-github
