@@ -1,0 +1,361 @@
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 11/10/2026 21:52:34
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 162269.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 11/10/2026 21:53:15
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 968518.
+Effects object used: myeff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance :  2678 178610512.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7483315.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         9.7212
+  0.2  Rate parameter                         6.4834
+  0.3  Rate parameter                        38.1566
+  1. eval:  degree (density)                               -0.0276
+  2. eval:  GWESP (69)                                      0.0000
+  3. eval:  degree of alter                                 0.0000
+  4. eval:  allel_spr ego and alt                           0.0000
+  5. eval:  allel_spr ego x allel_spr alter                 0.0000
+  6. eval:  allel_eas ego and alt                           0.0000
+  7. eval:  allel_eas ego x allel_eas alter                 0.0000
+  8. eval:  allel_mix ego and alt                           0.0000
+  9. eval:  allel_mix ego x allel_mix alter                 0.0000
+ 10. eval:  allel_mixq ego and alt                          0.0000
+ 11. eval:  allel_mixq ego x allel_mixq alter               0.0000
+ 12. eval:  descendant ego and alt                          0.0000
+ 13. eval:  descendant ego x descendant alter               0.0000
+ 14. eval:  overlap ego and alt                             0.0000
+ 15. eval:  overlap ego x overlap alter                     0.0000
+
+
+Values of target statistics are
+  1. Number of edges                                                   11595.0000
+  2. Numb. edgew. shrd prtns.(69)                                      45841.7419
+  3. Sum of squared degrees                                            1254152.0000
+  4. 2 * sum degr. x allel_spr                                          292.0000
+  5. allel_spr ego x allel_spr alter                                     22.0000
+  6. 2 * sum degr. x allel_eas                                          738.0000
+  7. allel_eas ego x allel_eas alter                                     78.0000
+  8. 2 * sum degr. x allel_mix                                          266.0000
+  9. allel_mix ego x allel_mix alter                                      2.0000
+ 10. 2 * sum degr. x allel_mixq                                        1164.0000
+ 11. allel_mixq ego x allel_mixq alter                                   28.0000
+ 12. 2 * sum degr. x descendant                                        1896.0000
+ 13. descendant ego x descendant alter                                  612.0000
+ 14. 2 * sum degr. x overlap                                           21384.0000
+ 15. overlap ego x overlap alter                                       7954.0000
+These were calculated from the data.
+
+ 15 parameters, 15 statistics
+
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 11/10/2026 23:21:55
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 623144.
+Effects object used: myeff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance :  2678 178610512.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         9.7212
+  0.2  Rate parameter                         6.4834
+  0.3  Rate parameter                        38.1566
+  1. eval:  degree (density)                               -0.0276
+  2. eval:  GWESP (69)                                      0.0000
+  3. eval:  degree of alter                                 0.0000
+  4. eval:  allel_spr ego and alt                           0.0000
+  5. eval:  allel_spr ego x allel_spr alter                 0.0000
+  6. eval:  allel_eas ego and alt                           0.0000
+  7. eval:  allel_eas ego x allel_eas alter                 0.0000
+  8. eval:  allel_mix ego and alt                           0.0000
+  9. eval:  allel_mix ego x allel_mix alter                 0.0000
+ 10. eval:  allel_mixq ego and alt                          0.0000
+ 11. eval:  allel_mixq ego x allel_mixq alter               0.0000
+ 12. eval:  descendant ego and alt                          0.0000
+ 13. eval:  descendant ego x descendant alter               0.0000
+ 14. eval:  overlap ego and alt                             0.0000
+ 15. eval:  overlap ego x overlap alter                     0.0000
+
+
+Values of target statistics are
+  1. Number of edges                                                   11595.0000
+  2. Numb. edgew. shrd prtns.(69)                                      45841.7419
+  3. Sum of squared degrees                                            1254152.0000
+  4. 2 * sum degr. x allel_spr                                          292.0000
+  5. allel_spr ego x allel_spr alter                                     22.0000
+  6. 2 * sum degr. x allel_eas                                          738.0000
+  7. allel_eas ego x allel_eas alter                                     78.0000
+  8. 2 * sum degr. x allel_mix                                          266.0000
+  9. allel_mix ego x allel_mix alter                                      2.0000
+ 10. 2 * sum degr. x allel_mixq                                        1164.0000
+ 11. allel_mixq ego x allel_mixq alter                                   28.0000
+ 12. 2 * sum degr. x descendant                                        1896.0000
+ 13. descendant ego x descendant alter                                  612.0000
+ 14. 2 * sum degr. x overlap                                           21384.0000
+ 15. overlap ego x overlap alter                                       7954.0000
+These were calculated from the data.
+
+ 15 parameters, 15 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 3266 iterations.
+Parameter estimates based on 2266 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -2.9300    31.2410  -0.0938 
+  2. -84.6541   133.5131  -0.6341 
+  3. 337.9600 18464.9887   0.0183 
+  4.  -4.7100    58.6864  -0.0803 
+  5.  -0.7080     6.2471  -0.1133 
+  6.  -8.2500    83.5215  -0.0988 
+  7.   0.1420    15.4448   0.0092 
+  8.  -2.6900    42.8359  -0.0628 
+  9.  -0.2120     2.1222  -0.0999 
+ 10.  -2.4680    61.5035  -0.0401 
+ 11.  -0.4100     2.7165  -0.1509 
+ 12. -12.5920   209.1663  -0.0602 
+ 13. -14.4480    96.3525  -0.1499 
+ 14. -37.3540   453.7661  -0.0823 
+ 15. -23.0860   279.9617  -0.0825 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  1.9697 .
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 3266 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     9.2352  (   0.4307)
+ 0.2  Rate parameter period 2     5.9184  (   0.3049)
+ 0.3  Rate parameter period 3    23.6977  (   0.8230)
+
+Other parameters:
+ 1. eval:  degree (density)                                       -7.1104  (   0.2101)
+ 2. eval:  GWESP (69)                                             11.9409  (   2.0828)
+ 3. eval:  degree of alter                                        -0.1690  (   0.0387)
+ 4. eval:  allel_spr ego and alt                                  -0.3409  (   0.9926)
+ 5. eval:  allel_spr ego x allel_spr alter                         0.4361  (   4.7557)
+ 6. eval:  allel_eas ego and alt                                  -0.7817  (   0.9745)
+ 7. eval:  allel_eas ego x allel_eas alter                         5.1673  (   1.3462)
+ 8. eval:  allel_mix ego and alt                                  -1.2165  (   0.7345)
+ 9. eval:  allel_mix ego x allel_mix alter                        11.2429  (   3.8248)
+10. eval:  allel_mixq ego and alt                                 -0.4126  (   0.4173)
+11. eval:  allel_mixq ego x allel_mixq alter                      -4.7537  (   2.8501)
+12. eval:  descendant ego and alt                                 -2.9073  (   3.0558)
+13. eval:  descendant ego x descendant alter                       9.1663  (   6.3314)
+14. eval:  overlap ego and alt                                    -1.9480  (   0.9120)
+15. eval:  overlap ego x overlap alter                             6.0646  (   1.9330)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.044     -0.341      0.006      0.011      0.023     -0.100      0.093      0.036     -0.079     -0.038      0.013      0.301     -0.665      0.092     -0.211
+    -0.778      4.338     -0.077     -0.875      2.894      1.382     -1.229     -0.404      0.836      0.473     -0.505     -4.936     10.564     -1.318      2.836
+     0.743     -0.952      0.001      0.016     -0.043     -0.020      0.015      0.008      0.005     -0.007     -0.007      0.070     -0.154      0.016     -0.034
+     0.052     -0.423      0.410      0.985     -4.184     -0.439      0.443      0.123     -0.595     -0.009      0.359      1.537     -3.288      0.266     -0.537
+     0.023      0.292     -0.234     -0.886     22.617      2.250     -2.546     -0.552      5.008     -0.044     -3.217     -7.189     14.924     -1.343      2.769
+    -0.487      0.681     -0.523     -0.454      0.485      0.950     -1.180     -0.104      0.911      0.168     -0.678     -2.353      4.890     -0.649      1.385
+     0.327     -0.438      0.285      0.332     -0.398     -0.899      1.812      0.013     -0.793     -0.149      0.678      2.378     -4.896      0.693     -1.482
+     0.230     -0.264      0.272      0.169     -0.158     -0.145      0.013      0.540     -1.213     -0.129      0.268      0.572     -1.249      0.127     -0.263
+    -0.098      0.105      0.036     -0.157      0.275      0.244     -0.154     -0.432     14.629      0.282     -9.518     -4.808      9.651     -1.381      2.967
+    -0.439      0.544     -0.440     -0.021     -0.022      0.413     -0.265     -0.419      0.177      0.174     -0.241     -0.709      1.478     -0.225      0.476
+     0.022     -0.085     -0.062      0.127     -0.237     -0.244      0.177      0.128     -0.873     -0.203      8.123      3.542     -7.043      1.009     -2.160
+     0.469     -0.776      0.594      0.507     -0.495     -0.790      0.578      0.255     -0.411     -0.556      0.407      9.338    -19.308      2.418     -5.168
+    -0.500      0.801     -0.629     -0.523      0.496      0.793     -0.574     -0.268      0.399      0.560     -0.390     -0.998     40.086     -4.970     10.633
+     0.481     -0.694      0.451      0.293     -0.310     -0.730      0.564      0.189     -0.396     -0.592      0.388      0.868     -0.861      0.832     -1.756
+    -0.519      0.704     -0.461     -0.280      0.301      0.735     -0.569     -0.185      0.401      0.590     -0.392     -0.875      0.869     -0.996      3.737
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 6987.86 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 12/10/2026 12:01:03
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 546237.
+Effects object used: myeff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance :  2678 178610512.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         9.7212
+  0.2  Rate parameter                         6.4834
+  0.3  Rate parameter                        38.1566
+  1. eval:  degree (density)                               -0.0276
+
+
+Values of target statistics are
+  1. Number of edges                                                   11595.0000
+These were calculated from the data.
+
+ 1 parameters, 1 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 1900 iterations.
+Parameter estimates based on 900 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.2740  18.6379   0.0147 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.0147 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 1900 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     2.4516  (   0.0663)
+ 0.2  Rate parameter period 2     1.6257  (   0.0553)
+ 0.3  Rate parameter period 3     9.8472  (   0.1411)
+
+Other parameters:
+ 1. eval:  degree (density)                                        0.0519  (   0.0559)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.003
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 228.23 seconds.
