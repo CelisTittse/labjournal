@@ -206,17 +206,6 @@ for (c in cents_early){
   title(main = paste("Century:", c))
 }
 
-<<<<<<< HEAD
-=======
-# par(mfrow = c(2, 2), mar= c(1,1,1,1))
-# 
-# for (c in cens_late){
-#   plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
-#   title(main = paste("Century:", c))
-# }
-
->>>>>>> 016a4cbc780b0256006b7067667589919c1e419d
-
 # to do:
 # opslaan met .png en weer inladen. 
 ```

@@ -48,9 +48,6 @@ fpackage.check(packages)
 
 set.seed(24553253)
 
-# remove sna
-detach("package:sna", unload = TRUE)
-
 ```
 
 The eda has shown that something changes in the clusters coefficient of the full network of sermons between 9-12th century and 13-16th century. Furthermore, the 9th to 12th century almost only increases new ties where as the ties of the 12th to the 13th century change by almost 50%.
@@ -793,20 +790,35 @@ eff0 <- getEffects(mydata)
 
 eff0 <- includeEffects(eff0, transTies, timeDummy = "all")
 
-(ans0 <- est_model(eff0, thetaBound = 150))
-
-gof0.degree <- gof_degree(ans0)
-gof0.triads <- gof_triads(ans0)
-
-for (p in 1:3) print(plot(gof0.degree, scale = TRUE, center = TRUE, period = p))
-
-for (p in 1:3) print(plot(gof0.triads, scale = TRUE, center = T, period = p))
-
-gof0.degree
-gof0.triads
+# (ans0 <- est_model(eff0, thetaBound = 150))
+# 
+# gof0.degree <- gof_degree(ans0)
+# gof0.triads <- gof_triads(ans0)
+# 
+# for (p in 1:3) print(plot(gof0.degree, scale = TRUE, center = TRUE, period = p))
+# 
+# for (p in 1:3) print(plot(gof0.triads, scale = TRUE, center = T, period = p))
+# 
+# gof0.degree
+# gof0.triads
 ```
 
+### Model 0 Results
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     4.6450  (   0.1293)
+ 0.2  Rate parameter period 2     2.8127  (   0.1011)
+ 0.3  Rate parameter period 3    14.4898  (   0.2281)
+
+Other parameters:
+ 1. eval:  transitive ties                                         5.8116  (   0.6356)
+ 
+### Model 0 conclusion
+
 The zero model is the simplest model possible. To indicate whether the clustering prediction holds. Three times p<0.001 difference is worrying because the model is so simple. Furthermore, the MDH = ~[4300, 87000] which is enormous. 
+
+
 
 ```{r model 1 effects}
 # RQ1: Is Alleluia sermons more likely to connect with Alleluia sermons or rather with other sermons?
@@ -826,18 +838,38 @@ eff1
 
 
 ```{r goodness of fit}
-(ans1 <- est_model(eff1, thetaBound = 150))
-
-gof1.degree <- gof_degree(ans1)
-gof1.triads <- gof_triads(ans1)
-
-for (p in 1:3) print(plot(gof1.degree, scale = TRUE, center = TRUE, period = p))
-
-for (p in 1:3) print(plot(gof1.triads, scale = TRUE, center = T, period = p))
-
-gof1.degree
-gof1.triads
+# (ans1 <- est_model(eff1, thetaBound = 150))
+# 
+# gof1.degree <- gof_degree(ans1)
+# gof1.triads <- gof_triads(ans1)
+# 
+# for (p in 1:3) print(plot(gof1.degree, scale = TRUE, center = TRUE, period = p))
+# 
+# for (p in 1:3) print(plot(gof1.triads, scale = TRUE, center = T, period = p))
+# 
+# gof1.degree
+# gof1.triads
 ```
+### Model 1 results
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     8.5024  (   0.3183)
+ 0.2  Rate parameter period 2     5.0790  (   0.2219)
+ 0.3  Rate parameter period 3    15.8178  (   0.2844)
+
+Other parameters:
+ 1. eval:  transitive ties                                         9.5085  (   4.7104)
+ 2. eval:  same_Asubs                                             -0.0454  (   0.3332)
+ 3. eval:  c912cols                                                2.5980  (   0.1827)
+ 4. eval:  theme                                                   0.2218  (   0.0309)
+ 5. eval:  desc                                                    2.5509  (   0.2589)
+ 6. eval:  c12cols                                               125.1061  (   5.9065)
+ 7. eval:  alleluia ego and alt                                   -0.9040  (   0.1329)
+ 8. eval:  alleluia ego x alleluia alter                           1.7311  (   0.2641)
+ 
+Overall maximum convergence ratio =  2.9329 .
+
 The model doesn't converge at all, (2.93) and that has to do with the collections in the 12th century. They overlap strongly with the existing model, and predict thus too well. The leap from wave 11 to 12 increases a lot of ties, so the model needs to work hard towards adding new ties and because the big collections like SCP were very popular it fits very well. 
 
 Therefore, this parameter will be fixed. 
@@ -846,19 +878,19 @@ Therefore, this parameter will be fixed.
 eff2 <- setEffect(eff1, X, interaction1 = "c12cols", fix = TRUE, initialValue = 10)
 eff2 <- setEffect(eff2, transTies, initialValue = 5.8, fix = FALSE)
 
-(ans2 <- est_model(eff2, thetaBound = 150, prev = ans1))
-
-ans2
-
-gof2.degree <- gof_degree(ans2)
-gof2.triads <- gof_triads(ans2)
-
-for (p in 1:3) print(plot(gof2.degree, scale = TRUE, center = TRUE, period = p))
-
-for (p in 1:3) print(plot(gof2.triads, scale = TRUE, center = T, period = p))
-
-gof2.degree
-gof2.triads
+# (ans2 <- est_model(eff2, thetaBound = 150, prev = ans1))
+# 
+# ans2
+# 
+# gof2.degree <- gof_degree(ans2)
+# gof2.triads <- gof_triads(ans2)
+# 
+# for (p in 1:3) print(plot(gof2.degree, scale = TRUE, center = TRUE, period = p))
+# 
+# for (p in 1:3) print(plot(gof2.triads, scale = TRUE, center = T, period = p))
+# 
+# gof2.degree
+# gof2.triads
 
 
 ```
@@ -866,6 +898,23 @@ gof2.triads
 
 
 ## Model 1.2
+### Model 1.2 Results
+Initial parameter values are 
+  0.1  Rate parameter                         8.5024
+  0.2  Rate parameter                         5.0790
+  0.3  Rate parameter                        15.8178
+  1. eval:  transitive ties                                 9.5085
+  2. eval:  same_Asubs                                     -0.0454
+  3. eval:  c912cols                                        2.5980
+  4. eval:  theme                                           0.2218
+  5. eval:  desc                                            2.5509
+  6. eval:  c12cols                                       125.1061  (fixed) 
+  7. eval:  alleluia ego and alt                           -0.9040
+  8. eval:  alleluia ego x alleluia alter                   1.7311
+  
+Overall maximum convergence ratio =  0.1135
+
+### Model 1.2 conclusions
 The three research questions are combined into one model. It needs to be said that the goodness of fit is rather terrible and no conclusion can be drawn from this analysis. The model does converge on (0.11).
 
 However, would that be the cause, this would be my interpretation. 

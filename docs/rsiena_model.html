@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Celis Tittse" />
+
+<meta name="date" content="2026-10-05" />
+
+<title>binary_model</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="literature_review_hypotheses.html">Literature Review</a>
+    </li>
+    <li>
+      <a href="model_statistics.Rmd">Model Definition</a>
+    </li>
+    <li>
+      <a href="data_wrangling.html">Data</a>
+    </li>
+    <li>
+      <a href="eda.html">Exploratory EDA</a>
+    </li>
+    <li>
+      <a href="rsiena_model.html">Model High Middle Ages Collections</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">binary_model</h1>
+<h4 class="author">Celis Tittse</h4>
+<h4 class="date">2026-10-05</h4>
+
+</div>
+
+
+<div id="binary-observed-model" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Binary observed
+model</h1>
+<p>To make a unimode binary model, edges should not be regarded if they
+are a product of sermons or manuscripts with a large number of sermons,
+increasing the degree. For example, if I have two sermons that occur in
+50% of the manuscript, they are very likely to occur together, because
+they are omnipresent. We want to analyse sermons that occur together
+that cannot be predicted by random change.</p>
+<p>Therefore, a null model was created that filters edges that occur in
+more than 5% of randomly shuffled manuscripts. In other words, ties with
+a higher degree than 5% of 1000 random configurations.</p>
+<p>The rules for this null model were as follows:</p>
+<p>The unimode model is created by a null model on bipartite
+manuscripts.</p>
+<p>ms - [se1, se2, se3] ms2 - [se1, se4]</p>
+<p>The length of the sermon sequence is perserved, only the sermons are
+swapped between manuscripts. To this end, the sermons that are already
+swopped with not be swapped in the opposite direction, and are not the
+same. So, se1 and se1 are not swopped, and ms-se1 and ms2-se4 are
+swopped back on the next swopping round. There were 1000 swopping rounds
+per century.</p>
+<p>This analysis is conducted on the 5% higher than random ties between
+sermons.</p>
+<p>The eda has shown that something changes in the clusters coefficient
+of the full network of sermons between 9-12th century and 13-16th
+century. Furthermore, the 9th to 12th century almost only increases new
+ties where as the ties of the 12th to the 13th century change by almost
+50%.</p>
+<p>To meet the ends of learning SIENA, analysing the manuscripts that
+are most used for editing purposes, and keeping a simple model, this
+analysis will be conducted on 9th to 12th century manuscripts.</p>
+<p>Earlier centuries (5th to 8th) had a maximum of 17 manuscripts and
+didn’t yield any more than 5% non-random sermon ties.</p>
+<pre><code>## New names:
+## New names:
+## New names:
+## New names:
+## • `` -&gt; `...1`</code></pre>
+<pre class="r"><code>colls_df &lt;- read_excel(&#39;./data/data_raw/collections.xlsx&#39;)
+coll_ref_df &lt;- read_excel(&#39;./data/data_raw/collections.xlsx&#39;, sheet=&quot;coll_cato&quot;) |&gt; 
+  mutate(century = as.integer(century)) |&gt; 
+  drop_na(century)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...5`</code></pre>
+<pre><code>## Warning: There was 1 warning in `mutate()`.
+## ℹ In argument: `century =
+##   as.integer(century)`.
+## Caused by warning:
+## ! NAs introduced by coercion</code></pre>
+<pre class="r"><code>covar_colls_l &lt;- lapply(colls_df, function(x) {
+  x &lt;- as.character(x)
+  x[!is.na(x)]
+})
+
+
+# the alleluia sermons
+allel_nodes &lt;- se_nodes |&gt; 
+  filter(alleluia == 1) |&gt; 
+  pull(Id)
+
+allel_nodes</code></pre>
+<pre><code>##  [1] &quot;se-1&quot;   &quot;se-107&quot; &quot;se-119&quot; &quot;se-12&quot;  &quot;se-13&quot;  &quot;se-14&quot;  &quot;se-147&quot; &quot;se-148&quot; &quot;se-149&quot; &quot;se-15&quot; 
+## [11] &quot;se-151&quot; &quot;se-152&quot; &quot;se-153&quot; &quot;se-154&quot; &quot;se-155&quot; &quot;se-156&quot; &quot;se-166&quot; &quot;se-179&quot; &quot;se-216&quot; &quot;se-240&quot;
+## [21] &quot;se-241&quot; &quot;se-242&quot; &quot;se-243&quot; &quot;se-25&quot;  &quot;se-251&quot; &quot;se-252&quot; &quot;se-255&quot; &quot;se-260&quot; &quot;se-261&quot; &quot;se-262&quot;
+## [31] &quot;se-278&quot; &quot;se-286&quot; &quot;se-287&quot; &quot;se-29&quot;  &quot;se-298&quot; &quot;se-319&quot; &quot;se-32&quot;  &quot;se-33&quot;  &quot;se-34&quot;  &quot;se-349&quot;
+## [41] &quot;se-42&quot;  &quot;se-48&quot;  &quot;se-49&quot;  &quot;se-50&quot;  &quot;se-57&quot;  &quot;se-73&quot;  &quot;se-75&quot;  &quot;se-85&quot;  &quot;se-92&quot;  &quot;se-94&quot; 
+## [51] &quot;se-96&quot;</code></pre>
+</div>
+<div id="network-visualisation" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Network
+visualisation</h1>
+<div id="alleluia-in-full-network" class="section level3"
+number="2.0.1">
+<h3><span class="header-section-number">2.0.1</span> Alleluia in full
+network</h3>
+<p>To get a general idea of how alleluia is distributed in the general
+network. For clarity the nodes without edges are removed per plot.</p>
+<pre class="r"><code># from matrix to igraph
+g9 &lt;- graph_from_adjacency_matrix(se_adj_9, 
+                                  mode = &quot;max&quot;, diag = F)
+g10 &lt;- graph_from_adjacency_matrix(se_adj_10, 
+                                   mode = &quot;max&quot;, diag = F)
+g11 &lt;- graph_from_adjacency_matrix(se_adj_11, 
+                                   mode = &quot;max&quot;, diag = F)
+g12 &lt;- graph_from_adjacency_matrix(se_adj_12, 
+                                   mode = &quot;max&quot;, diag = F)
+
+plot_graph &lt;- function (g, century, layout=NULL, size=200, clean=FALSE, color_nodes = list()){
+  # which nodes to keep, if clean remove nodes with 0
+  keep &lt;- rep(TRUE, vcount(g))
+  if (isTRUE(clean)) keep &lt;- degree(g) &gt; 0
+  
+  # remove unkept nodes
+  g &lt;- induced_subgraph(g, which(keep))
+  
+  if (is.null(layout)) layout &lt;- layout_with_mds(g, dist = NULL, dim = 2)
+  
+  V(g)$size &lt;- size
+  
+  # get allel color red
+  alleluia_color &lt;- ifelse(names(V(g)) %in% allel_nodes, &quot;red&quot;, &quot;lightgray&quot;)
+  
+  # plot century
+  p1 &lt;- plot(g,
+    vertex.label = NA,
+    vertex.color = adjustcolor(alleluia_color, alpha.f = 0.8),
+    layout=layout,
+    edge.width = 3,
+    rescale=F,
+    main=paste0(&quot;n=&quot;, length(V(g)), &quot;; century=&quot;, century)
+)
+  p1
+}
+
+par(mfrow=c(2, 2), mar= c(1,1,1,1))
+
+g_clean_list &lt;- list(g9, g10, g11, g12)
+cent_list &lt;- 9:12
+
+for (i in seq(length(g_clean_list))){
+  g_i &lt;- g_clean_list[[i]]
+  cent &lt;- cent_list[i]
+  plot_graph(g=g_i, century=cent, clean=T, size=300)
+}</code></pre>
+<p><img src="rsiena_model_files/figure-html/plot%20full-1.png" alt="" width="672" /></p>
+<pre class="r"><code>coll</code></pre>
+<pre><code>## function (pattern, ignore_case = FALSE, locale = &quot;en&quot;, ...) 
+## {
+##     pattern &lt;- as_bare_character(pattern)
+##     check_bool(ignore_case)
+##     check_string(locale)
+##     options &lt;- str_opts_collator(ignore_case = ignore_case, locale = locale, 
+##         ...)
+##     structure(pattern, options = options, class = c(&quot;stringr_coll&quot;, 
+##         &quot;stringr_pattern&quot;, &quot;character&quot;))
+## }
+## &lt;bytecode: 0x000001817846aab8&gt;
+## &lt;environment: namespace:stringr&gt;</code></pre>
+</div>
+<div id="observations-on-overall-network" class="section level3"
+number="2.0.2">
+<h3><span class="header-section-number">2.0.2</span> Observations on
+overall network</h3>
+<p>The Alleluia collection occurs together, although not in full and
+seperate. In any century, with this filter, the collection clusters
+seperately and mostly with other sermons outside the collection. Apart
+from the 12th century, it appears that not all sermons have a degree
+with this filter.</p>
+</div>
+<div id="alleluia-subcollections-plots" class="section level3"
+number="2.0.3">
+<h3><span class="header-section-number">2.0.3</span> Alleluia
+subcollections plots</h3>
+<pre class="r"><code># alleluia subcollections
+allel_colls &lt;- covar_colls_l[grepl(&quot;^alleluia_&quot;, names(covar_colls_l))]
+
+# assign colours
+
+coll_cols &lt;- setNames(
+  rainbow(length(allel_colls)),
+  names(allel_colls)
+)
+
+# plot four centuries
+g_list &lt;- list(g9, g10, g11, g12)
+
+par(mfrow = c(2, 2), mar = c(1, 1, 2, 1))
+
+for (i in seq_along(g_list)) {
+
+  g &lt;- induced_subgraph(g_list[[i]], V(g_list[[i]])$name %in% allel_nodes)
+
+  V(g)$color &lt;- &quot;lightgray&quot;
+  E(g)$color &lt;- &quot;black&quot;
+
+  for (c in names(allel_colls)) {
+    V(g)$color[V(g)$name %in% allel_colls[[c]]] &lt;- coll_cols[c]
+  }
+
+  plot(g,
+       vertex.label = NA,
+       vertex.size = 15,
+       vertex.color = adjustcolor(V(g)$color, alpha.f = 0.8),
+       edge.width = 2,
+       layout = layout_with_mds(g),
+       main = paste(&quot;Century&quot;, i + 8, &quot;- n =&quot;, vcount(g)))
+}
+
+legend(&quot;bottomright&quot;, legend = names(coll_cols),
+       col = coll_cols, pch = 19, bty = &quot;n&quot;, cex = 0.7)</code></pre>
+<p><img src="rsiena_model_files/figure-html/subcollection%20plots-1.png" alt="" width="672" /></p>
+</div>
+<div id="define-the-filter-of-sermons-used-for-the-analysis"
+class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Define the filter of
+sermons used for the analysis</h2>
+<p>The options are: - Only alleluia sermons to get the model running and
+building the model - Alleluia sermons and its direct (model=1)
+neighbours get test on a bigger model without overstraching the running
+capacity - Use the full model.</p>
+<pre class="r"><code># ================== PARAMETERS ======================
+
+# option: &quot;alleluia&quot; | &quot;sample&quot; | &quot;neighbours&quot; or somthing else
+SIZE_RANDOM_SAMPLE = 100
+
+mats &lt;- list(
+  se_adj_9,
+  se_adj_10,
+  se_adj_11,
+  se_adj_12
+)
+
+# ==================== FUNCTIONS ===================
+# drop nodes with no edges
+ses_lists &lt;- lapply(mats, function(m) {
+  keep &lt;- rowSums(m != 0) &gt; 0 | colSums(m != 0) &gt; 0
+  m[keep, keep, drop = T]
+  return (colnames(m))
+})
+
+# get the neighbours of alleluia nodes and return a list of unique neighbours
+get_allel_sermons &lt;- function(g, allel_nodes) {
+  # overlap of alleluia nodes with nodes in the network
+  non_missing_nodes &lt;- intersect(allel_nodes, V(g)$name)
+  
+  # get neighbours
+  nn_allel &lt;- adjacent_vertices(g, v = non_missing_nodes, mode = &quot;all&quot;)
+  
+  # put nn in list
+  allel_nn_nodes &lt;- list()
+
+  for (nn in nn_allel) {
+    if (!is.null(names(nn))) {
+      allel_nn_nodes &lt;- append(allel_nn_nodes, as.list(names(nn)))
+    }
+  }
+
+  # unlist and make unique
+  unique(unlist(allel_nn_nodes))
+}
+
+# ============== TYPES OF NODE FILTERS ===============
+## ALL SERMONS WITH EDGES
+all_node_sermons &lt;- unique(unlist(ses_lists))
+
+## RANDOM SAMPLE OF N SERMONS
+# a random sample of sermons (n=100)
+sample_vec &lt;- all_node_sermons |&gt; 
+  as.data.frame() |&gt; 
+  slice_sample(n=100) |&gt; 
+  as.list()
+
+## ONLY ALLELUIA SERMONS
+# alleluia sermons
+allel_nodes &lt;- se_nodes |&gt; 
+  filter(alleluia == 1) |&gt; 
+  pull(Id)
+
+## ALLELUIA NEIGHBOURS MODE=1
+# get set of all centuries
+allel_sermons &lt;- unique(c(
+  get_allel_sermons(g9, allel_nodes),
+  get_allel_sermons(g10, allel_nodes),
+  get_allel_sermons(g11, allel_nodes),
+  get_allel_sermons(g12, allel_nodes),
+  allel_nodes
+))
+
+print(paste(&quot;N only alleluia sermons:&quot;, length(allel_nodes)))</code></pre>
+<pre><code>## [1] &quot;N only alleluia sermons: 51&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;N direct neighbours Alleluia sermons:&quot;, length(allel_sermons)))</code></pre>
+<pre><code>## [1] &quot;N direct neighbours Alleluia sermons: 284&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;N random sample:&quot;, length(sample_vec$all_node_sermons)))</code></pre>
+<pre><code>## [1] &quot;N random sample: 100&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;All sermons:&quot;, length(all_node_sermons)))</code></pre>
+<pre><code>## [1] &quot;All sermons: 552&quot;</code></pre>
+<pre class="r"><code># ===================== FILTER ==================
+
+FILTER_TYPE &lt;- &quot;neighbours&quot;
+
+# option: &quot;alleluia&quot; | &quot;sample&quot; | &quot;neighbours&quot; or somthing else
+# the alleluia sermons
+if (FILTER_TYPE == &quot;alleluia&quot;){
+  filter_sermons &lt;- allel_nodes
+} else if (FILTER_TYPE == &quot;sample&quot;){
+  filter_sermons &lt;- sample_vec$all_node_sermons
+} else if (FILTER_TYPE == &quot;neighbours&quot;){
+   filter_sermons &lt;- allel_sermons
+} else filter_sermons &lt;- all_node_sermons
+
+print(paste(&quot;Filter type:&quot;, FILTER_TYPE))</code></pre>
+<pre><code>## [1] &quot;Filter type: neighbours&quot;</code></pre>
+<pre class="r"><code># filter on relevant nodes
+df &lt;- se_nodes |&gt; 
+  filter(Id %in% filter_sermons)
+
+# sermons with ties that lack a row in se_nodes
+setdiff(filter_sermons, se_nodes$Id)</code></pre>
+<pre><code>## character(0)</code></pre>
+<pre class="r"><code># pad a matrix to the full set of ids, filling gaps with 0
+pad_matrix = function(m, ids) {
+  out = matrix(0, nrow = length(ids), ncol = length(ids),
+               dimnames = list(ids, ids))
+  shared = intersect(ids, rownames(m))
+  out[shared, shared] = m[shared, shared]
+  out[is.na(out)] = 0
+  diag(out) = 0
+  out
+}
+
+mats_sync = lapply(mats, pad_matrix, ids = df$Id)
+
+# make matrix waves
+wave_9  &lt;- mats_sync[[1]]
+wave_10 &lt;- mats_sync[[2]]
+wave_11 &lt;- mats_sync[[3]]
+wave_12 &lt;- mats_sync[[4]]
+
+# uniform the waves with the node attibutions
+wave_9 &lt;- wave_9[df$Id, df$Id, drop = FALSE]
+wave_10 &lt;- wave_10[df$Id, df$Id, drop = FALSE]
+wave_11 &lt;- wave_11[df$Id, df$Id, drop = FALSE]
+wave_12 &lt;- wave_12[df$Id, df$Id, drop = FALSE]
+
+
+# print identical nodes to next wave
+identical(rownames(wave_9), rownames(wave_10))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>identical(rownames(wave_10), rownames(wave_11))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>identical(rownames(wave_11), rownames(wave_12))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>isSymmetric(wave_12)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>g9_sync &lt;- graph_from_adjacency_matrix(wave_9, mode = &quot;max&quot;, diag = F)
+g10_sync &lt;- graph_from_adjacency_matrix(wave_10, mode = &quot;max&quot;, diag = F) 
+g11_sync &lt;- graph_from_adjacency_matrix(wave_11, mode = &quot;max&quot;, diag = F) 
+g12_sync &lt;- graph_from_adjacency_matrix(wave_12, mode = &quot;max&quot;, diag = F)
+
+
+g_full &lt;- list(g9_sync, g10_sync, g11_sync, g12_sync)
+centuries &lt;- seq(9, 12)
+
+par(mfrow=c(2, 2), mar= c(1,1,1,1))
+stable_layout &lt;- layout_with_mds(g12_sync, dist = NULL, dim = 2)
+
+for (i in seq(length(g_clean_list))){
+  g_i &lt;- g_full[[i]]
+  cent &lt;- cent_list[i]
+  
+  size &lt;- ifelse(cent %in% 11:12, 400, 300)
+  
+  plot_graph(g_i, century=cent, layout = NULL, size=size, clean=T)
+}
+
+mtext(&quot;Filtered network&quot;, side = 3, line = 0, outer = TRUE)</code></pre>
+<p><img src="rsiena_model_files/figure-html/eda%20sync-1.png" alt="" width="672" /></p>
+<pre class="r"><code>alleluia_counts &lt;- sapply(g_full, function(g) {
+  e &lt;- ends(g, E(g), names = TRUE)
+  a &lt;- e[, 1] %in% allel_nodes
+  b &lt;- e[, 2] %in% allel_nodes
+
+  c(
+    &quot;A–A&quot; = sum(a &amp; b),
+    &quot;A–NonA&quot; = sum(a != b),
+    &quot;NonA–NonA&quot; = sum(!a &amp; !b)
+  )
+})
+
+colnames(alleluia_counts) &lt;- 9:12
+alleluia_counts &lt;- as.data.frame(alleluia_counts)
+alleluia_counts &lt;- data.frame(type = rownames(alleluia_counts), alleluia_counts,row.names = NULL)
+
+counts_long &lt;- alleluia_counts |&gt;
+  pivot_longer(-type, names_to = &quot;century&quot;, values_to = &quot;count&quot;) |&gt; 
+  mutate(century = factor(century,levels = c(&quot;X9&quot;, &quot;X10&quot;, &quot;X11&quot;, &quot;X12&quot;)))
+
+ggplot(counts_long, aes(x = century, y = count, fill = type)) +
+  geom_col(position = &quot;fill&quot;) +
+  labs(x = &quot;Century&quot;, y = &quot;Number of edges (%)&quot;, fill = &quot;Edge type&quot;,
+       title = &quot;Edge distribution Alleluia with non-Alleluia sermons&quot;,
+       subtitle = &quot;Sliced network on Alleluia sermons with neighbours&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="rsiena_model_files/figure-html/dyad%20count%20plot-1.png" alt="" width="672" /></p>
+<pre class="r"><code># get n nodes (removed if degree = 0)
+century_count &lt;- function (g_i, cent) {
+  n_unq_mss = length(unique(E(g_i)$manuscript))
+  
+  # voeg een weight toe
+  E(g_i)$weight = 1
+  
+  g_i &lt;- simplify(g_i, edge.attr.comb = list(weight = &quot;sum&quot;))
+  
+  # normalise weight
+  E(g_i)$weight &lt;- E(g_i)$weight / max(E(g_i)$weight)
+  avg_edges &lt;- if(n_unq_mss &gt; 0) ecount(g_i) / n_unq_mss else 0
+  
+  return(data.frame(
+    Century = cent,
+    Nodes = vcount(g_i),
+    Edges = ecount(g_i),
+    Degree = igraph::mean_degree(g_i),
+    Transitivity = igraph::transitivity(g_i, type = &quot;global&quot;),
+    Density = igraph::edge_density(g_i),
+    stringsAsFactors = FALSE
+  ))
+}
+
+df_results &lt;- do.call(rbind, lapply(seq_along(g_full), function(i) {
+  century_count(g_i = g_full[[i]], cent = centuries[i])
+}))
+
+knitr::kable(df_results)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Century</th>
+<th align="right">Nodes</th>
+<th align="right">Edges</th>
+<th align="right">Degree</th>
+<th align="right">Transitivity</th>
+<th align="right">Density</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">284</td>
+<td align="right">262</td>
+<td align="right">1.84</td>
+<td align="right">0.733</td>
+<td align="right">0.007</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">284</td>
+<td align="right">1563</td>
+<td align="right">11.01</td>
+<td align="right">0.946</td>
+<td align="right">0.039</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">284</td>
+<td align="right">2377</td>
+<td align="right">16.74</td>
+<td align="right">0.913</td>
+<td align="right">0.059</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">284</td>
+<td align="right">6463</td>
+<td align="right">45.51</td>
+<td align="right">0.875</td>
+<td align="right">0.161</td>
+</tr>
+</tbody>
+</table>
+<div id="eda-comparative" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> EDA
+comparative</h3>
+<p>When comparing the EDA of the weighted full network with the
+not-random network, a few things stick out on the three measurements:
+Degree, Transitivity, and Density. Degree, the number of degrees is far
+lower, which totally is expected when removing 95% of the edges that
+could also be attributed to random selection. Transitivity, the global
+transitivity or clustering coeffient is higher in the 10 and 11th
+century compared to the full graph. Furthermore, the decline we see in
+clustering in the full model is not translated into the non-random
+model. The 10th century shows three distinct clusters with a few
+isolated triplets and doubles, which result in a high potential for
+fully connected triplets. Density, the density is far lower than the
+fully connected model. This is to be expected for the same reason as
+lower degree.</p>
+</div>
+</div>
+<div id="maintenance" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Maintenance</h2>
+<p>The question is if the number of connects remain the same ones
+formed. First have a look to what extent this happens.</p>
+<pre class="r"><code>waves = list(wave_9 = wave_9, wave_10 = wave_10, wave_11 = wave_11, wave_12 = wave_12)
+
+changes &lt;- do.call(rbind, lapply(1:3, function(i){
+  a = waves[[i]]
+  b = waves[[i+1]]
+  
+  tri &lt;- upper.tri(a)
+  data.frame(
+    period = paste(i, names(waves)[i], &quot;-&quot;, names(waves)[i + 1]),
+    created    = sum(a[tri] == 0 &amp; b[tri] == 1),
+    dissolved  = sum(a[tri] == 1 &amp; b[tri] == 0),
+    maintained = sum(a[tri] == 1 &amp; b[tri] == 1)
+  )
+}))
+
+print(changes)</code></pre>
+<pre><code>##                period created dissolved maintained
+## 1  1 wave_9 - wave_10    1317        16        246
+## 2 2 wave_10 - wave_11     815         1       1562
+## 3 3 wave_11 - wave_12    4118        32       2345</code></pre>
+<pre class="r"><code>changes_long &lt;- pivot_longer(changes, cols = c(maintained, created, dissolved),
+                    names_to = &quot;change&quot;, values_to = &quot;ties&quot;)
+
+ggplot(changes_long, aes(x = period, y = ties, fill = change)) +
+  geom_col() +
+  labs(x = NULL, y = &quot;Number of ties&quot;, fill = NULL,
+       title = &quot;Tie maintenance 9th - 12th century&quot;) +
+  theme_minimal() </code></pre>
+<p><img src="rsiena_model_files/figure-html/maintance-1.png" alt="" width="672" /></p>
+<div id="which-collection-could-influence-the-alleluia-corpus"
+class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Which collection
+could influence the alleluia corpus?</h3>
+<p>Other collections might be influencing the results of alleluia sermon
+connecting. Those, we need a list of sermons-sermon edges that occur in
+alleluia in the data, and not theoretical as shown above, and if those
+edges also occur in another collection.</p>
+<pre class="r"><code>get_coll_overlap &lt;- function (m, colls, relv_cs) {
+  g_a &lt;- graph_from_adjacency_matrix(m, mode=&#39;undirected&#39;, diag = F)
+  
+  coll_list &lt;- list()
+  
+  edges &lt;- igraph::as_edgelist(g_a, names = TRUE)
+  print(paste(len(edges), len(E(g_a))))
+  
+  overlap_counts &lt;- integer(0)
+
+  for (c in names(colls)) {
+    
+    if (c %in% relv_cs){
+  
+    count &lt;- 0
+  
+    for (i in seq_len(nrow(edges))) {
+  
+      e1 &lt;- edges[i, 1]
+      e2 &lt;- edges[i, 2]
+  
+      if (e1 %in% colls[[c]] &amp;&amp; e2 %in% colls[[c]]) {
+        count &lt;- count + 1
+      }
+  
+    }
+  
+    if (count &gt; 0) overlap_counts[c] &lt;- count
+    }
+  }
+  
+  overlap_counts &lt;- sort(overlap_counts, decreasing = TRUE)
+
+  print(overlap_counts)
+  print(paste(nrow(edges), &quot;total edges&quot;))
+  
+  return (names(overlap_counts))
+}
+
+get_relv_coll_cent &lt;- function (df, cent) df |&gt; 
+    filter(century &lt; cent + 1,
+           !str_detect(collection, &quot;^(alleluia|brux|lapsu|scp_verbraken)&quot;)) |&gt; 
+    pull(collection)
+
+mats_full_allel = lapply(mats, pad_matrix, ids = allel_nodes)
+cent_list = 9:12
+
+
+overlap_l &lt;- list()
+
+for (i in seq_len(len(mats_full_allel))) {
+  c = cent_list[i]
+  m = mats_full_allel[[i]]
+  
+  # get potential/existing collections in that century
+  relv_cent_colls &lt;- get_relv_coll_cent(coll_ref_df, c)
+  
+  # get collection names with overlapping sermon pairs
+  coll_names_overlap &lt;- get_coll_overlap(m, covar_colls_l, relv_cent_colls)
+  
+  overlap_l[[c]] &lt;- coll_names_overlap
+}</code></pre>
+<pre><code>## [1] &quot;22 11&quot;
+##   campanienne   sessorienne           vda          va_a          va_b  quinquaginta     gallicana 
+##             6             6             6             6             6             3             2 
+## wolfenbuettel    marmoutier 
+##             2             1 
+## [1] &quot;11 total edges&quot;
+## [1] &quot;8 4&quot;
+## quinquaginta  campanienne  sessorienne          vda         va_a         va_b 
+##            3            1            1            1            1            1 
+## [1] &quot;4 total edges&quot;
+## [1] &quot;30 15&quot;
+##   campanienne   camp_napels   sessorienne           vda          va_a          va_b     gallicana 
+##             6             6             6             6             6             6             5 
+##  quinquaginta wolfenbuettel      diversis    marmoutier 
+##             3             3             1             1 
+## [1] &quot;15 total edges&quot;
+## [1] &quot;302 151&quot;
+##           scp      diversis wolfenbuettel     gallicana   campanienne   camp_napels   sessorienne 
+##            27            16            16            15             6             6             6 
+##           vda          va_a          va_b  quinquaginta    colbertine        erfurt    marmoutier 
+##             6             6             6             3             2             1             1 
+## [1] &quot;151 total edges&quot;</code></pre>
+<pre class="r"><code>overlap_l</code></pre>
+<pre><code>## [[1]]
+## NULL
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## NULL
+## 
+## [[4]]
+## NULL
+## 
+## [[5]]
+## NULL
+## 
+## [[6]]
+## NULL
+## 
+## [[7]]
+## NULL
+## 
+## [[8]]
+## NULL
+## 
+## [[9]]
+## [1] &quot;campanienne&quot;   &quot;sessorienne&quot;   &quot;vda&quot;           &quot;va_a&quot;          &quot;va_b&quot;          &quot;quinquaginta&quot; 
+## [7] &quot;gallicana&quot;     &quot;wolfenbuettel&quot; &quot;marmoutier&quot;   
+## 
+## [[10]]
+## [1] &quot;quinquaginta&quot; &quot;campanienne&quot;  &quot;sessorienne&quot;  &quot;vda&quot;          &quot;va_a&quot;         &quot;va_b&quot;        
+## 
+## [[11]]
+##  [1] &quot;campanienne&quot;   &quot;camp_napels&quot;   &quot;sessorienne&quot;   &quot;vda&quot;           &quot;va_a&quot;          &quot;va_b&quot;         
+##  [7] &quot;gallicana&quot;     &quot;quinquaginta&quot;  &quot;wolfenbuettel&quot; &quot;diversis&quot;      &quot;marmoutier&quot;   
+## 
+## [[12]]
+##  [1] &quot;scp&quot;           &quot;diversis&quot;      &quot;wolfenbuettel&quot; &quot;gallicana&quot;     &quot;campanienne&quot;   &quot;camp_napels&quot;  
+##  [7] &quot;sessorienne&quot;   &quot;vda&quot;           &quot;va_a&quot;          &quot;va_b&quot;          &quot;quinquaginta&quot;  &quot;colbertine&quot;   
+## [13] &quot;erfurt&quot;        &quot;marmoutier&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="thematic" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Thematic</h1>
+<ol style="list-style-type: decimal">
+<li>The sermons are scraped from augustinus.it. (<a
+href="https://www.augustinus.it/latino/discorsi/"
+class="uri">https://www.augustinus.it/latino/discorsi/</a>)</li>
+<li>Stanza (stanfort NLP package) is used as embedder, because latincy
+caused errors.</li>
+<li>Texts were lemmatised and filtered.
+<ol style="list-style-type: decimal">
+<li>Stopwords removed (list from KotobaTrilius)</li>
+<li>POS: “NOUN”, “VERB”, “ADJ”, “PROPN” kept</li>
+<li>Words occuring in more than 50% of sermons</li>
+<li>Words occuring in less than 5 sermons.</li>
+<li>lemmas smaller than 3 characters are removed</li>
+</ol></li>
+<li>words are vectored with TF-IDF (1)</li>
+<li>Similarity matrix is created by cosine similarity between each
+sermon.</li>
+</ol>
+<ol style="list-style-type: decimal">
+<li>for t = lemma and d = document and n = number of times</li>
+</ol>
+<p>(n times t in d / total n ts in d) * log (total number of d / n d
+containing t)</p>
+<p><a
+href="https://raw.githubusercontent.com/KotobaTrilius/latin-stopwords/main/latin%22">https://raw.githubusercontent.com/KotobaTrilius/latin-stopwords/main/latin</a></p>
+<div id="mantel-permutation" class="section level3" number="3.0.1">
+<h3><span class="header-section-number">3.0.1</span> Mantel
+permutation</h3>
+<p>To quickly validate the potential influence of thematic similarity,
+the edges of alleluia sermons are correlated to thematic distance with
+mantel permutations. To this end, spearman will be used because we
+assume a monotonic and not linear relationship, which is good enough for
+a simple check.</p>
+<pre class="r"><code>theme_sim_m &lt;- load_adj_matrix(&#39;alleluia_similarity_matrix.csv&#39;)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...1`</code></pre>
+<pre class="r"><code>mantel_results &lt;- list()
+cent_list &lt;- 9:12
+
+for (i in seq_len(len(mats_full_allel))) {
+  
+  c &lt;- cent_list[i]
+  m &lt;- mats_full_allel[[i]]
+  
+  ids &lt;- intersect(rownames(m), rownames(theme_sim_m))
+  
+  print(c)
+  
+  mantel_results[[as.character(c)]] &lt;- vegan::mantel(
+    as.dist(1 - m[ids, ids]),
+    as.dist(1 - theme_sim_m[ids, ids]),
+    method = &quot;spearman&quot;,
+    permutations = 9999
+  )
+  
+  print(mantel_results[[as.character(c)]])
+}</code></pre>
+<pre><code>## [1] 9
+## 
+## Mantel statistic based on Spearman&#39;s rank correlation rho 
+## 
+## Call:
+## vegan::mantel(xdis = as.dist(1 - m[ids, ids]), ydis = as.dist(1 -      theme_sim_m[ids, ids]), method = &quot;spearman&quot;, permutations = 9999) 
+## 
+## Mantel statistic r: 0.121 
+##       Significance: 2e-04 
+## 
+## Upper quantiles of permutations (null model):
+##    90%    95%  97.5%    99% 
+## 0.0481 0.0619 0.0712 0.0838 
+## Permutation: free
+## Number of permutations: 9999
+## 
+## [1] 10
+## 
+## Mantel statistic based on Spearman&#39;s rank correlation rho 
+## 
+## Call:
+## vegan::mantel(xdis = as.dist(1 - m[ids, ids]), ydis = as.dist(1 -      theme_sim_m[ids, ids]), method = &quot;spearman&quot;, permutations = 9999) 
+## 
+## Mantel statistic r: 0.065 
+##       Significance: 0.02 
+## 
+## Upper quantiles of permutations (null model):
+##    90%    95%  97.5%    99% 
+## 0.0449 0.0557 0.0642 0.0739 
+## Permutation: free
+## Number of permutations: 9999
+## 
+## [1] 11
+## 
+## Mantel statistic based on Spearman&#39;s rank correlation rho 
+## 
+## Call:
+## vegan::mantel(xdis = as.dist(1 - m[ids, ids]), ydis = as.dist(1 -      theme_sim_m[ids, ids]), method = &quot;spearman&quot;, permutations = 9999) 
+## 
+## Mantel statistic r: 0.13 
+##       Significance: 1e-04 
+## 
+## Upper quantiles of permutations (null model):
+##    90%    95%  97.5%    99% 
+## 0.0456 0.0579 0.0676 0.0801 
+## Permutation: free
+## Number of permutations: 9999
+## 
+## [1] 12
+## 
+## Mantel statistic based on Spearman&#39;s rank correlation rho 
+## 
+## Call:
+## vegan::mantel(xdis = as.dist(1 - m[ids, ids]), ydis = as.dist(1 -      theme_sim_m[ids, ids]), method = &quot;spearman&quot;, permutations = 9999) 
+## 
+## Mantel statistic r: -0.0188 
+##       Significance: 0.6 
+## 
+## Upper quantiles of permutations (null model):
+##    90%    95%  97.5%    99% 
+## 0.0728 0.0945 0.1117 0.1294 
+## Permutation: free
+## Number of permutations: 9999</code></pre>
+<pre class="r"><code>mantel_stats &lt;- numeric(0)
+
+for (c in names(mantel_results)) {
+  mantel_stats[c] &lt;- mantel_results[[c]]$statistic
+}
+
+plot(
+  as.numeric(names(mantel_stats)),
+  mantel_stats,
+  type = &quot;b&quot;,
+  xlab = &quot;Century&quot;,
+  ylab = &quot;Mantel correlation (Spearman)&quot;,
+  main = &quot;Similarity between alleluia and thematic networks&quot;
+)</code></pre>
+<p><img src="rsiena_model_files/figure-html/plots-1.png" alt="" width="672" /></p>
+<p>The results are interesting. First the 9th century shows a signficant
+but weak relationship between thema and non-random alleluia edges. This
+may be introduced by a two clusters of Mixed (?) subcollection of
+alleluia with high thematic similarity.</p>
+<p>The 10th century has no significant results, because their as so
+little edges between alleluia sermons.</p>
+<p>The 11th century has signficantly results with again that mixed?
+cluster and a Easter cluster. Although again weak relationship.</p>
+<p>Interestingly, the 12th century has no relationship between thematic
+clusters but has a lot of non-random edges. This would indicate that no
+prove of thematic correlation is found within this dataset, indication
+another edge-making mechanism at work.</p>
+<p>It seems informative to introduce thematic similarity into the
+analysis but with a time dummy.</p>
+</div>
+</div>
+<div id="rsiena" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> RSiena</h1>
+<p>One big discussing point here. The network shows almost no breaking
+of ties between the waves. The model is breaking, maintaining, or
+addition ties to form the observed network, stepwise. However, the
+observed model doesn’t work that way, because it is a projected single
+model network from a bipartite network, the edges are form
+simultaneously, resulting in high clustering networks that behave per
+definition differently. Consequently, the model has a hard time
+converging and approximating the observed network with it runs.
+Therefore, I would argue it is justified to simplify the model to a only
+adding model although this is non-comform theory were sermons could be
+disentangled in the scribe’s eye. The margional error will be small to
+produce a model that is better at simulating the observed networks than
+without.</p>
+<p>Furthermore, the model yields NA’s on testing the subcollection in
+the std’s. Probablity because the model doesn’t converge. Therefore, the
+research question is formulated more abstractly, to investiguate whether
+or not the subcollections in general are more influential in forming
+connections than Alleluia. To differentiate between the two, the model
+will test on tie dummies instead of node dummies. Because indivial nodes
+of subcollections dont converge, because making all subcollection one
+dummy of subcollection yields exactly the same as the alleluia dummy
+because the nodes are the same. Theoratically, the subcollection
+property lays within the sermon, not in the tie. A scribe would select
+two sermons and not a manuscript with the two sermons (is the
+hypothesis). However, this simplification reduces the model’s
+dimensionality and retains the difference between alleluia collection
+and subcollections.</p>
+<pre class="r"><code>net_soc_array &lt;- array(data = c(wave_9, wave_10, wave_11, wave_12), dim = c(dim(wave_9), 4))
+
+# change maximum of both matrices (only increasing)
+for (t in 2:dim(net_soc_array)[3]) {
+  net_soc_array[, , t] &lt;- pmax(net_soc_array[, , t], net_soc_array[, , t - 1])
+}
+
+# dependent
+net &lt;- sienaDependent(net_soc_array, type = &quot;oneMode&quot;,
+                      allowOnly = TRUE)
+
+net</code></pre>
+<pre><code>## Type         oneMode              
+## Observations 4                    
+## Nodeset      Actors (284 elements)</code></pre>
+<pre class="r"><code># align
+ids &lt;- rownames(wave_9)
+
+# slice on ids 
+sim &lt;- theme_sim_m[ids, ids]
+
+# sim z-score
+sim &lt;- (sim - mean(sim[upper.tri(sim)])) /
+       sd(sim[upper.tri(sim)])
+
+diag(sim) &lt;- 0
+
+
+# z-score
+sim &lt;- (sim - mean(sim[upper.tri(sim)])) /
+       sd(sim[upper.tri(sim)])
+
+diag(sim) &lt;- 0
+
+mean(sim)</code></pre>
+<pre><code>## [1] -1.39e-17</code></pre>
+<pre class="r"><code>df &lt;- se_nodes |&gt;
+  filter(Id %in% rownames(wave_9))
+
+# return present in collection [0,1] 
+in_collection &lt;- function (col){
+  x &lt;- df[[col]] == 1
+  x[is.na(x)] &lt;- F
+  as.numeric(x)
+}
+
+# add coCovar for each collection on node level
+node_dummy &lt;- function(cols) {
+  x &lt;- rep(0, nrow(df))
+  
+  for (col in cols) x[in_collection(col) == 1] &lt;- 1
+  coCovar(x)
+}
+
+# return matrix of shared edges of collections
+pair_share &lt;- function(cols) {
+  n &lt;- nrow(df)
+  m &lt;- matrix(0, n, n)
+  for (col in cols) {
+    members &lt;- in_collection(col) == 1
+    m[members, members] &lt;- 1
+  }
+  diag(m) &lt;- 0
+  m
+}
+
+# add coVar on dyad level for every wave
+pair_share_periods &lt;- function(cols_p1, cols_p2, cols_p3) {
+  n &lt;- nrow(df)
+  empty &lt;- matrix(0, n, n)
+
+  m1 &lt;- if (length(cols_p1) == 0) empty else pair_share(cols_p1)
+  m2 &lt;- if (length(cols_p2) == 0) empty else pair_share(cols_p2)
+  m3 &lt;- if (length(cols_p3) == 0) empty else pair_share(cols_p3)
+
+  varDyadCovar(array(c(m1, m2, m3), dim = c(n, n, 3)))
+}
+
+# ===========================================================
+a_sub_cols &lt;- c(&quot;alleluia_spring&quot;, &quot;alleluia_easter&quot;, &quot;alleluia_after_425&quot;, &quot;alleluia_mixed?&quot;) # mixed is covered by mixed?
+
+controle_cols &lt;- c(&quot;campanienne&quot;, &quot;sessorienne&quot;, &quot;va_a&quot;, &quot;va_b&quot;) # &gt; 6 overlap from 9th onwards
+
+desc_cols &lt;- c(&quot;lapsu&quot;, &quot;bruxelles&quot;)
+later_cols &lt;- c(&quot;scp&quot;, &quot;diversis&quot;, &quot;wolfenbuettel&quot;) # &gt; 15 overlap on 12th century
+
+mydata &lt;- sienaDataCreate(
+  net        = net,
+  alleluia   = node_dummy(&quot;alleluia&quot;),
+  same_Asubs = coDyadCovar(pair_share(a_sub_cols)),
+  c912cols   = coDyadCovar(pair_share(controle_cols)),
+  desc       = pair_share_periods(c(), desc_cols, desc_cols),
+  c12cols    = pair_share_periods(c(), c(), later_cols),
+  theme      = coDyadCovar(sim)
+)</code></pre>
+<pre><code>## For dependent variable net, in some periods,</code></pre>
+<pre><code>## there are only increases, or only decreases.</code></pre>
+<pre><code>## This will be respected in the simulations.</code></pre>
+<pre><code>## If this is not desired,
+##  use allowOnly=FALSE when creating the dependent variable.</code></pre>
+<pre class="r"><code>print01Report(mydata, modelname = &quot;./results/Alle7&quot;)
+
+attr(mydata$depvars$net, &quot;uponly&quot;)</code></pre>
+<pre><code>## [1] TRUE TRUE TRUE</code></pre>
+<pre class="r"><code># get new project
+myAlg   &lt;- sienaAlgorithmCreate(projname = &quot;./results/Alle7_model1&quot;)</code></pre>
+<pre><code>## If you use this algorithm object, siena07 will create/use an output file ./results/Alle7_model1.txt .</code></pre>
+<pre class="r"><code>n_cores &lt;- detectCores() - 1
+
+# run model with time on density 
+est_model &lt;- function(eff, prev = NULL, thetaBound = 150) {
+  siena07(myAlg, data = mydata, effects = eff,
+          returnDeps = TRUE, useCluster = TRUE, nbrNodes = n_cores,
+          thetaBound = thetaBound, prevAns = prev)
+}
+
+# limit degree validation by only looking at 0 to 25 degrees
+DegreeDist0to100 &lt;- function(i, obsData, sims, period, groupName, varName, ...) {
+  IndegreeDistribution(i, obsData, sims, period, groupName, varName, levls = seq(0, 25, by = 1))
+}
+
+# get undirected triad census
+TriadUndir &lt;- function(i, obsData, sims, period, groupName, varName, ...) {
+  a &lt;- as.matrix(sparseMatrixExtraction(i, obsData, sims, period, groupName, varName))
+  g &lt;- graph_from_adjacency_matrix(a)
+  tc &lt;- triad_census(g)
+  c(&quot;003&quot;=tc[1], &quot;102&quot;=tc[3], &quot;201&quot;=tc[11], &quot;300&quot;=tc[16])
+}
+
+gof_triads &lt;- function(ans) {
+  sienaGOF(ans, TriadUndir, verbose = TRUE, join = FALSE,
+           varName = &quot;net&quot;, period = 1:3, twoTailed = FALSE)
+}
+
+gof_degree &lt;- function(ans) {
+  sienaGOF(ans, DegreeDist0to100, verbose = TRUE, join = FALSE,
+           varName = &quot;net&quot;, period = 1:3, twoTailed = FALSE)
+}</code></pre>
+<pre class="r"><code>eff0 &lt;- getEffects(mydata)
+
+eff0 &lt;- includeEffects(eff0, transTies, timeDummy = &quot;all&quot;)</code></pre>
+<pre><code>##   effectNumber effectName      shortName include fix   test  initialValue parm
+## 1 11           transitive ties transTies TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code># (ans0 &lt;- est_model(eff0, thetaBound = 150))
+# 
+# gof0.degree &lt;- gof_degree(ans0)
+# gof0.triads &lt;- gof_triads(ans0)
+# 
+# for (p in 1:3) print(plot(gof0.degree, scale = TRUE, center = TRUE, period = p))
+# 
+# for (p in 1:3) print(plot(gof0.triads, scale = TRUE, center = T, period = p))
+# 
+# gof0.degree
+# gof0.triads</code></pre>
+<div id="model-0-results" class="section level3" number="4.0.1">
+<h3><span class="header-section-number">4.0.1</span> Model 0
+Results</h3>
+<p>Estimates and standard errors</p>
+<p>Rate parameters: 0.1 Rate parameter period 1 4.6450 ( 0.1293) 0.2
+Rate parameter period 2 2.8127 ( 0.1011) 0.3 Rate parameter period 3
+14.4898 ( 0.2281)</p>
+<p>Other parameters: 1. eval: transitive ties 5.8116 ( 0.6356)</p>
+</div>
+<div id="model-0-conclusion" class="section level3" number="4.0.2">
+<h3><span class="header-section-number">4.0.2</span> Model 0
+conclusion</h3>
+<p>The zero model is the simplest model possible. To indicate whether
+the clustering prediction holds. Three times p&lt;0.001 difference is
+worrying because the model is so simple. Furthermore, the MDH = ~[4300,
+87000] which is enormous.</p>
+<pre class="r"><code># RQ1: Is Alleluia sermons more likely to connect with Alleluia sermons or rather with other sermons?
+eff1 &lt;- includeEffects(eff0, egoPlusAltX, egoXaltX, interaction1 = &quot;alleluia&quot;)</code></pre>
+<pre><code>##   effectNumber effectName                    shortName   include fix   test  initialValue parm
+## 1 281          alleluia ego and alt          egoPlusAltX TRUE    FALSE FALSE          0   0   
+## 2 403          alleluia ego x alleluia alter egoXaltX    TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code># RQ2: Are subcollections of Alleluia more prominent to connect with each other rather than Alleluia sermons. 
+eff1 &lt;- includeEffects(eff1, X, interaction1 = &quot;same_Asubs&quot;)</code></pre>
+<pre><code>##   effectNumber effectName shortName include fix   test  initialValue parm
+## 1 94           same_Asubs X         TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code># controle collections
+for (covar in c(&quot;c912cols&quot;, &quot;desc&quot;, &quot;c12cols&quot;)) eff1 &lt;- includeEffects(eff1, X, interaction1 = covar)</code></pre>
+<pre><code>##   effectNumber effectName shortName include fix   test  initialValue parm
+## 1 127          c912cols   X         TRUE    FALSE FALSE          0   0   
+##   effectNumber effectName shortName include fix   test  initialValue parm
+## 1 193          desc       X         TRUE    FALSE FALSE          0   0   
+##   effectNumber effectName shortName include fix   test  initialValue parm
+## 1 226          c12cols    X         TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code># theme added 
+eff1 &lt;- includeEffects(eff1, X, interaction1 = &quot;theme&quot;)</code></pre>
+<pre><code>##   effectNumber effectName shortName include fix   test  initialValue parm
+## 1 160          theme      X         TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>eff1</code></pre>
+<pre><code>##    effectName                    include fix   test  initialValue parm
+## 1  constant net rate (period 1)  TRUE    FALSE FALSE       18.6   0   
+## 2  constant net rate (period 2)  TRUE    FALSE FALSE       11.3   0   
+## 3  constant net rate (period 3)  TRUE    FALSE FALSE       58.2   0   
+## 4  transitive ties               TRUE    FALSE FALSE        0.0   0   
+## 5  same_Asubs                    TRUE    FALSE FALSE        0.0   0   
+## 6  c912cols                      TRUE    FALSE FALSE        0.0   0   
+## 7  theme                         TRUE    FALSE FALSE        0.0   0   
+## 8  desc                          TRUE    FALSE FALSE        0.0   0   
+## 9  c12cols                       TRUE    FALSE FALSE        0.0   0   
+## 10 alleluia ego and alt          TRUE    FALSE FALSE        0.0   0   
+## 11 alleluia ego x alleluia alter TRUE    FALSE FALSE        0.0   0</code></pre>
+<pre class="r"><code># (ans1 &lt;- est_model(eff1, thetaBound = 150))
+# 
+# gof1.degree &lt;- gof_degree(ans1)
+# gof1.triads &lt;- gof_triads(ans1)
+# 
+# for (p in 1:3) print(plot(gof1.degree, scale = TRUE, center = TRUE, period = p))
+# 
+# for (p in 1:3) print(plot(gof1.triads, scale = TRUE, center = T, period = p))
+# 
+# gof1.degree
+# gof1.triads</code></pre>
+</div>
+<div id="model-1-results" class="section level3" number="4.0.3">
+<h3><span class="header-section-number">4.0.3</span> Model 1
+results</h3>
+<p>Estimates and standard errors</p>
+<p>Rate parameters: 0.1 Rate parameter period 1 8.5024 ( 0.3183) 0.2
+Rate parameter period 2 5.0790 ( 0.2219) 0.3 Rate parameter period 3
+15.8178 ( 0.2844)</p>
+<p>Other parameters: 1. eval: transitive ties 9.5085 ( 4.7104) 2. eval:
+same_Asubs -0.0454 ( 0.3332) 3. eval: c912cols 2.5980 ( 0.1827) 4. eval:
+theme 0.2218 ( 0.0309) 5. eval: desc 2.5509 ( 0.2589) 6. eval: c12cols
+125.1061 ( 5.9065) 7. eval: alleluia ego and alt -0.9040 ( 0.1329) 8.
+eval: alleluia ego x alleluia alter 1.7311 ( 0.2641)</p>
+<p>Overall maximum convergence ratio = 2.9329 .</p>
+<p>The model doesn’t converge at all, (2.93) and that has to do with the
+collections in the 12th century. They overlap strongly with the existing
+model, and predict thus too well. The leap from wave 11 to 12 increases
+a lot of ties, so the model needs to work hard towards adding new ties
+and because the big collections like SCP were very popular it fits very
+well.</p>
+<p>Therefore, this parameter will be fixed.</p>
+<pre class="r"><code>eff2 &lt;- setEffect(eff1, X, interaction1 = &quot;c12cols&quot;, fix = TRUE, initialValue = 10)</code></pre>
+<pre><code>##   effectNumber effectName shortName include fix  test  initialValue parm
+## 1 226          c12cols    X         TRUE    TRUE FALSE         10   0</code></pre>
+<pre class="r"><code>eff2 &lt;- setEffect(eff2, transTies, initialValue = 5.8, fix = FALSE)</code></pre>
+<pre><code>##   effectNumber effectName      shortName include fix   test  initialValue parm
+## 1 11           transitive ties transTies TRUE    FALSE FALSE        5.8   0</code></pre>
+<pre class="r"><code># (ans2 &lt;- est_model(eff2, thetaBound = 150, prev = ans1))
+# 
+# ans2
+# 
+# gof2.degree &lt;- gof_degree(ans2)
+# gof2.triads &lt;- gof_triads(ans2)
+# 
+# for (p in 1:3) print(plot(gof2.degree, scale = TRUE, center = TRUE, period = p))
+# 
+# for (p in 1:3) print(plot(gof2.triads, scale = TRUE, center = T, period = p))
+# 
+# gof2.degree
+# gof2.triads</code></pre>
+</div>
+<div id="model-1.2" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Model 1.2</h2>
+<div id="model-1.2-results" class="section level3" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Model 1.2
+Results</h3>
+<p>Initial parameter values are 0.1 Rate parameter 8.5024 0.2 Rate
+parameter 5.0790 0.3 Rate parameter 15.8178 1. eval: transitive ties
+9.5085 2. eval: same_Asubs -0.0454 3. eval: c912cols 2.5980 4. eval:
+theme 0.2218 5. eval: desc 2.5509 6. eval: c12cols 125.1061 (fixed) 7.
+eval: alleluia ego and alt -0.9040 8. eval: alleluia ego x alleluia
+alter 1.7311</p>
+<p>Overall maximum convergence ratio = 0.1135</p>
+</div>
+<div id="model-1.2-conclusions" class="section level3" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Model 1.2
+conclusions</h3>
+<p>The three research questions are combined into one model. It needs to
+be said that the goodness of fit is rather terrible and no conclusion
+can be drawn from this analysis. The model does converge on (0.11).</p>
+<p>However, would that be the cause, this would be my
+interpretation.</p>
+<p>RQ1: Something that I didn’t expect, but Alleluia shows a positive
+effect of connecting with sermons from alleluia (z=7.33) and a negative
+effect of forming edge with sermons outside collection (z = -8.55).</p>
+<p>RQ2: The subcollections are not more likely to be form a tie compared
+to between subcollections or other sermons (z = 0.30). The thematic
+overlap between the addition in Mixed? and the thematic overlap
+exhibited in that subcollection, may have influenced the low result of
+this analysis.</p>
+<p>RQ3: Thematic similarity is an significant (z = 9.99) factor to form
+ties in the next phase.</p>
+</div>
+<div id="potential-problems" class="section level3" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> Potential
+problems:</h3>
+<ul>
+<li>the transitive ties are frozen in the second run.</li>
+<li>the goodness of fit is significantly different, changing per wave
+the number of triads and singles, and the degree is seriously off. I
+think it is difficult for the model to stocastically work on a
+“edge-adding” model when it is estimated in projected network.</li>
+<li>The assumption of causality is probablity wrong. The model implices
+wave2 is caused by wave1 + ties, but on a microlevel this assumption
+doesn’t hold, because the ties are created by non-random estimation of
+the sum of different ties. One tie reflects the relationship between
+ties of the network as well as a summation of multiple manuscripts that
+could be written in an unrelated context. For example: baltics 1010
+monestary and secular scriptorium against the Notre dame in 1090.</li>
+<li>Put differently, the sermons are not necessary aware of the
+existence of other sermons (some sermons are out of scope from the
+datasets we have, and may be less copied)</li>
+</ul>
+</div>
+</div>
+<div id="thoughts-of-next-steps" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Thoughts of next
+steps</h2>
+<p>One of the strongest ideas is the estimation of effects to predict
+next distributions. SIENA does this really well. The translations
+however from macro to micro and back is difficult due to the nature of
+the source material.</p>
+<p>I’ve learned that a model should resemble the data as close as
+possible, and I’m also very grateful for Koolman’s boat, which is a
+strong methodological tool.</p>
+<p>Bipartite networks will be looking in second as well as stocastic
+block models.</p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogImJpbmFyeV9tb2RlbCINCmF1dGhvcjogIkNlbGlzIFRpdHRzZSINCmRhdGU6ICIyMDI2LTEwLTA1Ig0Kb3V0cHV0OiBodG1sX2RvY3VtZW50DQplZGl0b3Jfb3B0aW9uczogDQogIGNodW5rX291dHB1dF90eXBlOiBpbmxpbmUNCi0tLQ0KDQojIEJpbmFyeSBvYnNlcnZlZCBtb2RlbA0KDQpUbyBtYWtlIGEgdW5pbW9kZSBiaW5hcnkgbW9kZWwsIGVkZ2VzIHNob3VsZCBub3QgYmUgcmVnYXJkZWQgaWYgdGhleSBhcmUgYSBwcm9kdWN0IG9mIHNlcm1vbnMgb3IgbWFudXNjcmlwdHMgd2l0aCBhIGxhcmdlIG51bWJlciBvZiBzZXJtb25zLCBpbmNyZWFzaW5nIHRoZSBkZWdyZWUuIEZvciBleGFtcGxlLCBpZiBJIGhhdmUgdHdvIHNlcm1vbnMgdGhhdCBvY2N1ciBpbiA1MCUgb2YgdGhlIG1hbnVzY3JpcHQsIHRoZXkgYXJlIHZlcnkgbGlrZWx5IHRvIG9jY3VyIHRvZ2V0aGVyLCBiZWNhdXNlIHRoZXkgYXJlIG9tbmlwcmVzZW50LiBXZSB3YW50IHRvIGFuYWx5c2Ugc2VybW9ucyB0aGF0IG9jY3VyIHRvZ2V0aGVyIHRoYXQgY2Fubm90IGJlIHByZWRpY3RlZCBieSByYW5kb20gY2hhbmdlLg0KDQpUaGVyZWZvcmUsIGEgbnVsbCBtb2RlbCB3YXMgY3JlYXRlZCB0aGF0IGZpbHRlcnMgZWRnZXMgdGhhdCBvY2N1ciBpbiBtb3JlIHRoYW4gNSUgb2YgcmFuZG9tbHkgc2h1ZmZsZWQgbWFudXNjcmlwdHMuIEluIG90aGVyIHdvcmRzLCB0aWVzIHdpdGggYSBoaWdoZXIgZGVncmVlIHRoYW4gNSUgb2YgMTAwMCByYW5kb20gY29uZmlndXJhdGlvbnMuDQoNClRoZSBydWxlcyBmb3IgdGhpcyBudWxsIG1vZGVsIHdlcmUgYXMgZm9sbG93czoNCg0KVGhlIHVuaW1vZGUgbW9kZWwgaXMgY3JlYXRlZCBieSBhIG51bGwgbW9kZWwgb24gYmlwYXJ0aXRlIG1hbnVzY3JpcHRzLg0KDQptcyAtIFtzZTEsIHNlMiwgc2UzXSBtczIgLSBbc2UxLCBzZTRdDQoNClRoZSBsZW5ndGggb2YgdGhlIHNlcm1vbiBzZXF1ZW5jZSBpcyBwZXJzZXJ2ZWQsIG9ubHkgdGhlIHNlcm1vbnMgYXJlIHN3YXBwZWQgYmV0d2VlbiBtYW51c2NyaXB0cy4gVG8gdGhpcyBlbmQsIHRoZSBzZXJtb25zIHRoYXQgYXJlIGFscmVhZHkgc3dvcHBlZCB3aXRoIG5vdCBiZSBzd2FwcGVkIGluIHRoZSBvcHBvc2l0ZSBkaXJlY3Rpb24sIGFuZCBhcmUgbm90IHRoZSBzYW1lLiBTbywgc2UxIGFuZCBzZTEgYXJlIG5vdCBzd29wcGVkLCBhbmQgbXMtc2UxIGFuZCBtczItc2U0IGFyZSBzd29wcGVkIGJhY2sgb24gdGhlIG5leHQgc3dvcHBpbmcgcm91bmQuIFRoZXJlIHdlcmUgMTAwMCBzd29wcGluZyByb3VuZHMgcGVyIGNlbnR1cnkuDQoNClRoaXMgYW5hbHlzaXMgaXMgY29uZHVjdGVkIG9uIHRoZSA1JSBoaWdoZXIgdGhhbiByYW5kb20gdGllcyBiZXR3ZWVuIHNlcm1vbnMuDQoNCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFLCB3YXJuaW5nPUYsIGVjaG89Rn0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShyZWFkeGwpDQpsaWJyYXJ5KGlncmFwaCkNCmxpYnJhcnkocGFyYWxsZWwpDQpsaWJyYXJ5KHZlZ2FuKQ0KDQojIGNoZWNrIGlmIHBhY2thZ2VzIGFyZSBhdmFpbGFibGUNCmZwYWNrYWdlLmNoZWNrIDwtIGZ1bmN0aW9uKHBhY2thZ2VzKSB7DQogICAgbGFwcGx5KHBhY2thZ2VzLCBGVU4gPSBmdW5jdGlvbih4KSB7DQogICAgICAgIGlmICghcmVxdWlyZSh4LCBjaGFyYWN0ZXIub25seSA9IFRSVUUpKSB7DQogICAgICAgICAgICBpbnN0YWxsLnBhY2thZ2VzKHgsIGRlcGVuZGVuY2llcyA9IFRSVUUpDQogICAgICAgICAgICBsaWJyYXJ5KHgsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSkNCiAgICAgICAgfQ0KICAgIH0pDQp9DQoNCmxlbiA8LSBmdW5jdGlvbiAoeCkgbGVuZ3RoKHgpDQoNCnBhY2thZ2VzID0gYygiUlNpZW5hIiwgImRldnRvb2xzIiwgImlncmFwaCIsICJ2ZWdhbiIpDQpmcGFja2FnZS5jaGVjayhwYWNrYWdlcykNCg0Kc2V0LnNlZWQoMjQ1NTMyNTMpDQoNCmBgYA0KDQpUaGUgZWRhIGhhcyBzaG93biB0aGF0IHNvbWV0aGluZyBjaGFuZ2VzIGluIHRoZSBjbHVzdGVycyBjb2VmZmljaWVudCBvZiB0aGUgZnVsbCBuZXR3b3JrIG9mIHNlcm1vbnMgYmV0d2VlbiA5LTEydGggY2VudHVyeSBhbmQgMTMtMTZ0aCBjZW50dXJ5LiBGdXJ0aGVybW9yZSwgdGhlIDl0aCB0byAxMnRoIGNlbnR1cnkgYWxtb3N0IG9ubHkgaW5jcmVhc2VzIG5ldyB0aWVzIHdoZXJlIGFzIHRoZSB0aWVzIG9mIHRoZSAxMnRoIHRvIHRoZSAxM3RoIGNlbnR1cnkgY2hhbmdlIGJ5IGFsbW9zdCA1MCUuDQoNClRvIG1lZXQgdGhlIGVuZHMgb2YgbGVhcm5pbmcgU0lFTkEsIGFuYWx5c2luZyB0aGUgbWFudXNjcmlwdHMgdGhhdCBhcmUgbW9zdCB1c2VkIGZvciBlZGl0aW5nIHB1cnBvc2VzLCBhbmQga2VlcGluZyBhIHNpbXBsZSBtb2RlbCwgdGhpcyBhbmFseXNpcyB3aWxsIGJlIGNvbmR1Y3RlZCBvbiA5dGggdG8gMTJ0aCBjZW50dXJ5IG1hbnVzY3JpcHRzLg0KDQpFYXJsaWVyIGNlbnR1cmllcyAoNXRoIHRvIDh0aCkgaGFkIGEgbWF4aW11bSBvZiAxNyBtYW51c2NyaXB0cyBhbmQgZGlkbid0IHlpZWxkIGFueSBtb3JlIHRoYW4gNSUgbm9uLXJhbmRvbSBzZXJtb24gdGllcy4NCg0KYGBge3IgbG9hZCBub2RlcyBlZGdlcywgd2FybmluZz1GLCBlY2hvPUZ9DQpyb290X2RhdGFfcGF0aCA9ICIuL2RhdGEvZGF0YV9kZXJpdi8iDQoNCiMgbWFrZSBtYXRyaXggZnJvbSBjc3YgbWF0cml4DQpsb2FkX2Fkal9tYXRyaXggPC0gZnVuY3Rpb24oZmlsZV9uYW1lKSB7DQogIGRmIDwtIHJlYWRfY3N2KHBhc3RlMChyb290X2RhdGFfcGF0aCwgZmlsZV9uYW1lKSwgc2hvd19jb2xfdHlwZXMgPSBGQUxTRSkNCiAgDQogIG5vZGVzIDwtIGRmW1sxXV0NCiAgbXggPC0gYXMubWF0cml4KGRmWywgLTFdKQ0KICANCiAgcm93bmFtZXMobXgpIDwtIG5vZGVzDQogIGNvbG5hbWVzKG14KSA8LSBjb2xuYW1lcyhkZilbLTFdDQogIA0KICByZXR1cm4obXgpDQp9DQoNCiMgPT09PT09PSBXQVZFUyBBREpVTkNUSU9OIE1BVFJJQ0VTID09PT09PT09PT0NCiMgOVRIIFRPIDEyVEggQ0VOVFVSWQ0Kc2VfYWRqXzlfZiA9ICJzZV9zZV9maWx0YTUlX2M5X2Fkal8wNjEwMjYuY3N2IiANCnNlX2Fkal8xMF9mID0gInNlX3NlX2ZpbHRhNSVfYzEwX2Fkal8wNjEwMjYuY3N2Ig0Kc2VfYWRqXzExX2YgPSAic2Vfc2VfZmlsdGE1JV9jMTFfYWRqXzA2MTAyNi5jc3YiDQpzZV9hZGpfMTJfZiA9ICJzZV9zZV9maWx0YTUlX2MxMl9hZGpfMDYxMDI2LmNzdiINCg0Kc2VfYWRqXzkgPC0gbG9hZF9hZGpfbWF0cml4KHNlX2Fkal85X2YpDQpzZV9hZGpfMTAgPC0gbG9hZF9hZGpfbWF0cml4KHNlX2Fkal8xMF9mKQ0Kc2VfYWRqXzExIDwtIGxvYWRfYWRqX21hdHJpeChzZV9hZGpfMTFfZikNCnNlX2Fkal8xMiA8LSBsb2FkX2Fkal9tYXRyaXgoc2VfYWRqXzEyX2YpDQoNCnNlX25vZGVfcGF0aCA9ICJzZV9ub2Rlc19jb2xsc18wODA5MjYueGxzeCINCg0KIyBzb21lIG5vZGVzIGhhcyBkdXBsaWNhdGVzIGFuZCB0aGV5IGFyZSBjb2xsYXBzZWQgaWYgb25lIGhhcyAxIHRoYW4gMSBlbHNlIDAgdG8gYmUgaW52ZXN0aWdhdGVkDQpzZV9ub2RlcyA8LSByZWFkX2V4Y2VsKHBhc3RlMChyb290X2RhdGFfcGF0aCwgc2Vfbm9kZV9wYXRoKSkgfD4gDQogIGdyb3VwX2J5KElkKSB8PiANCiAgc3VtbWFyaXNlKA0KICAgIGFjcm9zcyhldmVyeXRoaW5nKCksIFwoeCkgbWF4KHgsIG5hLnJtID0gVFJVRSkpLA0KICAgIC5ncm91cHMgPSAiZHJvcCINCiAgKQ0KIyBkb3VibGUgY2hlY2tlZCBhbmQgbWFudWFsbHkgY2hhbmdlZCB3aGVuIG5lY2Vzc2FyeQ0KDQoNCmBgYA0KDQpgYGB7ciBjb2xsZWN0aW9uIGZpbHRlcn0NCmNvbGxzX2RmIDwtIHJlYWRfZXhjZWwoJy4vZGF0YS9kYXRhX3Jhdy9jb2xsZWN0aW9ucy54bHN4JykNCmNvbGxfcmVmX2RmIDwtIHJlYWRfZXhjZWwoJy4vZGF0YS9kYXRhX3Jhdy9jb2xsZWN0aW9ucy54bHN4Jywgc2hlZXQ9ImNvbGxfY2F0byIpIHw+IA0KICBtdXRhdGUoY2VudHVyeSA9IGFzLmludGVnZXIoY2VudHVyeSkpIHw+IA0KICBkcm9wX25hKGNlbnR1cnkpDQoNCmNvdmFyX2NvbGxzX2wgPC0gbGFwcGx5KGNvbGxzX2RmLCBmdW5jdGlvbih4KSB7DQogIHggPC0gYXMuY2hhcmFjdGVyKHgpDQogIHhbIWlzLm5hKHgpXQ0KfSkNCg0KDQojIHRoZSBhbGxlbHVpYSBzZXJtb25zDQphbGxlbF9ub2RlcyA8LSBzZV9ub2RlcyB8PiANCiAgZmlsdGVyKGFsbGVsdWlhID09IDEpIHw+IA0KICBwdWxsKElkKQ0KDQphbGxlbF9ub2Rlcw0KDQoNCg0KYGBgDQoNCiMgTmV0d29yayB2aXN1YWxpc2F0aW9uDQoNCiMjIyBBbGxlbHVpYSBpbiBmdWxsIG5ldHdvcmsNCg0KVG8gZ2V0IGEgZ2VuZXJhbCBpZGVhIG9mIGhvdyBhbGxlbHVpYSBpcyBkaXN0cmlidXRlZCBpbiB0aGUgZ2VuZXJhbCBuZXR3b3JrLiBGb3IgY2xhcml0eSB0aGUgbm9kZXMgd2l0aG91dCBlZGdlcyBhcmUgcmVtb3ZlZCBwZXIgcGxvdC4NCg0KYGBge3IgcGxvdCBmdWxsfQ0KIyBmcm9tIG1hdHJpeCB0byBpZ3JhcGgNCmc5IDwtIGdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeChzZV9hZGpfOSwgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbW9kZSA9ICJtYXgiLCBkaWFnID0gRikNCmcxMCA8LSBncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgoc2VfYWRqXzEwLCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbW9kZSA9ICJtYXgiLCBkaWFnID0gRikNCmcxMSA8LSBncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgoc2VfYWRqXzExLCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbW9kZSA9ICJtYXgiLCBkaWFnID0gRikNCmcxMiA8LSBncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgoc2VfYWRqXzEyLCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbW9kZSA9ICJtYXgiLCBkaWFnID0gRikNCg0KcGxvdF9ncmFwaCA8LSBmdW5jdGlvbiAoZywgY2VudHVyeSwgbGF5b3V0PU5VTEwsIHNpemU9MjAwLCBjbGVhbj1GQUxTRSwgY29sb3Jfbm9kZXMgPSBsaXN0KCkpew0KICAjIHdoaWNoIG5vZGVzIHRvIGtlZXAsIGlmIGNsZWFuIHJlbW92ZSBub2RlcyB3aXRoIDANCiAga2VlcCA8LSByZXAoVFJVRSwgdmNvdW50KGcpKQ0KICBpZiAoaXNUUlVFKGNsZWFuKSkga2VlcCA8LSBkZWdyZWUoZykgPiAwDQogIA0KICAjIHJlbW92ZSB1bmtlcHQgbm9kZXMNCiAgZyA8LSBpbmR1Y2VkX3N1YmdyYXBoKGcsIHdoaWNoKGtlZXApKQ0KICANCiAgaWYgKGlzLm51bGwobGF5b3V0KSkgbGF5b3V0IDwtIGxheW91dF93aXRoX21kcyhnLCBkaXN0ID0gTlVMTCwgZGltID0gMikNCiAgDQogIFYoZykkc2l6ZSA8LSBzaXplDQogIA0KICAjIGdldCBhbGxlbCBjb2xvciByZWQNCiAgYWxsZWx1aWFfY29sb3IgPC0gaWZlbHNlKG5hbWVzKFYoZykpICVpbiUgYWxsZWxfbm9kZXMsICJyZWQiLCAibGlnaHRncmF5IikNCiAgDQogICMgcGxvdCBjZW50dXJ5DQogIHAxIDwtIHBsb3QoZywNCiAgICB2ZXJ0ZXgubGFiZWwgPSBOQSwNCiAgICB2ZXJ0ZXguY29sb3IgPSBhZGp1c3Rjb2xvcihhbGxlbHVpYV9jb2xvciwgYWxwaGEuZiA9IDAuOCksDQogICAgbGF5b3V0PWxheW91dCwNCiAgICBlZGdlLndpZHRoID0gMywNCiAgICByZXNjYWxlPUYsDQogICAgbWFpbj1wYXN0ZTAoIm49IiwgbGVuZ3RoKFYoZykpLCAiOyBjZW50dXJ5PSIsIGNlbnR1cnkpDQopDQogIHAxDQp9DQoNCnBhcihtZnJvdz1jKDIsIDIpLCBtYXI9IGMoMSwxLDEsMSkpDQoNCmdfY2xlYW5fbGlzdCA8LSBsaXN0KGc5LCBnMTAsIGcxMSwgZzEyKQ0KY2VudF9saXN0IDwtIDk6MTINCg0KZm9yIChpIGluIHNlcShsZW5ndGgoZ19jbGVhbl9saXN0KSkpew0KICBnX2kgPC0gZ19jbGVhbl9saXN0W1tpXV0NCiAgY2VudCA8LSBjZW50X2xpc3RbaV0NCiAgcGxvdF9ncmFwaChnPWdfaSwgY2VudHVyeT1jZW50LCBjbGVhbj1ULCBzaXplPTMwMCkNCn0NCg0KY29sbA0KDQpgYGANCg0KIyMjIE9ic2VydmF0aW9ucyBvbiBvdmVyYWxsIG5ldHdvcmsNCg0KVGhlIEFsbGVsdWlhIGNvbGxlY3Rpb24gb2NjdXJzIHRvZ2V0aGVyLCBhbHRob3VnaCBub3QgaW4gZnVsbCBhbmQgc2VwZXJhdGUuIEluIGFueSBjZW50dXJ5LCB3aXRoIHRoaXMgZmlsdGVyLCB0aGUgY29sbGVjdGlvbiBjbHVzdGVycyBzZXBlcmF0ZWx5IGFuZCBtb3N0bHkgd2l0aCBvdGhlciBzZXJtb25zIG91dHNpZGUgdGhlIGNvbGxlY3Rpb24uIEFwYXJ0IGZyb20gdGhlIDEydGggY2VudHVyeSwgaXQgYXBwZWFycyB0aGF0IG5vdCBhbGwgc2VybW9ucyBoYXZlIGEgZGVncmVlIHdpdGggdGhpcyBmaWx0ZXIuDQoNCiMjIyBBbGxlbHVpYSBzdWJjb2xsZWN0aW9ucyBwbG90cw0KDQpgYGB7ciBzdWJjb2xsZWN0aW9uIHBsb3RzfQ0KIyBhbGxlbHVpYSBzdWJjb2xsZWN0aW9ucw0KYWxsZWxfY29sbHMgPC0gY292YXJfY29sbHNfbFtncmVwbCgiXmFsbGVsdWlhXyIsIG5hbWVzKGNvdmFyX2NvbGxzX2wpKV0NCg0KIyBhc3NpZ24gY29sb3Vycw0KDQpjb2xsX2NvbHMgPC0gc2V0TmFtZXMoDQogIHJhaW5ib3cobGVuZ3RoKGFsbGVsX2NvbGxzKSksDQogIG5hbWVzKGFsbGVsX2NvbGxzKQ0KKQ0KDQojIHBsb3QgZm91ciBjZW50dXJpZXMNCmdfbGlzdCA8LSBsaXN0KGc5LCBnMTAsIGcxMSwgZzEyKQ0KDQpwYXIobWZyb3cgPSBjKDIsIDIpLCBtYXIgPSBjKDEsIDEsIDIsIDEpKQ0KDQpmb3IgKGkgaW4gc2VxX2Fsb25nKGdfbGlzdCkpIHsNCg0KICBnIDwtIGluZHVjZWRfc3ViZ3JhcGgoZ19saXN0W1tpXV0sIFYoZ19saXN0W1tpXV0pJG5hbWUgJWluJSBhbGxlbF9ub2RlcykNCg0KICBWKGcpJGNvbG9yIDwtICJsaWdodGdyYXkiDQogIEUoZykkY29sb3IgPC0gImJsYWNrIg0KDQogIGZvciAoYyBpbiBuYW1lcyhhbGxlbF9jb2xscykpIHsNCiAgICBWKGcpJGNvbG9yW1YoZykkbmFtZSAlaW4lIGFsbGVsX2NvbGxzW1tjXV1dIDwtIGNvbGxfY29sc1tjXQ0KICB9DQoNCiAgcGxvdChnLA0KICAgICAgIHZlcnRleC5sYWJlbCA9IE5BLA0KICAgICAgIHZlcnRleC5zaXplID0gMTUsDQogICAgICAgdmVydGV4LmNvbG9yID0gYWRqdXN0Y29sb3IoVihnKSRjb2xvciwgYWxwaGEuZiA9IDAuOCksDQogICAgICAgZWRnZS53aWR0aCA9IDIsDQogICAgICAgbGF5b3V0ID0gbGF5b3V0X3dpdGhfbWRzKGcpLA0KICAgICAgIG1haW4gPSBwYXN0ZSgiQ2VudHVyeSIsIGkgKyA4LCAiLSBuID0iLCB2Y291bnQoZykpKQ0KfQ0KDQpsZWdlbmQoImJvdHRvbXJpZ2h0IiwgbGVnZW5kID0gbmFtZXMoY29sbF9jb2xzKSwNCiAgICAgICBjb2wgPSBjb2xsX2NvbHMsIHBjaCA9IDE5LCBidHkgPSAibiIsIGNleCA9IDAuNykNCg0KDQpgYGANCg0KIyMgRGVmaW5lIHRoZSBmaWx0ZXIgb2Ygc2VybW9ucyB1c2VkIGZvciB0aGUgYW5hbHlzaXMNCg0KVGhlIG9wdGlvbnMgYXJlOiAtIE9ubHkgYWxsZWx1aWEgc2VybW9ucyB0byBnZXQgdGhlIG1vZGVsIHJ1bm5pbmcgYW5kIGJ1aWxkaW5nIHRoZSBtb2RlbCAtIEFsbGVsdWlhIHNlcm1vbnMgYW5kIGl0cyBkaXJlY3QgKG1vZGVsPTEpIG5laWdoYm91cnMgZ2V0IHRlc3Qgb24gYSBiaWdnZXIgbW9kZWwgd2l0aG91dCBvdmVyc3RyYWNoaW5nIHRoZSBydW5uaW5nIGNhcGFjaXR5IC0gVXNlIHRoZSBmdWxsIG1vZGVsLg0KDQpgYGB7ciBmaWx0ZXJzfQ0KIyA9PT09PT09PT09PT09PT09PT0gUEFSQU1FVEVSUyA9PT09PT09PT09PT09PT09PT09PT09DQoNCiMgb3B0aW9uOiAiYWxsZWx1aWEiIHwgInNhbXBsZSIgfCAibmVpZ2hib3VycyIgb3Igc29tdGhpbmcgZWxzZQ0KU0laRV9SQU5ET01fU0FNUExFID0gMTAwDQoNCm1hdHMgPC0gbGlzdCgNCiAgc2VfYWRqXzksDQogIHNlX2Fkal8xMCwNCiAgc2VfYWRqXzExLA0KICBzZV9hZGpfMTINCikNCg0KIyA9PT09PT09PT09PT09PT09PT09PSBGVU5DVElPTlMgPT09PT09PT09PT09PT09PT09PQ0KIyBkcm9wIG5vZGVzIHdpdGggbm8gZWRnZXMNCnNlc19saXN0cyA8LSBsYXBwbHkobWF0cywgZnVuY3Rpb24obSkgew0KICBrZWVwIDwtIHJvd1N1bXMobSAhPSAwKSA+IDAgfCBjb2xTdW1zKG0gIT0gMCkgPiAwDQogIG1ba2VlcCwga2VlcCwgZHJvcCA9IFRdDQogIHJldHVybiAoY29sbmFtZXMobSkpDQp9KQ0KDQojIGdldCB0aGUgbmVpZ2hib3VycyBvZiBhbGxlbHVpYSBub2RlcyBhbmQgcmV0dXJuIGEgbGlzdCBvZiB1bmlxdWUgbmVpZ2hib3Vycw0KZ2V0X2FsbGVsX3Nlcm1vbnMgPC0gZnVuY3Rpb24oZywgYWxsZWxfbm9kZXMpIHsNCiAgIyBvdmVybGFwIG9mIGFsbGVsdWlhIG5vZGVzIHdpdGggbm9kZXMgaW4gdGhlIG5ldHdvcmsNCiAgbm9uX21pc3Npbmdfbm9kZXMgPC0gaW50ZXJzZWN0KGFsbGVsX25vZGVzLCBWKGcpJG5hbWUpDQogIA0KICAjIGdldCBuZWlnaGJvdXJzDQogIG5uX2FsbGVsIDwtIGFkamFjZW50X3ZlcnRpY2VzKGcsIHYgPSBub25fbWlzc2luZ19ub2RlcywgbW9kZSA9ICJhbGwiKQ0KICANCiAgIyBwdXQgbm4gaW4gbGlzdA0KICBhbGxlbF9ubl9ub2RlcyA8LSBsaXN0KCkNCg0KICBmb3IgKG5uIGluIG5uX2FsbGVsKSB7DQogICAgaWYgKCFpcy5udWxsKG5hbWVzKG5uKSkpIHsNCiAgICAgIGFsbGVsX25uX25vZGVzIDwtIGFwcGVuZChhbGxlbF9ubl9ub2RlcywgYXMubGlzdChuYW1lcyhubikpKQ0KICAgIH0NCiAgfQ0KDQogICMgdW5saXN0IGFuZCBtYWtlIHVuaXF1ZQ0KICB1bmlxdWUodW5saXN0KGFsbGVsX25uX25vZGVzKSkNCn0NCg0KIyA9PT09PT09PT09PT09PSBUWVBFUyBPRiBOT0RFIEZJTFRFUlMgPT09PT09PT09PT09PT09DQojIyBBTEwgU0VSTU9OUyBXSVRIIEVER0VTDQphbGxfbm9kZV9zZXJtb25zIDwtIHVuaXF1ZSh1bmxpc3Qoc2VzX2xpc3RzKSkNCg0KIyMgUkFORE9NIFNBTVBMRSBPRiBOIFNFUk1PTlMNCiMgYSByYW5kb20gc2FtcGxlIG9mIHNlcm1vbnMgKG49MTAwKQ0Kc2FtcGxlX3ZlYyA8LSBhbGxfbm9kZV9zZXJtb25zIHw+IA0KICBhcy5kYXRhLmZyYW1lKCkgfD4gDQogIHNsaWNlX3NhbXBsZShuPTEwMCkgfD4gDQogIGFzLmxpc3QoKQ0KDQojIyBPTkxZIEFMTEVMVUlBIFNFUk1PTlMNCiMgYWxsZWx1aWEgc2VybW9ucw0KYWxsZWxfbm9kZXMgPC0gc2Vfbm9kZXMgfD4gDQogIGZpbHRlcihhbGxlbHVpYSA9PSAxKSB8PiANCiAgcHVsbChJZCkNCg0KIyMgQUxMRUxVSUEgTkVJR0hCT1VSUyBNT0RFPTENCiMgZ2V0IHNldCBvZiBhbGwgY2VudHVyaWVzDQphbGxlbF9zZXJtb25zIDwtIHVuaXF1ZShjKA0KICBnZXRfYWxsZWxfc2VybW9ucyhnOSwgYWxsZWxfbm9kZXMpLA0KICBnZXRfYWxsZWxfc2VybW9ucyhnMTAsIGFsbGVsX25vZGVzKSwNCiAgZ2V0X2FsbGVsX3Nlcm1vbnMoZzExLCBhbGxlbF9ub2RlcyksDQogIGdldF9hbGxlbF9zZXJtb25zKGcxMiwgYWxsZWxfbm9kZXMpLA0KICBhbGxlbF9ub2Rlcw0KKSkNCg0KcHJpbnQocGFzdGUoIk4gb25seSBhbGxlbHVpYSBzZXJtb25zOiIsIGxlbmd0aChhbGxlbF9ub2RlcykpKQ0KcHJpbnQocGFzdGUoIk4gZGlyZWN0IG5laWdoYm91cnMgQWxsZWx1aWEgc2VybW9uczoiLCBsZW5ndGgoYWxsZWxfc2VybW9ucykpKQ0KcHJpbnQocGFzdGUoIk4gcmFuZG9tIHNhbXBsZToiLCBsZW5ndGgoc2FtcGxlX3ZlYyRhbGxfbm9kZV9zZXJtb25zKSkpDQpwcmludChwYXN0ZSgiQWxsIHNlcm1vbnM6IiwgbGVuZ3RoKGFsbF9ub2RlX3Nlcm1vbnMpKSkNCg0KIyA9PT09PT09PT09PT09PT09PT09PT0gRklMVEVSID09PT09PT09PT09PT09PT09PQ0KDQpGSUxURVJfVFlQRSA8LSAibmVpZ2hib3VycyINCg0KIyBvcHRpb246ICJhbGxlbHVpYSIgfCAic2FtcGxlIiB8ICJuZWlnaGJvdXJzIiBvciBzb210aGluZyBlbHNlDQojIHRoZSBhbGxlbHVpYSBzZXJtb25zDQppZiAoRklMVEVSX1RZUEUgPT0gImFsbGVsdWlhIil7DQogIGZpbHRlcl9zZXJtb25zIDwtIGFsbGVsX25vZGVzDQp9IGVsc2UgaWYgKEZJTFRFUl9UWVBFID09ICJzYW1wbGUiKXsNCiAgZmlsdGVyX3Nlcm1vbnMgPC0gc2FtcGxlX3ZlYyRhbGxfbm9kZV9zZXJtb25zDQp9IGVsc2UgaWYgKEZJTFRFUl9UWVBFID09ICJuZWlnaGJvdXJzIil7DQogICBmaWx0ZXJfc2VybW9ucyA8LSBhbGxlbF9zZXJtb25zDQp9IGVsc2UgZmlsdGVyX3Nlcm1vbnMgPC0gYWxsX25vZGVfc2VybW9ucw0KDQpwcmludChwYXN0ZSgiRmlsdGVyIHR5cGU6IiwgRklMVEVSX1RZUEUpKQ0KYGBgDQoNCmBgYHtyIG5vZGUgc3luY30NCiMgZmlsdGVyIG9uIHJlbGV2YW50IG5vZGVzDQpkZiA8LSBzZV9ub2RlcyB8PiANCiAgZmlsdGVyKElkICVpbiUgZmlsdGVyX3Nlcm1vbnMpDQoNCiMgc2VybW9ucyB3aXRoIHRpZXMgdGhhdCBsYWNrIGEgcm93IGluIHNlX25vZGVzDQpzZXRkaWZmKGZpbHRlcl9zZXJtb25zLCBzZV9ub2RlcyRJZCkNCg0KIyBwYWQgYSBtYXRyaXggdG8gdGhlIGZ1bGwgc2V0IG9mIGlkcywgZmlsbGluZyBnYXBzIHdpdGggMA0KcGFkX21hdHJpeCA9IGZ1bmN0aW9uKG0sIGlkcykgew0KICBvdXQgPSBtYXRyaXgoMCwgbnJvdyA9IGxlbmd0aChpZHMpLCBuY29sID0gbGVuZ3RoKGlkcyksDQogICAgICAgICAgICAgICBkaW1uYW1lcyA9IGxpc3QoaWRzLCBpZHMpKQ0KICBzaGFyZWQgPSBpbnRlcnNlY3QoaWRzLCByb3duYW1lcyhtKSkNCiAgb3V0W3NoYXJlZCwgc2hhcmVkXSA9IG1bc2hhcmVkLCBzaGFyZWRdDQogIG91dFtpcy5uYShvdXQpXSA9IDANCiAgZGlhZyhvdXQpID0gMA0KICBvdXQNCn0NCg0KbWF0c19zeW5jID0gbGFwcGx5KG1hdHMsIHBhZF9tYXRyaXgsIGlkcyA9IGRmJElkKQ0KDQojIG1ha2UgbWF0cml4IHdhdmVzDQp3YXZlXzkgIDwtIG1hdHNfc3luY1tbMV1dDQp3YXZlXzEwIDwtIG1hdHNfc3luY1tbMl1dDQp3YXZlXzExIDwtIG1hdHNfc3luY1tbM11dDQp3YXZlXzEyIDwtIG1hdHNfc3luY1tbNF1dDQoNCiMgdW5pZm9ybSB0aGUgd2F2ZXMgd2l0aCB0aGUgbm9kZSBhdHRpYnV0aW9ucw0Kd2F2ZV85IDwtIHdhdmVfOVtkZiRJZCwgZGYkSWQsIGRyb3AgPSBGQUxTRV0NCndhdmVfMTAgPC0gd2F2ZV8xMFtkZiRJZCwgZGYkSWQsIGRyb3AgPSBGQUxTRV0NCndhdmVfMTEgPC0gd2F2ZV8xMVtkZiRJZCwgZGYkSWQsIGRyb3AgPSBGQUxTRV0NCndhdmVfMTIgPC0gd2F2ZV8xMltkZiRJZCwgZGYkSWQsIGRyb3AgPSBGQUxTRV0NCg0KDQojIHByaW50IGlkZW50aWNhbCBub2RlcyB0byBuZXh0IHdhdmUNCmlkZW50aWNhbChyb3duYW1lcyh3YXZlXzkpLCByb3duYW1lcyh3YXZlXzEwKSkNCmlkZW50aWNhbChyb3duYW1lcyh3YXZlXzEwKSwgcm93bmFtZXMod2F2ZV8xMSkpDQppZGVudGljYWwocm93bmFtZXMod2F2ZV8xMSksIHJvd25hbWVzKHdhdmVfMTIpKQ0KDQppc1N5bW1ldHJpYyh3YXZlXzEyKQ0KDQpgYGANCg0KYGBge3IgZWRhIHN5bmN9DQpnOV9zeW5jIDwtIGdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeCh3YXZlXzksIG1vZGUgPSAibWF4IiwgZGlhZyA9IEYpDQpnMTBfc3luYyA8LSBncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgod2F2ZV8xMCwgbW9kZSA9ICJtYXgiLCBkaWFnID0gRikgDQpnMTFfc3luYyA8LSBncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgod2F2ZV8xMSwgbW9kZSA9ICJtYXgiLCBkaWFnID0gRikgDQpnMTJfc3luYyA8LSBncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgod2F2ZV8xMiwgbW9kZSA9ICJtYXgiLCBkaWFnID0gRikNCg0KDQpnX2Z1bGwgPC0gbGlzdChnOV9zeW5jLCBnMTBfc3luYywgZzExX3N5bmMsIGcxMl9zeW5jKQ0KY2VudHVyaWVzIDwtIHNlcSg5LCAxMikNCg0KcGFyKG1mcm93PWMoMiwgMiksIG1hcj0gYygxLDEsMSwxKSkNCnN0YWJsZV9sYXlvdXQgPC0gbGF5b3V0X3dpdGhfbWRzKGcxMl9zeW5jLCBkaXN0ID0gTlVMTCwgZGltID0gMikNCg0KZm9yIChpIGluIHNlcShsZW5ndGgoZ19jbGVhbl9saXN0KSkpew0KICBnX2kgPC0gZ19mdWxsW1tpXV0NCiAgY2VudCA8LSBjZW50X2xpc3RbaV0NCiAgDQogIHNpemUgPC0gaWZlbHNlKGNlbnQgJWluJSAxMToxMiwgNDAwLCAzMDApDQogIA0KICBwbG90X2dyYXBoKGdfaSwgY2VudHVyeT1jZW50LCBsYXlvdXQgPSBOVUxMLCBzaXplPXNpemUsIGNsZWFuPVQpDQp9DQoNCm10ZXh0KCJGaWx0ZXJlZCBuZXR3b3JrIiwgc2lkZSA9IDMsIGxpbmUgPSAwLCBvdXRlciA9IFRSVUUpDQoNCg0KYGBgDQoNCmBgYHtyIGR5YWQgY291bnQgcGxvdH0NCmFsbGVsdWlhX2NvdW50cyA8LSBzYXBwbHkoZ19mdWxsLCBmdW5jdGlvbihnKSB7DQogIGUgPC0gZW5kcyhnLCBFKGcpLCBuYW1lcyA9IFRSVUUpDQogIGEgPC0gZVssIDFdICVpbiUgYWxsZWxfbm9kZXMNCiAgYiA8LSBlWywgMl0gJWluJSBhbGxlbF9ub2Rlcw0KDQogIGMoDQogICAgIkHigJNBIiA9IHN1bShhICYgYiksDQogICAgIkHigJNOb25BIiA9IHN1bShhICE9IGIpLA0KICAgICJOb25B4oCTTm9uQSIgPSBzdW0oIWEgJiAhYikNCiAgKQ0KfSkNCg0KY29sbmFtZXMoYWxsZWx1aWFfY291bnRzKSA8LSA5OjEyDQphbGxlbHVpYV9jb3VudHMgPC0gYXMuZGF0YS5mcmFtZShhbGxlbHVpYV9jb3VudHMpDQphbGxlbHVpYV9jb3VudHMgPC0gZGF0YS5mcmFtZSh0eXBlID0gcm93bmFtZXMoYWxsZWx1aWFfY291bnRzKSwgYWxsZWx1aWFfY291bnRzLHJvdy5uYW1lcyA9IE5VTEwpDQoNCmNvdW50c19sb25nIDwtIGFsbGVsdWlhX2NvdW50cyB8Pg0KICBwaXZvdF9sb25nZXIoLXR5cGUsIG5hbWVzX3RvID0gImNlbnR1cnkiLCB2YWx1ZXNfdG8gPSAiY291bnQiKSB8PiANCiAgbXV0YXRlKGNlbnR1cnkgPSBmYWN0b3IoY2VudHVyeSxsZXZlbHMgPSBjKCJYOSIsICJYMTAiLCAiWDExIiwgIlgxMiIpKSkNCg0KZ2dwbG90KGNvdW50c19sb25nLCBhZXMoeCA9IGNlbnR1cnksIHkgPSBjb3VudCwgZmlsbCA9IHR5cGUpKSArDQogIGdlb21fY29sKHBvc2l0aW9uID0gImZpbGwiKSArDQogIGxhYnMoeCA9ICJDZW50dXJ5IiwgeSA9ICJOdW1iZXIgb2YgZWRnZXMgKCUpIiwgZmlsbCA9ICJFZGdlIHR5cGUiLA0KICAgICAgIHRpdGxlID0gIkVkZ2UgZGlzdHJpYnV0aW9uIEFsbGVsdWlhIHdpdGggbm9uLUFsbGVsdWlhIHNlcm1vbnMiLA0KICAgICAgIHN1YnRpdGxlID0gIlNsaWNlZCBuZXR3b3JrIG9uIEFsbGVsdWlhIHNlcm1vbnMgd2l0aCBuZWlnaGJvdXJzIikgKw0KICB0aGVtZV9taW5pbWFsKCkNCg0KYGBgDQoNCmBgYHtyIGZpbHRlcmVkIHN0YXRpc3RpY3N9DQojIGdldCBuIG5vZGVzIChyZW1vdmVkIGlmIGRlZ3JlZSA9IDApDQpjZW50dXJ5X2NvdW50IDwtIGZ1bmN0aW9uIChnX2ksIGNlbnQpIHsNCiAgbl91bnFfbXNzID0gbGVuZ3RoKHVuaXF1ZShFKGdfaSkkbWFudXNjcmlwdCkpDQogIA0KICAjIHZvZWcgZWVuIHdlaWdodCB0b2UNCiAgRShnX2kpJHdlaWdodCA9IDENCiAgDQogIGdfaSA8LSBzaW1wbGlmeShnX2ksIGVkZ2UuYXR0ci5jb21iID0gbGlzdCh3ZWlnaHQgPSAic3VtIikpDQogIA0KICAjIG5vcm1hbGlzZSB3ZWlnaHQNCiAgRShnX2kpJHdlaWdodCA8LSBFKGdfaSkkd2VpZ2h0IC8gbWF4KEUoZ19pKSR3ZWlnaHQpDQogIGF2Z19lZGdlcyA8LSBpZihuX3VucV9tc3MgPiAwKSBlY291bnQoZ19pKSAvIG5fdW5xX21zcyBlbHNlIDANCiAgDQogIHJldHVybihkYXRhLmZyYW1lKA0KICAgIENlbnR1cnkgPSBjZW50LA0KICAgIE5vZGVzID0gdmNvdW50KGdfaSksDQogICAgRWRnZXMgPSBlY291bnQoZ19pKSwNCiAgICBEZWdyZWUgPSBpZ3JhcGg6Om1lYW5fZGVncmVlKGdfaSksDQogICAgVHJhbnNpdGl2aXR5ID0gaWdyYXBoOjp0cmFuc2l0aXZpdHkoZ19pLCB0eXBlID0gImdsb2JhbCIpLA0KICAgIERlbnNpdHkgPSBpZ3JhcGg6OmVkZ2VfZGVuc2l0eShnX2kpLA0KICAgIHN0cmluZ3NBc0ZhY3RvcnMgPSBGQUxTRQ0KICApKQ0KfQ0KDQpkZl9yZXN1bHRzIDwtIGRvLmNhbGwocmJpbmQsIGxhcHBseShzZXFfYWxvbmcoZ19mdWxsKSwgZnVuY3Rpb24oaSkgew0KICBjZW50dXJ5X2NvdW50KGdfaSA9IGdfZnVsbFtbaV1dLCBjZW50ID0gY2VudHVyaWVzW2ldKQ0KfSkpDQoNCmtuaXRyOjprYWJsZShkZl9yZXN1bHRzKQ0KDQpgYGANCg0KIyMjIEVEQSBjb21wYXJhdGl2ZQ0KDQpXaGVuIGNvbXBhcmluZyB0aGUgRURBIG9mIHRoZSB3ZWlnaHRlZCBmdWxsIG5ldHdvcmsgd2l0aCB0aGUgbm90LXJhbmRvbSBuZXR3b3JrLCBhIGZldyB0aGluZ3Mgc3RpY2sgb3V0IG9uIHRoZSB0aHJlZSBtZWFzdXJlbWVudHM6IERlZ3JlZSwgVHJhbnNpdGl2aXR5LCBhbmQgRGVuc2l0eS4gRGVncmVlLCB0aGUgbnVtYmVyIG9mIGRlZ3JlZXMgaXMgZmFyIGxvd2VyLCB3aGljaCB0b3RhbGx5IGlzIGV4cGVjdGVkIHdoZW4gcmVtb3ZpbmcgOTUlIG9mIHRoZSBlZGdlcyB0aGF0IGNvdWxkIGFsc28gYmUgYXR0cmlidXRlZCB0byByYW5kb20gc2VsZWN0aW9uLiBUcmFuc2l0aXZpdHksIHRoZSBnbG9iYWwgdHJhbnNpdGl2aXR5IG9yIGNsdXN0ZXJpbmcgY29lZmZpZW50IGlzIGhpZ2hlciBpbiB0aGUgMTAgYW5kIDExdGggY2VudHVyeSBjb21wYXJlZCB0byB0aGUgZnVsbCBncmFwaC4gRnVydGhlcm1vcmUsIHRoZSBkZWNsaW5lIHdlIHNlZSBpbiBjbHVzdGVyaW5nIGluIHRoZSBmdWxsIG1vZGVsIGlzIG5vdCB0cmFuc2xhdGVkIGludG8gdGhlIG5vbi1yYW5kb20gbW9kZWwuIFRoZSAxMHRoIGNlbnR1cnkgc2hvd3MgdGhyZWUgZGlzdGluY3QgY2x1c3RlcnMgd2l0aCBhIGZldyBpc29sYXRlZCB0cmlwbGV0cyBhbmQgZG91Ymxlcywgd2hpY2ggcmVzdWx0IGluIGEgaGlnaCBwb3RlbnRpYWwgZm9yIGZ1bGx5IGNvbm5lY3RlZCB0cmlwbGV0cy4gRGVuc2l0eSwgdGhlIGRlbnNpdHkgaXMgZmFyIGxvd2VyIHRoYW4gdGhlIGZ1bGx5IGNvbm5lY3RlZCBtb2RlbC4gVGhpcyBpcyB0byBiZSBleHBlY3RlZCBmb3IgdGhlIHNhbWUgcmVhc29uIGFzIGxvd2VyIGRlZ3JlZS4NCg0KIyMgTWFpbnRlbmFuY2UNCg0KVGhlIHF1ZXN0aW9uIGlzIGlmIHRoZSBudW1iZXIgb2YgY29ubmVjdHMgcmVtYWluIHRoZSBzYW1lIG9uZXMgZm9ybWVkLiBGaXJzdCBoYXZlIGEgbG9vayB0byB3aGF0IGV4dGVudCB0aGlzIGhhcHBlbnMuDQoNCmBgYHtyIG1haW50YW5jZX0NCndhdmVzID0gbGlzdCh3YXZlXzkgPSB3YXZlXzksIHdhdmVfMTAgPSB3YXZlXzEwLCB3YXZlXzExID0gd2F2ZV8xMSwgd2F2ZV8xMiA9IHdhdmVfMTIpDQoNCmNoYW5nZXMgPC0gZG8uY2FsbChyYmluZCwgbGFwcGx5KDE6MywgZnVuY3Rpb24oaSl7DQogIGEgPSB3YXZlc1tbaV1dDQogIGIgPSB3YXZlc1tbaSsxXV0NCiAgDQogIHRyaSA8LSB1cHBlci50cmkoYSkNCiAgZGF0YS5mcmFtZSgNCiAgICBwZXJpb2QgPSBwYXN0ZShpLCBuYW1lcyh3YXZlcylbaV0sICItIiwgbmFtZXMod2F2ZXMpW2kgKyAxXSksDQogICAgY3JlYXRlZCAgICA9IHN1bShhW3RyaV0gPT0gMCAmIGJbdHJpXSA9PSAxKSwNCiAgICBkaXNzb2x2ZWQgID0gc3VtKGFbdHJpXSA9PSAxICYgYlt0cmldID09IDApLA0KICAgIG1haW50YWluZWQgPSBzdW0oYVt0cmldID09IDEgJiBiW3RyaV0gPT0gMSkNCiAgKQ0KfSkpDQoNCnByaW50KGNoYW5nZXMpDQoNCmNoYW5nZXNfbG9uZyA8LSBwaXZvdF9sb25nZXIoY2hhbmdlcywgY29scyA9IGMobWFpbnRhaW5lZCwgY3JlYXRlZCwgZGlzc29sdmVkKSwNCiAgICAgICAgICAgICAgICAgICAgbmFtZXNfdG8gPSAiY2hhbmdlIiwgdmFsdWVzX3RvID0gInRpZXMiKQ0KDQpnZ3Bsb3QoY2hhbmdlc19sb25nLCBhZXMoeCA9IHBlcmlvZCwgeSA9IHRpZXMsIGZpbGwgPSBjaGFuZ2UpKSArDQogIGdlb21fY29sKCkgKw0KICBsYWJzKHggPSBOVUxMLCB5ID0gIk51bWJlciBvZiB0aWVzIiwgZmlsbCA9IE5VTEwsDQogICAgICAgdGl0bGUgPSAiVGllIG1haW50ZW5hbmNlIDl0aCAtIDEydGggY2VudHVyeSIpICsNCiAgdGhlbWVfbWluaW1hbCgpIA0KDQpgYGANCg0KIyMjIFdoaWNoIGNvbGxlY3Rpb24gY291bGQgaW5mbHVlbmNlIHRoZSBhbGxlbHVpYSBjb3JwdXM/DQoNCk90aGVyIGNvbGxlY3Rpb25zIG1pZ2h0IGJlIGluZmx1ZW5jaW5nIHRoZSByZXN1bHRzIG9mIGFsbGVsdWlhIHNlcm1vbiBjb25uZWN0aW5nLiBUaG9zZSwgd2UgbmVlZCBhIGxpc3Qgb2Ygc2VybW9ucy1zZXJtb24gZWRnZXMgdGhhdCBvY2N1ciBpbiBhbGxlbHVpYSBpbiB0aGUgZGF0YSwgYW5kIG5vdCB0aGVvcmV0aWNhbCBhcyBzaG93biBhYm92ZSwgYW5kIGlmIHRob3NlIGVkZ2VzIGFsc28gb2NjdXIgaW4gYW5vdGhlciBjb2xsZWN0aW9uLg0KDQpgYGB7ciBhbGxlbHVpYSBlZGdlcyBhbmQgY29sbGVjdGlvbiBvdmVybGFwfQ0KZ2V0X2NvbGxfb3ZlcmxhcCA8LSBmdW5jdGlvbiAobSwgY29sbHMsIHJlbHZfY3MpIHsNCiAgZ19hIDwtIGdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeChtLCBtb2RlPSd1bmRpcmVjdGVkJywgZGlhZyA9IEYpDQogIA0KICBjb2xsX2xpc3QgPC0gbGlzdCgpDQogIA0KICBlZGdlcyA8LSBpZ3JhcGg6OmFzX2VkZ2VsaXN0KGdfYSwgbmFtZXMgPSBUUlVFKQ0KICBwcmludChwYXN0ZShsZW4oZWRnZXMpLCBsZW4oRShnX2EpKSkpDQogIA0KICBvdmVybGFwX2NvdW50cyA8LSBpbnRlZ2VyKDApDQoNCiAgZm9yIChjIGluIG5hbWVzKGNvbGxzKSkgew0KICAgIA0KICAgIGlmIChjICVpbiUgcmVsdl9jcyl7DQogIA0KICAgIGNvdW50IDwtIDANCiAgDQogICAgZm9yIChpIGluIHNlcV9sZW4obnJvdyhlZGdlcykpKSB7DQogIA0KICAgICAgZTEgPC0gZWRnZXNbaSwgMV0NCiAgICAgIGUyIDwtIGVkZ2VzW2ksIDJdDQogIA0KICAgICAgaWYgKGUxICVpbiUgY29sbHNbW2NdXSAmJiBlMiAlaW4lIGNvbGxzW1tjXV0pIHsNCiAgICAgICAgY291bnQgPC0gY291bnQgKyAxDQogICAgICB9DQogIA0KICAgIH0NCiAgDQogICAgaWYgKGNvdW50ID4gMCkgb3ZlcmxhcF9jb3VudHNbY10gPC0gY291bnQNCiAgICB9DQogIH0NCiAgDQogIG92ZXJsYXBfY291bnRzIDwtIHNvcnQob3ZlcmxhcF9jb3VudHMsIGRlY3JlYXNpbmcgPSBUUlVFKQ0KDQogIHByaW50KG92ZXJsYXBfY291bnRzKQ0KICBwcmludChwYXN0ZShucm93KGVkZ2VzKSwgInRvdGFsIGVkZ2VzIikpDQogIA0KICByZXR1cm4gKG5hbWVzKG92ZXJsYXBfY291bnRzKSkNCn0NCg0KZ2V0X3JlbHZfY29sbF9jZW50IDwtIGZ1bmN0aW9uIChkZiwgY2VudCkgZGYgfD4gDQogICAgZmlsdGVyKGNlbnR1cnkgPCBjZW50ICsgMSwNCiAgICAgICAgICAgIXN0cl9kZXRlY3QoY29sbGVjdGlvbiwgIl4oYWxsZWx1aWF8YnJ1eHxsYXBzdXxzY3BfdmVyYnJha2VuKSIpKSB8PiANCiAgICBwdWxsKGNvbGxlY3Rpb24pDQoNCm1hdHNfZnVsbF9hbGxlbCA9IGxhcHBseShtYXRzLCBwYWRfbWF0cml4LCBpZHMgPSBhbGxlbF9ub2RlcykNCmNlbnRfbGlzdCA9IDk6MTINCg0KDQpvdmVybGFwX2wgPC0gbGlzdCgpDQoNCmZvciAoaSBpbiBzZXFfbGVuKGxlbihtYXRzX2Z1bGxfYWxsZWwpKSkgew0KICBjID0gY2VudF9saXN0W2ldDQogIG0gPSBtYXRzX2Z1bGxfYWxsZWxbW2ldXQ0KICANCiAgIyBnZXQgcG90ZW50aWFsL2V4aXN0aW5nIGNvbGxlY3Rpb25zIGluIHRoYXQgY2VudHVyeQ0KICByZWx2X2NlbnRfY29sbHMgPC0gZ2V0X3JlbHZfY29sbF9jZW50KGNvbGxfcmVmX2RmLCBjKQ0KICANCiAgIyBnZXQgY29sbGVjdGlvbiBuYW1lcyB3aXRoIG92ZXJsYXBwaW5nIHNlcm1vbiBwYWlycw0KICBjb2xsX25hbWVzX292ZXJsYXAgPC0gZ2V0X2NvbGxfb3ZlcmxhcChtLCBjb3Zhcl9jb2xsc19sLCByZWx2X2NlbnRfY29sbHMpDQogIA0KICBvdmVybGFwX2xbW2NdXSA8LSBjb2xsX25hbWVzX292ZXJsYXANCn0NCg0Kb3ZlcmxhcF9sDQpgYGANCg0KIyBUaGVtYXRpYw0KDQoxLiAgVGhlIHNlcm1vbnMgYXJlIHNjcmFwZWQgZnJvbSBhdWd1c3RpbnVzLml0LiAoPGh0dHBzOi8vd3d3LmF1Z3VzdGludXMuaXQvbGF0aW5vL2Rpc2NvcnNpLz4pDQoyLiAgU3RhbnphIChzdGFuZm9ydCBOTFAgcGFja2FnZSkgaXMgdXNlZCBhcyBlbWJlZGRlciwgYmVjYXVzZSBsYXRpbmN5IGNhdXNlZCBlcnJvcnMuDQozLiAgVGV4dHMgd2VyZSBsZW1tYXRpc2VkIGFuZCBmaWx0ZXJlZC4NCiAgICAxLiAgU3RvcHdvcmRzIHJlbW92ZWQgKGxpc3QgZnJvbSBLb3RvYmFUcmlsaXVzKQ0KICAgIDIuICBQT1M6ICJOT1VOIiwgIlZFUkIiLCAiQURKIiwgIlBST1BOIiBrZXB0DQogICAgMy4gIFdvcmRzIG9jY3VyaW5nIGluIG1vcmUgdGhhbiA1MCUgb2Ygc2VybW9ucw0KICAgIDQuICBXb3JkcyBvY2N1cmluZyBpbiBsZXNzIHRoYW4gNSBzZXJtb25zLg0KICAgIDUuICBsZW1tYXMgc21hbGxlciB0aGFuIDMgY2hhcmFjdGVycyBhcmUgcmVtb3ZlZA0KNC4gIHdvcmRzIGFyZSB2ZWN0b3JlZCB3aXRoIFRGLUlERiAoMSkNCjUuICBTaW1pbGFyaXR5IG1hdHJpeCBpcyBjcmVhdGVkIGJ5IGNvc2luZSBzaW1pbGFyaXR5IGJldHdlZW4gZWFjaCBzZXJtb24uDQoNCigxKSBmb3IgdCA9IGxlbW1hIGFuZCBkID0gZG9jdW1lbnQgYW5kIG4gPSBudW1iZXIgb2YgdGltZXMNCg0KKG4gdGltZXMgdCBpbiBkIC8gdG90YWwgbiB0cyBpbiBkKSBcKiBsb2cgKHRvdGFsIG51bWJlciBvZiBkIC8gbiBkIGNvbnRhaW5pbmcgdCkNCg0KW2h0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9Lb3RvYmFUcmlsaXVzL2xhdGluLXN0b3B3b3Jkcy9tYWluL2xhdGluXShodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vS290b2JhVHJpbGl1cy9sYXRpbi1zdG9wd29yZHMvbWFpbi9sYXRpbiIpDQoNCiMjIyBNYW50ZWwgcGVybXV0YXRpb24NCg0KVG8gcXVpY2tseSB2YWxpZGF0ZSB0aGUgcG90ZW50aWFsIGluZmx1ZW5jZSBvZiB0aGVtYXRpYyBzaW1pbGFyaXR5LCB0aGUgZWRnZXMgb2YgYWxsZWx1aWEgc2VybW9ucyBhcmUgY29ycmVsYXRlZCB0byB0aGVtYXRpYyBkaXN0YW5jZSB3aXRoIG1hbnRlbCBwZXJtdXRhdGlvbnMuIFRvIHRoaXMgZW5kLCBzcGVhcm1hbiB3aWxsIGJlIHVzZWQgYmVjYXVzZSB3ZSBhc3N1bWUgYSBtb25vdG9uaWMgYW5kIG5vdCBsaW5lYXIgcmVsYXRpb25zaGlwLCB3aGljaCBpcyBnb29kIGVub3VnaCBmb3IgYSBzaW1wbGUgY2hlY2suDQoNCmBgYHtyIHBsb3RzfQ0KdGhlbWVfc2ltX20gPC0gbG9hZF9hZGpfbWF0cml4KCdhbGxlbHVpYV9zaW1pbGFyaXR5X21hdHJpeC5jc3YnKQ0KDQptYW50ZWxfcmVzdWx0cyA8LSBsaXN0KCkNCmNlbnRfbGlzdCA8LSA5OjEyDQoNCmZvciAoaSBpbiBzZXFfbGVuKGxlbihtYXRzX2Z1bGxfYWxsZWwpKSkgew0KICANCiAgYyA8LSBjZW50X2xpc3RbaV0NCiAgbSA8LSBtYXRzX2Z1bGxfYWxsZWxbW2ldXQ0KICANCiAgaWRzIDwtIGludGVyc2VjdChyb3duYW1lcyhtKSwgcm93bmFtZXModGhlbWVfc2ltX20pKQ0KICANCiAgcHJpbnQoYykNCiAgDQogIG1hbnRlbF9yZXN1bHRzW1thcy5jaGFyYWN0ZXIoYyldXSA8LSB2ZWdhbjo6bWFudGVsKA0KICAgIGFzLmRpc3QoMSAtIG1baWRzLCBpZHNdKSwNCiAgICBhcy5kaXN0KDEgLSB0aGVtZV9zaW1fbVtpZHMsIGlkc10pLA0KICAgIG1ldGhvZCA9ICJzcGVhcm1hbiIsDQogICAgcGVybXV0YXRpb25zID0gOTk5OQ0KICApDQogIA0KICBwcmludChtYW50ZWxfcmVzdWx0c1tbYXMuY2hhcmFjdGVyKGMpXV0pDQp9DQoNCm1hbnRlbF9zdGF0cyA8LSBudW1lcmljKDApDQoNCmZvciAoYyBpbiBuYW1lcyhtYW50ZWxfcmVzdWx0cykpIHsNCiAgbWFudGVsX3N0YXRzW2NdIDwtIG1hbnRlbF9yZXN1bHRzW1tjXV0kc3RhdGlzdGljDQp9DQoNCnBsb3QoDQogIGFzLm51bWVyaWMobmFtZXMobWFudGVsX3N0YXRzKSksDQogIG1hbnRlbF9zdGF0cywNCiAgdHlwZSA9ICJiIiwNCiAgeGxhYiA9ICJDZW50dXJ5IiwNCiAgeWxhYiA9ICJNYW50ZWwgY29ycmVsYXRpb24gKFNwZWFybWFuKSIsDQogIG1haW4gPSAiU2ltaWxhcml0eSBiZXR3ZWVuIGFsbGVsdWlhIGFuZCB0aGVtYXRpYyBuZXR3b3JrcyINCikNCmBgYA0KDQpUaGUgcmVzdWx0cyBhcmUgaW50ZXJlc3RpbmcuIEZpcnN0IHRoZSA5dGggY2VudHVyeSBzaG93cyBhIHNpZ25maWNhbnQgYnV0IHdlYWsgcmVsYXRpb25zaGlwIGJldHdlZW4gdGhlbWEgYW5kIG5vbi1yYW5kb20gYWxsZWx1aWEgZWRnZXMuIFRoaXMgbWF5IGJlIGludHJvZHVjZWQgYnkgYSB0d28gY2x1c3RlcnMgb2YgTWl4ZWQgKD8pIHN1YmNvbGxlY3Rpb24gb2YgYWxsZWx1aWEgd2l0aCBoaWdoIHRoZW1hdGljIHNpbWlsYXJpdHkuDQoNClRoZSAxMHRoIGNlbnR1cnkgaGFzIG5vIHNpZ25pZmljYW50IHJlc3VsdHMsIGJlY2F1c2UgdGhlaXIgYXMgc28gbGl0dGxlIGVkZ2VzIGJldHdlZW4gYWxsZWx1aWEgc2VybW9ucy4NCg0KVGhlIDExdGggY2VudHVyeSBoYXMgc2lnbmZpY2FudGx5IHJlc3VsdHMgd2l0aCBhZ2FpbiB0aGF0IG1peGVkPyBjbHVzdGVyIGFuZCBhIEVhc3RlciBjbHVzdGVyLiBBbHRob3VnaCBhZ2FpbiB3ZWFrIHJlbGF0aW9uc2hpcC4NCg0KSW50ZXJlc3RpbmdseSwgdGhlIDEydGggY2VudHVyeSBoYXMgbm8gcmVsYXRpb25zaGlwIGJldHdlZW4gdGhlbWF0aWMgY2x1c3RlcnMgYnV0IGhhcyBhIGxvdCBvZiBub24tcmFuZG9tIGVkZ2VzLiBUaGlzIHdvdWxkIGluZGljYXRlIHRoYXQgbm8gcHJvdmUgb2YgdGhlbWF0aWMgY29ycmVsYXRpb24gaXMgZm91bmQgd2l0aGluIHRoaXMgZGF0YXNldCwgaW5kaWNhdGlvbiBhbm90aGVyIGVkZ2UtbWFraW5nIG1lY2hhbmlzbSBhdCB3b3JrLg0KDQpJdCBzZWVtcyBpbmZvcm1hdGl2ZSB0byBpbnRyb2R1Y2UgdGhlbWF0aWMgc2ltaWxhcml0eSBpbnRvIHRoZSBhbmFseXNpcyBidXQgd2l0aCBhIHRpbWUgZHVtbXkuDQoNCiMgUlNpZW5hDQoNCk9uZSBiaWcgZGlzY3Vzc2luZyBwb2ludCBoZXJlLiBUaGUgbmV0d29yayBzaG93cyBhbG1vc3Qgbm8gYnJlYWtpbmcgb2YgdGllcyBiZXR3ZWVuIHRoZSB3YXZlcy4gVGhlIG1vZGVsIGlzIGJyZWFraW5nLCBtYWludGFpbmluZywgb3IgYWRkaXRpb24gdGllcyB0byBmb3JtIHRoZSBvYnNlcnZlZCBuZXR3b3JrLCBzdGVwd2lzZS4gSG93ZXZlciwgdGhlIG9ic2VydmVkIG1vZGVsIGRvZXNuJ3Qgd29yayB0aGF0IHdheSwgYmVjYXVzZSBpdCBpcyBhIHByb2plY3RlZCBzaW5nbGUgbW9kZWwgbmV0d29yayBmcm9tIGEgYmlwYXJ0aXRlIG5ldHdvcmssIHRoZSBlZGdlcyBhcmUgZm9ybSBzaW11bHRhbmVvdXNseSwgcmVzdWx0aW5nIGluIGhpZ2ggY2x1c3RlcmluZyBuZXR3b3JrcyB0aGF0IGJlaGF2ZSBwZXIgZGVmaW5pdGlvbiBkaWZmZXJlbnRseS4gQ29uc2VxdWVudGx5LCB0aGUgbW9kZWwgaGFzIGEgaGFyZCB0aW1lIGNvbnZlcmdpbmcgYW5kIGFwcHJveGltYXRpbmcgdGhlIG9ic2VydmVkIG5ldHdvcmsgd2l0aCBpdCBydW5zLiBUaGVyZWZvcmUsIEkgd291bGQgYXJndWUgaXQgaXMganVzdGlmaWVkIHRvIHNpbXBsaWZ5IHRoZSBtb2RlbCB0byBhIG9ubHkgYWRkaW5nIG1vZGVsIGFsdGhvdWdoIHRoaXMgaXMgbm9uLWNvbWZvcm0gdGhlb3J5IHdlcmUgc2VybW9ucyBjb3VsZCBiZSBkaXNlbnRhbmdsZWQgaW4gdGhlIHNjcmliZSdzIGV5ZS4gVGhlIG1hcmdpb25hbCBlcnJvciB3aWxsIGJlIHNtYWxsIHRvIHByb2R1Y2UgYSBtb2RlbCB0aGF0IGlzIGJldHRlciBhdCBzaW11bGF0aW5nIHRoZSBvYnNlcnZlZCBuZXR3b3JrcyB0aGFuIHdpdGhvdXQuDQoNCkZ1cnRoZXJtb3JlLCB0aGUgbW9kZWwgeWllbGRzIE5BJ3Mgb24gdGVzdGluZyB0aGUgc3ViY29sbGVjdGlvbiBpbiB0aGUgc3RkJ3MuIFByb2JhYmxpdHkgYmVjYXVzZSB0aGUgbW9kZWwgZG9lc24ndCBjb252ZXJnZS4gVGhlcmVmb3JlLCB0aGUgcmVzZWFyY2ggcXVlc3Rpb24gaXMgZm9ybXVsYXRlZCBtb3JlIGFic3RyYWN0bHksIHRvIGludmVzdGlndWF0ZSB3aGV0aGVyIG9yIG5vdCB0aGUgc3ViY29sbGVjdGlvbnMgaW4gZ2VuZXJhbCBhcmUgbW9yZSBpbmZsdWVudGlhbCBpbiBmb3JtaW5nIGNvbm5lY3Rpb25zIHRoYW4gQWxsZWx1aWEuIFRvIGRpZmZlcmVudGlhdGUgYmV0d2VlbiB0aGUgdHdvLCB0aGUgbW9kZWwgd2lsbCB0ZXN0IG9uIHRpZSBkdW1taWVzIGluc3RlYWQgb2Ygbm9kZSBkdW1taWVzLiBCZWNhdXNlIGluZGl2aWFsIG5vZGVzIG9mIHN1YmNvbGxlY3Rpb25zIGRvbnQgY29udmVyZ2UsIGJlY2F1c2UgbWFraW5nIGFsbCBzdWJjb2xsZWN0aW9uIG9uZSBkdW1teSBvZiBzdWJjb2xsZWN0aW9uIHlpZWxkcyBleGFjdGx5IHRoZSBzYW1lIGFzIHRoZSBhbGxlbHVpYSBkdW1teSBiZWNhdXNlIHRoZSBub2RlcyBhcmUgdGhlIHNhbWUuIFRoZW9yYXRpY2FsbHksIHRoZSBzdWJjb2xsZWN0aW9uIHByb3BlcnR5IGxheXMgd2l0aGluIHRoZSBzZXJtb24sIG5vdCBpbiB0aGUgdGllLiBBIHNjcmliZSB3b3VsZCBzZWxlY3QgdHdvIHNlcm1vbnMgYW5kIG5vdCBhIG1hbnVzY3JpcHQgd2l0aCB0aGUgdHdvIHNlcm1vbnMgKGlzIHRoZSBoeXBvdGhlc2lzKS4gSG93ZXZlciwgdGhpcyBzaW1wbGlmaWNhdGlvbiByZWR1Y2VzIHRoZSBtb2RlbCdzIGRpbWVuc2lvbmFsaXR5IGFuZCByZXRhaW5zIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gYWxsZWx1aWEgY29sbGVjdGlvbiBhbmQgc3ViY29sbGVjdGlvbnMuDQoNCmBgYHtyIG9ubHkgYWRkaXRpb25hbH0NCm5ldF9zb2NfYXJyYXkgPC0gYXJyYXkoZGF0YSA9IGMod2F2ZV85LCB3YXZlXzEwLCB3YXZlXzExLCB3YXZlXzEyKSwgZGltID0gYyhkaW0od2F2ZV85KSwgNCkpDQoNCiMgY2hhbmdlIG1heGltdW0gb2YgYm90aCBtYXRyaWNlcyAob25seSBpbmNyZWFzaW5nKQ0KZm9yICh0IGluIDI6ZGltKG5ldF9zb2NfYXJyYXkpWzNdKSB7DQogIG5ldF9zb2NfYXJyYXlbLCAsIHRdIDwtIHBtYXgobmV0X3NvY19hcnJheVssICwgdF0sIG5ldF9zb2NfYXJyYXlbLCAsIHQgLSAxXSkNCn0NCg0KIyBkZXBlbmRlbnQNCm5ldCA8LSBzaWVuYURlcGVuZGVudChuZXRfc29jX2FycmF5LCB0eXBlID0gIm9uZU1vZGUiLA0KICAgICAgICAgICAgICAgICAgICAgIGFsbG93T25seSA9IFRSVUUpDQoNCm5ldA0KYGBgDQoNCmBgYHtyIHRoZW1hdGljIG1hdHJpeH0NCiMgYWxpZ24NCmlkcyA8LSByb3duYW1lcyh3YXZlXzkpDQoNCiMgc2xpY2Ugb24gaWRzIA0Kc2ltIDwtIHRoZW1lX3NpbV9tW2lkcywgaWRzXQ0KDQojIHNpbSB6LXNjb3JlDQpzaW0gPC0gKHNpbSAtIG1lYW4oc2ltW3VwcGVyLnRyaShzaW0pXSkpIC8NCiAgICAgICBzZChzaW1bdXBwZXIudHJpKHNpbSldKQ0KDQpkaWFnKHNpbSkgPC0gMA0KDQoNCiMgei1zY29yZQ0Kc2ltIDwtIChzaW0gLSBtZWFuKHNpbVt1cHBlci50cmkoc2ltKV0pKSAvDQogICAgICAgc2Qoc2ltW3VwcGVyLnRyaShzaW0pXSkNCg0KZGlhZyhzaW0pIDwtIDANCg0KbWVhbihzaW0pDQpgYGANCg0KYGBge3IgbW9kZWwgc2NoYXR0ZW59DQpkZiA8LSBzZV9ub2RlcyB8Pg0KICBmaWx0ZXIoSWQgJWluJSByb3duYW1lcyh3YXZlXzkpKQ0KDQojIHJldHVybiBwcmVzZW50IGluIGNvbGxlY3Rpb24gWzAsMV0gDQppbl9jb2xsZWN0aW9uIDwtIGZ1bmN0aW9uIChjb2wpew0KICB4IDwtIGRmW1tjb2xdXSA9PSAxDQogIHhbaXMubmEoeCldIDwtIEYNCiAgYXMubnVtZXJpYyh4KQ0KfQ0KDQojIGFkZCBjb0NvdmFyIGZvciBlYWNoIGNvbGxlY3Rpb24gb24gbm9kZSBsZXZlbA0Kbm9kZV9kdW1teSA8LSBmdW5jdGlvbihjb2xzKSB7DQogIHggPC0gcmVwKDAsIG5yb3coZGYpKQ0KICANCiAgZm9yIChjb2wgaW4gY29scykgeFtpbl9jb2xsZWN0aW9uKGNvbCkgPT0gMV0gPC0gMQ0KICBjb0NvdmFyKHgpDQp9DQoNCiMgcmV0dXJuIG1hdHJpeCBvZiBzaGFyZWQgZWRnZXMgb2YgY29sbGVjdGlvbnMNCnBhaXJfc2hhcmUgPC0gZnVuY3Rpb24oY29scykgew0KICBuIDwtIG5yb3coZGYpDQogIG0gPC0gbWF0cml4KDAsIG4sIG4pDQogIGZvciAoY29sIGluIGNvbHMpIHsNCiAgICBtZW1iZXJzIDwtIGluX2NvbGxlY3Rpb24oY29sKSA9PSAxDQogICAgbVttZW1iZXJzLCBtZW1iZXJzXSA8LSAxDQogIH0NCiAgZGlhZyhtKSA8LSAwDQogIG0NCn0NCg0KIyBhZGQgY29WYXIgb24gZHlhZCBsZXZlbCBmb3IgZXZlcnkgd2F2ZQ0KcGFpcl9zaGFyZV9wZXJpb2RzIDwtIGZ1bmN0aW9uKGNvbHNfcDEsIGNvbHNfcDIsIGNvbHNfcDMpIHsNCiAgbiA8LSBucm93KGRmKQ0KICBlbXB0eSA8LSBtYXRyaXgoMCwgbiwgbikNCg0KICBtMSA8LSBpZiAobGVuZ3RoKGNvbHNfcDEpID09IDApIGVtcHR5IGVsc2UgcGFpcl9zaGFyZShjb2xzX3AxKQ0KICBtMiA8LSBpZiAobGVuZ3RoKGNvbHNfcDIpID09IDApIGVtcHR5IGVsc2UgcGFpcl9zaGFyZShjb2xzX3AyKQ0KICBtMyA8LSBpZiAobGVuZ3RoKGNvbHNfcDMpID09IDApIGVtcHR5IGVsc2UgcGFpcl9zaGFyZShjb2xzX3AzKQ0KDQogIHZhckR5YWRDb3ZhcihhcnJheShjKG0xLCBtMiwgbTMpLCBkaW0gPSBjKG4sIG4sIDMpKSkNCn0NCg0KIyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KYV9zdWJfY29scyA8LSBjKCJhbGxlbHVpYV9zcHJpbmciLCAiYWxsZWx1aWFfZWFzdGVyIiwgImFsbGVsdWlhX2FmdGVyXzQyNSIsICJhbGxlbHVpYV9taXhlZD8iKSAjIG1peGVkIGlzIGNvdmVyZWQgYnkgbWl4ZWQ/DQoNCmNvbnRyb2xlX2NvbHMgPC0gYygiY2FtcGFuaWVubmUiLCAic2Vzc29yaWVubmUiLCAidmFfYSIsICJ2YV9iIikgIyA+IDYgb3ZlcmxhcCBmcm9tIDl0aCBvbndhcmRzDQoNCmRlc2NfY29scyA8LSBjKCJsYXBzdSIsICJicnV4ZWxsZXMiKQ0KbGF0ZXJfY29scyA8LSBjKCJzY3AiLCAiZGl2ZXJzaXMiLCAid29sZmVuYnVldHRlbCIpICMgPiAxNSBvdmVybGFwIG9uIDEydGggY2VudHVyeQ0KDQpteWRhdGEgPC0gc2llbmFEYXRhQ3JlYXRlKA0KICBuZXQgICAgICAgID0gbmV0LA0KICBhbGxlbHVpYSAgID0gbm9kZV9kdW1teSgiYWxsZWx1aWEiKSwNCiAgc2FtZV9Bc3VicyA9IGNvRHlhZENvdmFyKHBhaXJfc2hhcmUoYV9zdWJfY29scykpLA0KICBjOTEyY29scyAgID0gY29EeWFkQ292YXIocGFpcl9zaGFyZShjb250cm9sZV9jb2xzKSksDQogIGRlc2MgICAgICAgPSBwYWlyX3NoYXJlX3BlcmlvZHMoYygpLCBkZXNjX2NvbHMsIGRlc2NfY29scyksDQogIGMxMmNvbHMgICAgPSBwYWlyX3NoYXJlX3BlcmlvZHMoYygpLCBjKCksIGxhdGVyX2NvbHMpLA0KICB0aGVtZSAgICAgID0gY29EeWFkQ292YXIoc2ltKQ0KKQ0KDQpwcmludDAxUmVwb3J0KG15ZGF0YSwgbW9kZWxuYW1lID0gIi4vcmVzdWx0cy9BbGxlNyIpDQoNCmF0dHIobXlkYXRhJGRlcHZhcnMkbmV0LCAidXBvbmx5IikNCmBgYA0KDQpgYGB7ciBtb2RlbCBlbiBnb29kbmVzcyBvZiBmaXR9DQojIGdldCBuZXcgcHJvamVjdA0KbXlBbGcgICA8LSBzaWVuYUFsZ29yaXRobUNyZWF0ZShwcm9qbmFtZSA9ICIuL3Jlc3VsdHMvQWxsZTdfbW9kZWwxIikNCm5fY29yZXMgPC0gZGV0ZWN0Q29yZXMoKSAtIDENCg0KIyBydW4gbW9kZWwgd2l0aCB0aW1lIG9uIGRlbnNpdHkgDQplc3RfbW9kZWwgPC0gZnVuY3Rpb24oZWZmLCBwcmV2ID0gTlVMTCwgdGhldGFCb3VuZCA9IDE1MCkgew0KICBzaWVuYTA3KG15QWxnLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gZWZmLA0KICAgICAgICAgIHJldHVybkRlcHMgPSBUUlVFLCB1c2VDbHVzdGVyID0gVFJVRSwgbmJyTm9kZXMgPSBuX2NvcmVzLA0KICAgICAgICAgIHRoZXRhQm91bmQgPSB0aGV0YUJvdW5kLCBwcmV2QW5zID0gcHJldikNCn0NCg0KIyBsaW1pdCBkZWdyZWUgdmFsaWRhdGlvbiBieSBvbmx5IGxvb2tpbmcgYXQgMCB0byAyNSBkZWdyZWVzDQpEZWdyZWVEaXN0MHRvMTAwIDwtIGZ1bmN0aW9uKGksIG9ic0RhdGEsIHNpbXMsIHBlcmlvZCwgZ3JvdXBOYW1lLCB2YXJOYW1lLCAuLi4pIHsNCiAgSW5kZWdyZWVEaXN0cmlidXRpb24oaSwgb2JzRGF0YSwgc2ltcywgcGVyaW9kLCBncm91cE5hbWUsIHZhck5hbWUsIGxldmxzID0gc2VxKDAsIDI1LCBieSA9IDEpKQ0KfQ0KDQojIGdldCB1bmRpcmVjdGVkIHRyaWFkIGNlbnN1cw0KVHJpYWRVbmRpciA8LSBmdW5jdGlvbihpLCBvYnNEYXRhLCBzaW1zLCBwZXJpb2QsIGdyb3VwTmFtZSwgdmFyTmFtZSwgLi4uKSB7DQogIGEgPC0gYXMubWF0cml4KHNwYXJzZU1hdHJpeEV4dHJhY3Rpb24oaSwgb2JzRGF0YSwgc2ltcywgcGVyaW9kLCBncm91cE5hbWUsIHZhck5hbWUpKQ0KICBnIDwtIGdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeChhKQ0KICB0YyA8LSB0cmlhZF9jZW5zdXMoZykNCiAgYygiMDAzIj10Y1sxXSwgIjEwMiI9dGNbM10sICIyMDEiPXRjWzExXSwgIjMwMCI9dGNbMTZdKQ0KfQ0KDQpnb2ZfdHJpYWRzIDwtIGZ1bmN0aW9uKGFucykgew0KICBzaWVuYUdPRihhbnMsIFRyaWFkVW5kaXIsIHZlcmJvc2UgPSBUUlVFLCBqb2luID0gRkFMU0UsDQogICAgICAgICAgIHZhck5hbWUgPSAibmV0IiwgcGVyaW9kID0gMTozLCB0d29UYWlsZWQgPSBGQUxTRSkNCn0NCg0KZ29mX2RlZ3JlZSA8LSBmdW5jdGlvbihhbnMpIHsNCiAgc2llbmFHT0YoYW5zLCBEZWdyZWVEaXN0MHRvMTAwLCB2ZXJib3NlID0gVFJVRSwgam9pbiA9IEZBTFNFLA0KICAgICAgICAgICB2YXJOYW1lID0gIm5ldCIsIHBlcmlvZCA9IDE6MywgdHdvVGFpbGVkID0gRkFMU0UpDQp9DQoNCmBgYA0KDQpgYGB7ciBtb2RlbCAwfQ0KZWZmMCA8LSBnZXRFZmZlY3RzKG15ZGF0YSkNCg0KZWZmMCA8LSBpbmNsdWRlRWZmZWN0cyhlZmYwLCB0cmFuc1RpZXMsIHRpbWVEdW1teSA9ICJhbGwiKQ0KDQojIChhbnMwIDwtIGVzdF9tb2RlbChlZmYwLCB0aGV0YUJvdW5kID0gMTUwKSkNCiMgDQojIGdvZjAuZGVncmVlIDwtIGdvZl9kZWdyZWUoYW5zMCkNCiMgZ29mMC50cmlhZHMgPC0gZ29mX3RyaWFkcyhhbnMwKQ0KIyANCiMgZm9yIChwIGluIDE6MykgcHJpbnQocGxvdChnb2YwLmRlZ3JlZSwgc2NhbGUgPSBUUlVFLCBjZW50ZXIgPSBUUlVFLCBwZXJpb2QgPSBwKSkNCiMgDQojIGZvciAocCBpbiAxOjMpIHByaW50KHBsb3QoZ29mMC50cmlhZHMsIHNjYWxlID0gVFJVRSwgY2VudGVyID0gVCwgcGVyaW9kID0gcCkpDQojIA0KIyBnb2YwLmRlZ3JlZQ0KIyBnb2YwLnRyaWFkcw0KYGBgDQoNCiMjIyBNb2RlbCAwIFJlc3VsdHMNCkVzdGltYXRlcyBhbmQgc3RhbmRhcmQgZXJyb3JzDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0KUmF0ZSBwYXJhbWV0ZXJzOg0KIDAuMSAgUmF0ZSBwYXJhbWV0ZXIgcGVyaW9kIDEgICAgIDQuNjQ1MCAgKCAgIDAuMTI5MykNCiAwLjIgIFJhdGUgcGFyYW1ldGVyIHBlcmlvZCAyICAgICAyLjgxMjcgICggICAwLjEwMTEpDQogMC4zICBSYXRlIHBhcmFtZXRlciBwZXJpb2QgMyAgICAxNC40ODk4ICAoICAgMC4yMjgxKQ0KDQpPdGhlciBwYXJhbWV0ZXJzOg0KIDEuIGV2YWw6ICB0cmFuc2l0aXZlIHRpZXMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDUuODExNiAgKCAgIDAuNjM1NikNCiANCiMjIyBNb2RlbCAwIGNvbmNsdXNpb24NCg0KVGhlIHplcm8gbW9kZWwgaXMgdGhlIHNpbXBsZXN0IG1vZGVsIHBvc3NpYmxlLiBUbyBpbmRpY2F0ZSB3aGV0aGVyIHRoZSBjbHVzdGVyaW5nIHByZWRpY3Rpb24gaG9sZHMuIFRocmVlIHRpbWVzIHA8MC4wMDEgZGlmZmVyZW5jZSBpcyB3b3JyeWluZyBiZWNhdXNlIHRoZSBtb2RlbCBpcyBzbyBzaW1wbGUuIEZ1cnRoZXJtb3JlLCB0aGUgTURIID0gfls0MzAwLCA4NzAwMF0gd2hpY2ggaXMgZW5vcm1vdXMuIA0KDQoNCg0KYGBge3IgbW9kZWwgMSBlZmZlY3RzfQ0KIyBSUTE6IElzIEFsbGVsdWlhIHNlcm1vbnMgbW9yZSBsaWtlbHkgdG8gY29ubmVjdCB3aXRoIEFsbGVsdWlhIHNlcm1vbnMgb3IgcmF0aGVyIHdpdGggb3RoZXIgc2VybW9ucz8NCmVmZjEgPC0gaW5jbHVkZUVmZmVjdHMoZWZmMCwgZWdvUGx1c0FsdFgsIGVnb1hhbHRYLCBpbnRlcmFjdGlvbjEgPSAiYWxsZWx1aWEiKQ0KDQojIFJRMjogQXJlIHN1YmNvbGxlY3Rpb25zIG9mIEFsbGVsdWlhIG1vcmUgcHJvbWluZW50IHRvIGNvbm5lY3Qgd2l0aCBlYWNoIG90aGVyIHJhdGhlciB0aGFuIEFsbGVsdWlhIHNlcm1vbnMuIA0KZWZmMSA8LSBpbmNsdWRlRWZmZWN0cyhlZmYxLCBYLCBpbnRlcmFjdGlvbjEgPSAic2FtZV9Bc3VicyIpDQoNCiMgY29udHJvbGUgY29sbGVjdGlvbnMNCmZvciAoY292YXIgaW4gYygiYzkxMmNvbHMiLCAiZGVzYyIsICJjMTJjb2xzIikpIGVmZjEgPC0gaW5jbHVkZUVmZmVjdHMoZWZmMSwgWCwgaW50ZXJhY3Rpb24xID0gY292YXIpDQoNCiMgdGhlbWUgYWRkZWQgDQplZmYxIDwtIGluY2x1ZGVFZmZlY3RzKGVmZjEsIFgsIGludGVyYWN0aW9uMSA9ICJ0aGVtZSIpDQplZmYxDQpgYGANCg0KDQoNCmBgYHtyIGdvb2RuZXNzIG9mIGZpdH0NCiMgKGFuczEgPC0gZXN0X21vZGVsKGVmZjEsIHRoZXRhQm91bmQgPSAxNTApKQ0KIyANCiMgZ29mMS5kZWdyZWUgPC0gZ29mX2RlZ3JlZShhbnMxKQ0KIyBnb2YxLnRyaWFkcyA8LSBnb2ZfdHJpYWRzKGFuczEpDQojIA0KIyBmb3IgKHAgaW4gMTozKSBwcmludChwbG90KGdvZjEuZGVncmVlLCBzY2FsZSA9IFRSVUUsIGNlbnRlciA9IFRSVUUsIHBlcmlvZCA9IHApKQ0KIyANCiMgZm9yIChwIGluIDE6MykgcHJpbnQocGxvdChnb2YxLnRyaWFkcywgc2NhbGUgPSBUUlVFLCBjZW50ZXIgPSBULCBwZXJpb2QgPSBwKSkNCiMgDQojIGdvZjEuZGVncmVlDQojIGdvZjEudHJpYWRzDQpgYGANCiMjIyBNb2RlbCAxIHJlc3VsdHMNCkVzdGltYXRlcyBhbmQgc3RhbmRhcmQgZXJyb3JzDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0KUmF0ZSBwYXJhbWV0ZXJzOg0KIDAuMSAgUmF0ZSBwYXJhbWV0ZXIgcGVyaW9kIDEgICAgIDguNTAyNCAgKCAgIDAuMzE4MykNCiAwLjIgIFJhdGUgcGFyYW1ldGVyIHBlcmlvZCAyICAgICA1LjA3OTAgICggICAwLjIyMTkpDQogMC4zICBSYXRlIHBhcmFtZXRlciBwZXJpb2QgMyAgICAxNS44MTc4ICAoICAgMC4yODQ0KQ0KDQpPdGhlciBwYXJhbWV0ZXJzOg0KIDEuIGV2YWw6ICB0cmFuc2l0aXZlIHRpZXMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDkuNTA4NSAgKCAgIDQuNzEwNCkNCiAyLiBldmFsOiAgc2FtZV9Bc3VicyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0wLjA0NTQgICggICAwLjMzMzIpDQogMy4gZXZhbDogIGM5MTJjb2xzICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMi41OTgwICAoICAgMC4xODI3KQ0KIDQuIGV2YWw6ICB0aGVtZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDAuMjIxOCAgKCAgIDAuMDMwOSkNCiA1LiBldmFsOiAgZGVzYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjU1MDkgICggICAwLjI1ODkpDQogNi4gZXZhbDogIGMxMmNvbHMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDEyNS4xMDYxICAoICAgNS45MDY1KQ0KIDcuIGV2YWw6ICBhbGxlbHVpYSBlZ28gYW5kIGFsdCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLTAuOTA0MCAgKCAgIDAuMTMyOSkNCiA4LiBldmFsOiAgYWxsZWx1aWEgZWdvIHggYWxsZWx1aWEgYWx0ZXIgICAgICAgICAgICAgICAgICAgICAgICAgICAxLjczMTEgICggICAwLjI2NDEpDQogDQpPdmVyYWxsIG1heGltdW0gY29udmVyZ2VuY2UgcmF0aW8gPSAgMi45MzI5IC4NCg0KVGhlIG1vZGVsIGRvZXNuJ3QgY29udmVyZ2UgYXQgYWxsLCAoMi45MykgYW5kIHRoYXQgaGFzIHRvIGRvIHdpdGggdGhlIGNvbGxlY3Rpb25zIGluIHRoZSAxMnRoIGNlbnR1cnkuIFRoZXkgb3ZlcmxhcCBzdHJvbmdseSB3aXRoIHRoZSBleGlzdGluZyBtb2RlbCwgYW5kIHByZWRpY3QgdGh1cyB0b28gd2VsbC4gVGhlIGxlYXAgZnJvbSB3YXZlIDExIHRvIDEyIGluY3JlYXNlcyBhIGxvdCBvZiB0aWVzLCBzbyB0aGUgbW9kZWwgbmVlZHMgdG8gd29yayBoYXJkIHRvd2FyZHMgYWRkaW5nIG5ldyB0aWVzIGFuZCBiZWNhdXNlIHRoZSBiaWcgY29sbGVjdGlvbnMgbGlrZSBTQ1Agd2VyZSB2ZXJ5IHBvcHVsYXIgaXQgZml0cyB2ZXJ5IHdlbGwuIA0KDQpUaGVyZWZvcmUsIHRoaXMgcGFyYW1ldGVyIHdpbGwgYmUgZml4ZWQuIA0KDQpgYGB7ciBtb2RlbCAyfQ0KZWZmMiA8LSBzZXRFZmZlY3QoZWZmMSwgWCwgaW50ZXJhY3Rpb24xID0gImMxMmNvbHMiLCBmaXggPSBUUlVFLCBpbml0aWFsVmFsdWUgPSAxMCkNCmVmZjIgPC0gc2V0RWZmZWN0KGVmZjIsIHRyYW5zVGllcywgaW5pdGlhbFZhbHVlID0gNS44LCBmaXggPSBGQUxTRSkNCg0KIyAoYW5zMiA8LSBlc3RfbW9kZWwoZWZmMiwgdGhldGFCb3VuZCA9IDE1MCwgcHJldiA9IGFuczEpKQ0KIyANCiMgYW5zMg0KIyANCiMgZ29mMi5kZWdyZWUgPC0gZ29mX2RlZ3JlZShhbnMyKQ0KIyBnb2YyLnRyaWFkcyA8LSBnb2ZfdHJpYWRzKGFuczIpDQojIA0KIyBmb3IgKHAgaW4gMTozKSBwcmludChwbG90KGdvZjIuZGVncmVlLCBzY2FsZSA9IFRSVUUsIGNlbnRlciA9IFRSVUUsIHBlcmlvZCA9IHApKQ0KIyANCiMgZm9yIChwIGluIDE6MykgcHJpbnQocGxvdChnb2YyLnRyaWFkcywgc2NhbGUgPSBUUlVFLCBjZW50ZXIgPSBULCBwZXJpb2QgPSBwKSkNCiMgDQojIGdvZjIuZGVncmVlDQojIGdvZjIudHJpYWRzDQoNCg0KYGBgDQoNCg0KDQojIyBNb2RlbCAxLjINCiMjIyBNb2RlbCAxLjIgUmVzdWx0cw0KSW5pdGlhbCBwYXJhbWV0ZXIgdmFsdWVzIGFyZSANCiAgMC4xICBSYXRlIHBhcmFtZXRlciAgICAgICAgICAgICAgICAgICAgICAgICA4LjUwMjQNCiAgMC4yICBSYXRlIHBhcmFtZXRlciAgICAgICAgICAgICAgICAgICAgICAgICA1LjA3OTANCiAgMC4zICBSYXRlIHBhcmFtZXRlciAgICAgICAgICAgICAgICAgICAgICAgIDE1LjgxNzgNCiAgMS4gZXZhbDogIHRyYW5zaXRpdmUgdGllcyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDkuNTA4NQ0KICAyLiBldmFsOiAgc2FtZV9Bc3VicyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtMC4wNDU0DQogIDMuIGV2YWw6ICBjOTEyY29scyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjU5ODANCiAgNC4gZXZhbDogIHRoZW1lICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDAuMjIxOA0KICA1LiBldmFsOiAgZGVzYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMi41NTA5DQogIDYuIGV2YWw6ICBjMTJjb2xzICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMTI1LjEwNjEgIChmaXhlZCkgDQogIDcuIGV2YWw6ICBhbGxlbHVpYSBlZ28gYW5kIGFsdCAgICAgICAgICAgICAgICAgICAgICAgICAgIC0wLjkwNDANCiAgOC4gZXZhbDogIGFsbGVsdWlhIGVnbyB4IGFsbGVsdWlhIGFsdGVyICAgICAgICAgICAgICAgICAgIDEuNzMxMQ0KICANCk92ZXJhbGwgbWF4aW11bSBjb252ZXJnZW5jZSByYXRpbyA9ICAwLjExMzUNCg0KIyMjIE1vZGVsIDEuMiBjb25jbHVzaW9ucw0KVGhlIHRocmVlIHJlc2VhcmNoIHF1ZXN0aW9ucyBhcmUgY29tYmluZWQgaW50byBvbmUgbW9kZWwuIEl0IG5lZWRzIHRvIGJlIHNhaWQgdGhhdCB0aGUgZ29vZG5lc3Mgb2YgZml0IGlzIHJhdGhlciB0ZXJyaWJsZSBhbmQgbm8gY29uY2x1c2lvbiBjYW4gYmUgZHJhd24gZnJvbSB0aGlzIGFuYWx5c2lzLiBUaGUgbW9kZWwgZG9lcyBjb252ZXJnZSBvbiAoMC4xMSkuDQoNCkhvd2V2ZXIsIHdvdWxkIHRoYXQgYmUgdGhlIGNhdXNlLCB0aGlzIHdvdWxkIGJlIG15IGludGVycHJldGF0aW9uLiANCg0KUlExOiBTb21ldGhpbmcgdGhhdCBJIGRpZG4ndCBleHBlY3QsIGJ1dCBBbGxlbHVpYSBzaG93cyBhIHBvc2l0aXZlIGVmZmVjdCBvZiBjb25uZWN0aW5nIHdpdGggc2VybW9ucyBmcm9tIGFsbGVsdWlhICh6PTcuMzMpIGFuZCBhIG5lZ2F0aXZlIGVmZmVjdCBvZiBmb3JtaW5nIGVkZ2Ugd2l0aCBzZXJtb25zIG91dHNpZGUgY29sbGVjdGlvbiAoeiA9IC04LjU1KS4gDQoNClJRMjogVGhlIHN1YmNvbGxlY3Rpb25zIGFyZSBub3QgbW9yZSBsaWtlbHkgdG8gYmUgZm9ybSBhIHRpZSBjb21wYXJlZCB0byBiZXR3ZWVuIHN1YmNvbGxlY3Rpb25zIG9yIG90aGVyIHNlcm1vbnMgKHogPSAwLjMwKS4gVGhlIHRoZW1hdGljIG92ZXJsYXAgYmV0d2VlbiB0aGUgYWRkaXRpb24gaW4gTWl4ZWQ/IGFuZCB0aGUgdGhlbWF0aWMgb3ZlcmxhcCBleGhpYml0ZWQgaW4gdGhhdCBzdWJjb2xsZWN0aW9uLCBtYXkgaGF2ZSBpbmZsdWVuY2VkIHRoZSBsb3cgcmVzdWx0IG9mIHRoaXMgYW5hbHlzaXMuIA0KDQpSUTM6IFRoZW1hdGljIHNpbWlsYXJpdHkgaXMgYW4gc2lnbmlmaWNhbnQgKHogPSA5Ljk5KSBmYWN0b3IgdG8gZm9ybSB0aWVzIGluIHRoZSBuZXh0IHBoYXNlLiANCg0KIyMjIFBvdGVudGlhbCBwcm9ibGVtczogDQotIHRoZSB0cmFuc2l0aXZlIHRpZXMgYXJlIGZyb3plbiBpbiB0aGUgc2Vjb25kIHJ1bi4gDQotIHRoZSBnb29kbmVzcyBvZiBmaXQgaXMgc2lnbmlmaWNhbnRseSBkaWZmZXJlbnQsIGNoYW5naW5nIHBlciB3YXZlIHRoZSBudW1iZXIgb2YgdHJpYWRzIGFuZCBzaW5nbGVzLCBhbmQgdGhlIGRlZ3JlZSBpcyBzZXJpb3VzbHkgb2ZmLiBJIHRoaW5rIGl0IGlzIGRpZmZpY3VsdCBmb3IgdGhlIG1vZGVsIHRvIHN0b2Nhc3RpY2FsbHkgd29yayBvbiBhICJlZGdlLWFkZGluZyIgbW9kZWwgd2hlbiBpdCBpcyBlc3RpbWF0ZWQgaW4gcHJvamVjdGVkIG5ldHdvcmsuIA0KLSBUaGUgYXNzdW1wdGlvbiBvZiBjYXVzYWxpdHkgaXMgcHJvYmFibGl0eSB3cm9uZy4gVGhlIG1vZGVsIGltcGxpY2VzIHdhdmUyIGlzIGNhdXNlZCBieSB3YXZlMSArIHRpZXMsIGJ1dCBvbiBhIG1pY3JvbGV2ZWwgdGhpcyBhc3N1bXB0aW9uIGRvZXNuJ3QgaG9sZCwgYmVjYXVzZSB0aGUgdGllcyBhcmUgY3JlYXRlZCBieSBub24tcmFuZG9tIGVzdGltYXRpb24gb2YgdGhlIHN1bSBvZiBkaWZmZXJlbnQgdGllcy4gT25lIHRpZSByZWZsZWN0cyB0aGUgcmVsYXRpb25zaGlwIGJldHdlZW4gdGllcyBvZiB0aGUgbmV0d29yayBhcyB3ZWxsIGFzIGEgc3VtbWF0aW9uIG9mIG11bHRpcGxlIG1hbnVzY3JpcHRzIHRoYXQgY291bGQgYmUgd3JpdHRlbiBpbiBhbiB1bnJlbGF0ZWQgY29udGV4dC4gRm9yIGV4YW1wbGU6IGJhbHRpY3MgMTAxMCBtb25lc3RhcnkgYW5kIHNlY3VsYXIgc2NyaXB0b3JpdW0gYWdhaW5zdCB0aGUgTm90cmUgZGFtZSBpbiAxMDkwLiANCi0gUHV0IGRpZmZlcmVudGx5LCB0aGUgc2VybW9ucyBhcmUgbm90IG5lY2Vzc2FyeSBhd2FyZSBvZiB0aGUgZXhpc3RlbmNlIG9mIG90aGVyIHNlcm1vbnMgKHNvbWUgc2VybW9ucyBhcmUgb3V0IG9mIHNjb3BlIGZyb20gdGhlIGRhdGFzZXRzIHdlIGhhdmUsIGFuZCBtYXkgYmUgbGVzcyBjb3BpZWQpDQoNCg0KIyMgVGhvdWdodHMgb2YgbmV4dCBzdGVwcw0KT25lIG9mIHRoZSBzdHJvbmdlc3QgaWRlYXMgaXMgdGhlIGVzdGltYXRpb24gb2YgZWZmZWN0cyB0byBwcmVkaWN0IG5leHQgZGlzdHJpYnV0aW9ucy4gU0lFTkEgZG9lcyB0aGlzIHJlYWxseSB3ZWxsLiBUaGUgdHJhbnNsYXRpb25zIGhvd2V2ZXIgZnJvbSBtYWNybyB0byBtaWNybyBhbmQgYmFjayBpcyBkaWZmaWN1bHQgZHVlIHRvIHRoZSBuYXR1cmUgb2YgdGhlIHNvdXJjZSBtYXRlcmlhbC4gDQoNCkkndmUgbGVhcm5lZCB0aGF0IGEgbW9kZWwgc2hvdWxkIHJlc2VtYmxlIHRoZSBkYXRhIGFzIGNsb3NlIGFzIHBvc3NpYmxlLCBhbmQgSSdtIGFsc28gdmVyeSBncmF0ZWZ1bCBmb3IgS29vbG1hbidzIGJvYXQsIHdoaWNoIGlzIGEgc3Ryb25nIG1ldGhvZG9sb2dpY2FsIHRvb2wuIA0KDQpCaXBhcnRpdGUgbmV0d29ya3Mgd2lsbCBiZSBsb29raW5nIGluIHNlY29uZCBhcyB3ZWxsIGFzIHN0b2Nhc3RpYyBibG9jayBtb2RlbHMuIA0KDQo=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("rsiena_model.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

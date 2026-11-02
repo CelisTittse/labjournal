@@ -70,6 +70,28 @@ if (window.hljs) {
 }
 </style>
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="tweaks.css" type="text/css" />
 
@@ -352,10 +374,16 @@ div.tocify {
       <a href="literature_review_hypotheses.html">Literature Review</a>
     </li>
     <li>
+      <a href="model_statistics.Rmd">Model Definition</a>
+    </li>
+    <li>
       <a href="data_wrangling.html">Data</a>
     </li>
     <li>
       <a href="eda.html">Exploratory EDA</a>
+    </li>
+    <li>
+      <a href="rsiena_model.html">Model High Middle Ages Collections</a>
     </li>
   </ul>
 </li>
@@ -395,69 +423,110 @@ div.tocify {
 <div id="first-draft-introduction" class="section level2" number="1">
 <h2><span class="header-section-number">1</span> First Draft
 Introduction</h2>
-<p>How did medieval readers and compilers transmit a sermon collection?
-Did individual sermons circulate largely independently or did the
-presence of one sermon encourage the preservation and transmission of
-others as part of a recognisable textual configuration? This project
-proposes to investigate these questions through the transmission history
-of the Ancient Augustinian sermon collection De Alleluia.</p>
-<p>The central hypothesis is that De Alleluia may have behaved as a
-collection in transmission, not as a whole but as separate
-subcollections. However, it is currently unclear where or not this
-Augustinian collection is a product of scholarly conjuring or a result
-of established configurations of sermons constrained subsequent patterns
-of historical transmission.</p>
-<p>To investigate this, we propose to construct a series of
-century-based sermon–sermon networks. The sermons will constitute the
-network nodes and a relationship between two sermons will represent
-their repeated occurrence within the same manuscript context. Because
-sermons are compiled within a special order, the network will be
-directed. This approach allows us to follow the same 52 textual units
-across successive historical periods whilst examining how their
-relational structure changes over time.</p>
-<p>The corpus will be constructed out of the De Coninck’s file with
-authentic Augustinian sermons or the PASSIM database with additional
-manuscripts and a divers scala of patristic sermons. It has not been
-decided which corpus to choose. The De Coninck’s file has 595 unique
-authentic Augustinian sermons, century-based data, and checked
-information, but only has circa 2450 manuscripts and describes
-exclusively Augustinian sermons. Whereas, PASSIM has more manuscripts
-(c. 4500), other authors, like pseudo-Augustine, and, therefore, more
-exhaustive observations (aka manuscripts). However, this corpus is messy
-and will not be cleaned for this paper. The best corpus needs to be
-chosen to answer the apparent research questions.</p>
-<p>The first, and most prominent, research question concerns collection
-coherence. Are sermons that occur together in earlier manuscripts
-disproportionately likely to occur together in later manuscripts? In
-other words, does the presence of sermon A increase the likelihood of
-subsequently encountering sermon B, beyond what we would expect from the
-individual popularity of A and B? This can be performed on the different
-proposed subcollections of De Alleluia, like the spring, easter or mixed
-versions, as well. This provides a means of distinguishing
-collection-level transmission from the largely independent circulation
-of individual sermons.</p>
-<p>A second dimension concerns thematic similarity. Topic modelling will
-provide attributes for each sermon. This allows us to calculate
-similarity between sermons based on their thematic profiles, drawn from
-the editions of sermons. Elaborating on Gleb’s earlier work, sermons may
-circulate together because they address similar topics or because they
-belong to an established textual configuration. We will, therefore, test
-if network persistence remains significant after controlling for
-thematic similarity and sermon popularity.</p>
-<p>These questions will be analysed with a longitudinal network using an
-actor-oriented framework, including RSiena, where its assumptions are
-appropriate. In RSiena, the actors or nodes are assumed to have agency
-over time, contrary to texts. However, treating sermons as “actors” is a
-methodological abstraction pointing to compilers arranges the
-configuration of sermons. The model allows us to investigate if the
-existing relational position of a sermon predicts subsequent changes in
-its associations.</p>
-<p><span class="citation">[@SNASS]</span>.
-<!--- this is a reference, stored in references.bib. It will be automatically added at the bottom of the page --->
-<br></p>
+<p>The sermons on Augustine (d. 430) are one of most popular medieval
+sermons. From the point they were written down in the 5th century to the
+point Thomas Aquinas read one in the 13th century, it passed through a
+multitude of hands because every copy needed to be written by hand.
+Within this transmission process, sermons were compiled with multiple
+sermons, some consistently, and some (seemingly) random.</p>
+<p>Previous scholarship (from the 13th century onward [ask Kendall
+exactly]) has defined these collection under specific names based on
+medieval named collections (e.g. De Verbis Domini) or manuscripts with
+many rare Augustinian sermons (e.g. Wolfenbuttel). Although the
+collections are apost-hoc construction, it is used for making editions
+of individual sermons. The underlying rational is that manuscripts with
+similar sermon configurations are like to be more closely related, and
+to reduce the number of transcriptions to be made, collections are the
+first step towards make the family tree (stemma) of a sermon. For
+example, sermons 251 and 250 have a stemma that is construed of
+manuscripts defined as A[lleluia]1 to 5 and P[aenetentia]1 to 3, named
+after collections. But are collections a valid category to reconstruct
+transmission? If that were the case, the configuaration of sermons
+within manuscripts should indicate the existence of those
+collections.</p>
+<p>To better understand the collective power of collections, a special
+collection from antiquity is under investiguation: De Allelulia. This 47
+sermon long collection was preserved in five manuscripts from Nothern
+France, with the oldest from the 9th century <span
+class="citation">(Boodts 2025)</span>. Three nuancing factors may have
+played a role in sermon compilation:</p>
+<ul>
+<li><p>The sermon are transmitted in small clusters [<span
+class="citation">Macchioro (2025)</span>]<span class="citation">(Schmidt
+2023)</span></p></li>
+<li><p>Sermons can be thematically clustered <span
+class="citation">(<strong>schmidt?</strong> unpublished)</span></p></li>
+<li><p>Sets of sermons can be transmitted by other collection</p></li>
+<li><p>Two (high) medieval collections (e.g. Bruxelles and Lapsu Mundi)
+are textually dependent on De Alleluia</p></li>
+</ul>
+<p>De Alleluia has defined subcollections rather than small clusters
+<span class="citation">(Boodts 2025)</span>:</p>
+<ol style="list-style-type: decimal">
+<li>Spring (Carthage, 418) (items 1-9)</li>
+<li>Easter (Hippo) (items 10-19)</li>
+<li>Winter (after 425) (items 25-33)</li>
+</ol>
+<p>Next to the organised sets of the collections, some sermons are found
+as miscellaneous, described by De Coninck and Partoens <span
+class="citation">(<strong>ConinckFile?</strong>)</span> as mixed: items
+20-24 and 34-47. Although, Verbraken suggested six additional sermons in
+between the mixed version.</p>
+<p>We as historians can call these collections collections, but it is
+unclear to what extend these collections were relevant for compilation
+choices to creat a new manuscript.</p>
+<p><strong>RQ:</strong></p>
+<ul>
+<li><p>Did the De Alleluia as a sermon collection influence the
+likelihood of sermons being chosen to be compiled together?</p></li>
+<li><p>Were subcollections of De Alleluia more appealing to medieval
+compilators?</p></li>
+<li><p>Were thematic profiles important to compile sermons together
+compared to sermons from the same collection?</p></li>
+</ul>
+<p><strong>Model:</strong></p>
+<ul>
+<li><p>Is Alleluia sermons more likely to connect with Alleluia sermons
+or rather with other sermons?</p></li>
+<li><p>Are subcollections more likely to connect together compared to
+random sermons?</p></li>
+<li><p>The connection between sermons is corrected for thematic
+similarity</p></li>
+<li><p>The alleluia sermon homophily is corrected for strongly (&gt;25%)
+overlapping sermon collections (Verbis Apostoli (A) (8thC), Gallicana
+(6thC) &amp; SCP (12thC))</p></li>
+<li><p>The alleluia sermon homophily is corrected for derivative sermons
+from Alleluia (Bruxelles &amp; Lapsu Mundi from the 11th
+century)</p></li>
+</ul>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-boodts2025" class="csl-entry">
+Boodts, Shari. 2025. <span>“Transmission and <span>Collections</span> of
+<span>Augustine</span>’s <span>Sermons</span>.”</span> In <em>The
+<span>Cambridge Companion</span> to <span>Augustine</span>’s
+<span>Sermons</span></em>, edited by OP Hofer Andrew. Cambridge
+<span>Companions</span> to <span>Religion</span>. Cambridge University
+Press. <a
+href="https://doi.org/10.1017/9781009071963.005">https://doi.org/10.1017/9781009071963.005</a>.
+</div>
+<div id="ref-macchioro2025" class="csl-entry">
+Macchioro, Riccardo. 2025. <em>Augustine<span>’</span>s Sermons in the
+Hands of Medieval Compilers. Notes on the Role of Sermones Ad Populum
+and Tractatus in Iohannem in the Customization of Liturgical Sermon
+Collections</em>. Brepols Online. <a
+href="https://doi.org/10.1484/M.IPM-EB.5.142102">https://doi.org/10.1484/M.IPM-EB.5.142102</a>.
+</div>
+<div id="ref-schmidt_computational_2023" class="csl-entry">
+Schmidt, Gleb. 2023. <span>“Computational <span>Approaches</span> to the
+<span>Study</span> of <span>Patristic</span> <span>Sermon</span>
+<span>Collections</span>.”</span> <em>Augustiniana</em> 73 (1): 139–76.
+<a
+href="https://poj.peeters-leuven.be/content.php?id=3292390&amp;url=article">https://poj.peeters-leuven.be/content.php?id=3292390&amp;url=article</a>.
+</div>
+</div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkludHJvIg0Kb3V0cHV0OiBodG1sX2RvY3VtZW50DQpkYXRlOiAiMjAyNi0wOS0wOCINCi0tLQ0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCmBgYA0KDQojIyBGaXJzdCBEcmFmdCBJbnRyb2R1Y3Rpb24NCkhvdyBkaWQgbWVkaWV2YWwgcmVhZGVycyBhbmQgY29tcGlsZXJzIHRyYW5zbWl0IGEgc2VybW9uIGNvbGxlY3Rpb24/IERpZCBpbmRpdmlkdWFsIHNlcm1vbnMgY2lyY3VsYXRlIGxhcmdlbHkgaW5kZXBlbmRlbnRseSBvciBkaWQgdGhlIHByZXNlbmNlIG9mIG9uZSBzZXJtb24gZW5jb3VyYWdlIHRoZSBwcmVzZXJ2YXRpb24gYW5kIHRyYW5zbWlzc2lvbiBvZiBvdGhlcnMgYXMgcGFydCBvZiBhIHJlY29nbmlzYWJsZSB0ZXh0dWFsIGNvbmZpZ3VyYXRpb24/IFRoaXMgcHJvamVjdCBwcm9wb3NlcyB0byBpbnZlc3RpZ2F0ZSB0aGVzZSBxdWVzdGlvbnMgdGhyb3VnaCB0aGUgdHJhbnNtaXNzaW9uIGhpc3Rvcnkgb2YgdGhlIEFuY2llbnQgQXVndXN0aW5pYW4gc2VybW9uIGNvbGxlY3Rpb24gRGUgQWxsZWx1aWEuIA0KDQpUaGUgY2VudHJhbCBoeXBvdGhlc2lzIGlzIHRoYXQgRGUgQWxsZWx1aWEgbWF5IGhhdmUgYmVoYXZlZCBhcyBhIGNvbGxlY3Rpb24gaW4gdHJhbnNtaXNzaW9uLCBub3QgYXMgYSB3aG9sZSBidXQgYXMgc2VwYXJhdGUgc3ViY29sbGVjdGlvbnMuIEhvd2V2ZXIsIGl0IGlzIGN1cnJlbnRseSB1bmNsZWFyIHdoZXJlIG9yIG5vdCB0aGlzIEF1Z3VzdGluaWFuIGNvbGxlY3Rpb24gaXMgYSBwcm9kdWN0IG9mIHNjaG9sYXJseSBjb25qdXJpbmcgb3IgYSByZXN1bHQgb2YgZXN0YWJsaXNoZWQgY29uZmlndXJhdGlvbnMgb2Ygc2VybW9ucyBjb25zdHJhaW5lZCBzdWJzZXF1ZW50IHBhdHRlcm5zIG9mIGhpc3RvcmljYWwgdHJhbnNtaXNzaW9uLiANCg0KVG8gaW52ZXN0aWdhdGUgdGhpcywgd2UgcHJvcG9zZSB0byBjb25zdHJ1Y3QgYSBzZXJpZXMgb2YgY2VudHVyeS1iYXNlZCBzZXJtb27igJNzZXJtb24gbmV0d29ya3MuIFRoZSBzZXJtb25zIHdpbGwgY29uc3RpdHV0ZSB0aGUgbmV0d29yayBub2RlcyBhbmQgYSByZWxhdGlvbnNoaXAgYmV0d2VlbiB0d28gc2VybW9ucyB3aWxsIHJlcHJlc2VudCB0aGVpciByZXBlYXRlZCBvY2N1cnJlbmNlIHdpdGhpbiB0aGUgc2FtZSBtYW51c2NyaXB0IGNvbnRleHQuIEJlY2F1c2Ugc2VybW9ucyBhcmUgY29tcGlsZWQgd2l0aGluIGEgc3BlY2lhbCBvcmRlciwgdGhlIG5ldHdvcmsgd2lsbCBiZSBkaXJlY3RlZC4gVGhpcyBhcHByb2FjaCBhbGxvd3MgdXMgdG8gZm9sbG93IHRoZSBzYW1lIDUyIHRleHR1YWwgdW5pdHMgYWNyb3NzIHN1Y2Nlc3NpdmUgaGlzdG9yaWNhbCBwZXJpb2RzIHdoaWxzdCBleGFtaW5pbmcgaG93IHRoZWlyIHJlbGF0aW9uYWwgc3RydWN0dXJlIGNoYW5nZXMgb3ZlciB0aW1lLg0KDQpUaGUgY29ycHVzIHdpbGwgYmUgY29uc3RydWN0ZWQgb3V0IG9mIHRoZSBEZSBDb25pbmNr4oCZcyBmaWxlIHdpdGggYXV0aGVudGljIEF1Z3VzdGluaWFuIHNlcm1vbnMgb3IgdGhlIFBBU1NJTSBkYXRhYmFzZSB3aXRoIGFkZGl0aW9uYWwgbWFudXNjcmlwdHMgYW5kIGEgZGl2ZXJzIHNjYWxhIG9mIHBhdHJpc3RpYyBzZXJtb25zLiBJdCBoYXMgbm90IGJlZW4gZGVjaWRlZCB3aGljaCBjb3JwdXMgdG8gY2hvb3NlLiBUaGUgRGUgQ29uaW5ja+KAmXMgZmlsZSBoYXMgNTk1IHVuaXF1ZSBhdXRoZW50aWMgQXVndXN0aW5pYW4gc2VybW9ucywgY2VudHVyeS1iYXNlZCBkYXRhLCBhbmQgY2hlY2tlZCBpbmZvcm1hdGlvbiwgYnV0IG9ubHkgaGFzIGNpcmNhIDI0NTAgbWFudXNjcmlwdHMgYW5kIGRlc2NyaWJlcyBleGNsdXNpdmVseSBBdWd1c3RpbmlhbiBzZXJtb25zLiBXaGVyZWFzLCBQQVNTSU0gaGFzIG1vcmUgbWFudXNjcmlwdHMgKGMuIDQ1MDApLCBvdGhlciBhdXRob3JzLCBsaWtlIHBzZXVkby1BdWd1c3RpbmUsIGFuZCwgdGhlcmVmb3JlLCBtb3JlIGV4aGF1c3RpdmUgb2JzZXJ2YXRpb25zIChha2EgbWFudXNjcmlwdHMpLiBIb3dldmVyLCB0aGlzIGNvcnB1cyBpcyBtZXNzeSBhbmQgd2lsbCBub3QgYmUgY2xlYW5lZCBmb3IgdGhpcyBwYXBlci4gVGhlIGJlc3QgY29ycHVzIG5lZWRzIHRvIGJlIGNob3NlbiB0byBhbnN3ZXIgdGhlIGFwcGFyZW50IHJlc2VhcmNoIHF1ZXN0aW9ucy4gDQoNClRoZSBmaXJzdCwgYW5kIG1vc3QgcHJvbWluZW50LCByZXNlYXJjaCBxdWVzdGlvbiBjb25jZXJucyBjb2xsZWN0aW9uIGNvaGVyZW5jZS4gQXJlIHNlcm1vbnMgdGhhdCBvY2N1ciB0b2dldGhlciBpbiBlYXJsaWVyIG1hbnVzY3JpcHRzIGRpc3Byb3BvcnRpb25hdGVseSBsaWtlbHkgdG8gb2NjdXIgdG9nZXRoZXIgaW4gbGF0ZXIgbWFudXNjcmlwdHM/IEluIG90aGVyIHdvcmRzLCBkb2VzIHRoZSBwcmVzZW5jZSBvZiBzZXJtb24gQSBpbmNyZWFzZSB0aGUgbGlrZWxpaG9vZCBvZiBzdWJzZXF1ZW50bHkgZW5jb3VudGVyaW5nIHNlcm1vbiBCLCBiZXlvbmQgd2hhdCB3ZSB3b3VsZCBleHBlY3QgZnJvbSB0aGUgaW5kaXZpZHVhbCBwb3B1bGFyaXR5IG9mIEEgYW5kIEI/IFRoaXMgY2FuIGJlIHBlcmZvcm1lZCBvbiB0aGUgZGlmZmVyZW50IHByb3Bvc2VkIHN1YmNvbGxlY3Rpb25zIG9mIERlIEFsbGVsdWlhLCBsaWtlIHRoZSBzcHJpbmcsIGVhc3RlciBvciBtaXhlZCB2ZXJzaW9ucywgYXMgd2VsbC4gVGhpcyBwcm92aWRlcyBhIG1lYW5zIG9mIGRpc3Rpbmd1aXNoaW5nIGNvbGxlY3Rpb24tbGV2ZWwgdHJhbnNtaXNzaW9uIGZyb20gdGhlIGxhcmdlbHkgaW5kZXBlbmRlbnQgY2lyY3VsYXRpb24gb2YgaW5kaXZpZHVhbCBzZXJtb25zLg0KDQpBIHNlY29uZCBkaW1lbnNpb24gY29uY2VybnMgdGhlbWF0aWMgc2ltaWxhcml0eS4gVG9waWMgbW9kZWxsaW5nIHdpbGwgcHJvdmlkZSBhdHRyaWJ1dGVzIGZvciBlYWNoIHNlcm1vbi4gVGhpcyBhbGxvd3MgdXMgdG8gY2FsY3VsYXRlIHNpbWlsYXJpdHkgYmV0d2VlbiBzZXJtb25zIGJhc2VkIG9uIHRoZWlyIHRoZW1hdGljIHByb2ZpbGVzLCBkcmF3biBmcm9tIHRoZSBlZGl0aW9ucyBvZiBzZXJtb25zLiBFbGFib3JhdGluZyBvbiBHbGVi4oCZcyBlYXJsaWVyIHdvcmssIHNlcm1vbnMgbWF5IGNpcmN1bGF0ZSB0b2dldGhlciBiZWNhdXNlIHRoZXkgYWRkcmVzcyBzaW1pbGFyIHRvcGljcyBvciBiZWNhdXNlIHRoZXkgYmVsb25nIHRvIGFuIGVzdGFibGlzaGVkIHRleHR1YWwgY29uZmlndXJhdGlvbi4gV2Ugd2lsbCwgdGhlcmVmb3JlLCB0ZXN0IGlmIG5ldHdvcmsgcGVyc2lzdGVuY2UgcmVtYWlucyBzaWduaWZpY2FudCBhZnRlciBjb250cm9sbGluZyBmb3IgdGhlbWF0aWMgc2ltaWxhcml0eSBhbmQgc2VybW9uIHBvcHVsYXJpdHkuDQoNClRoZXNlIHF1ZXN0aW9ucyB3aWxsIGJlIGFuYWx5c2VkIHdpdGggYSBsb25naXR1ZGluYWwgbmV0d29yayB1c2luZyBhbiBhY3Rvci1vcmllbnRlZCBmcmFtZXdvcmssIGluY2x1ZGluZyBSU2llbmEsIHdoZXJlIGl0cyBhc3N1bXB0aW9ucyBhcmUgYXBwcm9wcmlhdGUuIEluIFJTaWVuYSwgdGhlIGFjdG9ycyBvciBub2RlcyBhcmUgYXNzdW1lZCB0byBoYXZlIGFnZW5jeSBvdmVyIHRpbWUsIGNvbnRyYXJ5IHRvIHRleHRzLiBIb3dldmVyLCB0cmVhdGluZyBzZXJtb25zIGFzIOKAnGFjdG9yc+KAnSBpcyBhIG1ldGhvZG9sb2dpY2FsIGFic3RyYWN0aW9uIHBvaW50aW5nIHRvIGNvbXBpbGVycyBhcnJhbmdlcyB0aGUgY29uZmlndXJhdGlvbiBvZiBzZXJtb25zLiBUaGUgbW9kZWwgYWxsb3dzIHVzIHRvIGludmVzdGlnYXRlIGlmIHRoZSBleGlzdGluZyByZWxhdGlvbmFsIHBvc2l0aW9uIG9mIGEgc2VybW9uIHByZWRpY3RzIHN1YnNlcXVlbnQgY2hhbmdlcyBpbiBpdHMgYXNzb2NpYXRpb25zLiANCg0KDQpbQFNOQVNTXS4gPCEtLS0gdGhpcyBpcyBhIHJlZmVyZW5jZSwgc3RvcmVkIGluIHJlZmVyZW5jZXMuYmliLiBJdCB3aWxsIGJlIGF1dG9tYXRpY2FsbHkgYWRkZWQgYXQgdGhlIGJvdHRvbSBvZiB0aGUgcGFnZSAtLS0+DQo8YnI+DQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkludHJvIg0Kb3V0cHV0OiBodG1sX2RvY3VtZW50DQpkYXRlOiAiMjAyNi0wOS0wOCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCi0tLQ0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCmBgYA0KDQojIyBGaXJzdCBEcmFmdCBJbnRyb2R1Y3Rpb24NCg0KVGhlIHNlcm1vbnMgb24gQXVndXN0aW5lIChkLiA0MzApIGFyZSBvbmUgb2YgbW9zdCBwb3B1bGFyIG1lZGlldmFsIHNlcm1vbnMuIEZyb20gdGhlIHBvaW50IHRoZXkgd2VyZSB3cml0dGVuIGRvd24gaW4gdGhlIDV0aCBjZW50dXJ5IHRvIHRoZSBwb2ludCBUaG9tYXMgQXF1aW5hcyByZWFkIG9uZSBpbiB0aGUgMTN0aCBjZW50dXJ5LCBpdCBwYXNzZWQgdGhyb3VnaCBhIG11bHRpdHVkZSBvZiBoYW5kcyBiZWNhdXNlIGV2ZXJ5IGNvcHkgbmVlZGVkIHRvIGJlIHdyaXR0ZW4gYnkgaGFuZC4gV2l0aGluIHRoaXMgdHJhbnNtaXNzaW9uIHByb2Nlc3MsIHNlcm1vbnMgd2VyZSBjb21waWxlZCB3aXRoIG11bHRpcGxlIHNlcm1vbnMsIHNvbWUgY29uc2lzdGVudGx5LCBhbmQgc29tZSAoc2VlbWluZ2x5KSByYW5kb20uDQoNClByZXZpb3VzIHNjaG9sYXJzaGlwIChmcm9tIHRoZSAxM3RoIGNlbnR1cnkgb253YXJkIFthc2sgS2VuZGFsbCBleGFjdGx5XSkgaGFzIGRlZmluZWQgdGhlc2UgY29sbGVjdGlvbiB1bmRlciBzcGVjaWZpYyBuYW1lcyBiYXNlZCBvbiBtZWRpZXZhbCBuYW1lZCBjb2xsZWN0aW9ucyAoZS5nLiBEZSBWZXJiaXMgRG9taW5pKSBvciBtYW51c2NyaXB0cyB3aXRoIG1hbnkgcmFyZSBBdWd1c3RpbmlhbiBzZXJtb25zIChlLmcuIFdvbGZlbmJ1dHRlbCkuIEFsdGhvdWdoIHRoZSBjb2xsZWN0aW9ucyBhcmUgYXBvc3QtaG9jIGNvbnN0cnVjdGlvbiwgaXQgaXMgdXNlZCBmb3IgbWFraW5nIGVkaXRpb25zIG9mIGluZGl2aWR1YWwgc2VybW9ucy4gVGhlIHVuZGVybHlpbmcgcmF0aW9uYWwgaXMgdGhhdCBtYW51c2NyaXB0cyB3aXRoIHNpbWlsYXIgc2VybW9uIGNvbmZpZ3VyYXRpb25zIGFyZSBsaWtlIHRvIGJlIG1vcmUgY2xvc2VseSByZWxhdGVkLCBhbmQgdG8gcmVkdWNlIHRoZSBudW1iZXIgb2YgdHJhbnNjcmlwdGlvbnMgdG8gYmUgbWFkZSwgY29sbGVjdGlvbnMgYXJlIHRoZSBmaXJzdCBzdGVwIHRvd2FyZHMgbWFrZSB0aGUgZmFtaWx5IHRyZWUgKHN0ZW1tYSkgb2YgYSBzZXJtb24uIEZvciBleGFtcGxlLCBzZXJtb25zIDI1MSBhbmQgMjUwIGhhdmUgYSBzdGVtbWEgdGhhdCBpcyBjb25zdHJ1ZWQgb2YgbWFudXNjcmlwdHMgZGVmaW5lZCBhcyBBW2xsZWx1aWFdMSB0byA1IGFuZCBQW2FlbmV0ZW50aWFdMSB0byAzLCBuYW1lZCBhZnRlciBjb2xsZWN0aW9ucy4gQnV0IGFyZSBjb2xsZWN0aW9ucyBhIHZhbGlkIGNhdGVnb3J5IHRvIHJlY29uc3RydWN0IHRyYW5zbWlzc2lvbj8gSWYgdGhhdCB3ZXJlIHRoZSBjYXNlLCB0aGUgY29uZmlndWFyYXRpb24gb2Ygc2VybW9ucyB3aXRoaW4gbWFudXNjcmlwdHMgc2hvdWxkIGluZGljYXRlIHRoZSBleGlzdGVuY2Ugb2YgdGhvc2UgY29sbGVjdGlvbnMuDQoNClRvIGJldHRlciB1bmRlcnN0YW5kIHRoZSBjb2xsZWN0aXZlIHBvd2VyIG9mIGNvbGxlY3Rpb25zLCBhIHNwZWNpYWwgY29sbGVjdGlvbiBmcm9tIGFudGlxdWl0eSBpcyB1bmRlciBpbnZlc3RpZ3VhdGlvbjogRGUgQWxsZWx1bGlhLiBUaGlzIDQ3IHNlcm1vbiBsb25nIGNvbGxlY3Rpb24gd2FzIHByZXNlcnZlZCBpbiBmaXZlIG1hbnVzY3JpcHRzIGZyb20gTm90aGVybiBGcmFuY2UsIHdpdGggdGhlIG9sZGVzdCBmcm9tIHRoZSA5dGggY2VudHVyeSBbQGJvb2R0czIwMjVdLiBUaHJlZSBudWFuY2luZyBmYWN0b3JzIG1heSBoYXZlIHBsYXllZCBhIHJvbGUgaW4gc2VybW9uIGNvbXBpbGF0aW9uOg0KDQotIFRoZSBzZXJtb24gYXJlIHRyYW5zbWl0dGVkIGluIHNtYWxsIGNsdXN0ZXJzIFtAbWFjY2hpb3JvMjAyNV1bQHNjaG1pZHRfY29tcHV0YXRpb25hbF8yMDIzXQ0KDQotIFNlcm1vbnMgY2FuIGJlIHRoZW1hdGljYWxseSBjbHVzdGVyZWQgW0BzY2htaWR0IHVucHVibGlzaGVkXQ0KDQotIFNldHMgb2Ygc2VybW9ucyBjYW4gYmUgdHJhbnNtaXR0ZWQgYnkgb3RoZXIgY29sbGVjdGlvbg0KDQotIFR3byAoaGlnaCkgbWVkaWV2YWwgY29sbGVjdGlvbnMgKGUuZy4gQnJ1eGVsbGVzIGFuZCBMYXBzdSBNdW5kaSkgYXJlIHRleHR1YWxseSBkZXBlbmRlbnQgb24gRGUgQWxsZWx1aWENCg0KRGUgQWxsZWx1aWEgaGFzIGRlZmluZWQgc3ViY29sbGVjdGlvbnMgcmF0aGVyIHRoYW4gc21hbGwgY2x1c3RlcnMgW0Bib29kdHMyMDI1XToNCg0KMS4gIFNwcmluZyAoQ2FydGhhZ2UsIDQxOCkgKGl0ZW1zIDEtOSkNCjIuICBFYXN0ZXIgKEhpcHBvKSAoaXRlbXMgMTAtMTkpDQozLiAgV2ludGVyIChhZnRlciA0MjUpIChpdGVtcyAyNS0zMykNCg0KTmV4dCB0byB0aGUgb3JnYW5pc2VkIHNldHMgb2YgdGhlIGNvbGxlY3Rpb25zLCBzb21lIHNlcm1vbnMgYXJlIGZvdW5kIGFzIG1pc2NlbGxhbmVvdXMsIGRlc2NyaWJlZCBieSBEZSBDb25pbmNrIGFuZCBQYXJ0b2VucyBbQENvbmluY2tGaWxlXSBhcyBtaXhlZDogaXRlbXMgMjAtMjQgYW5kIDM0LTQ3LiBBbHRob3VnaCwgVmVyYnJha2VuIHN1Z2dlc3RlZCBzaXggYWRkaXRpb25hbCBzZXJtb25zIGluIGJldHdlZW4gdGhlIG1peGVkIHZlcnNpb24uDQoNCldlIGFzIGhpc3RvcmlhbnMgY2FuIGNhbGwgdGhlc2UgY29sbGVjdGlvbnMgY29sbGVjdGlvbnMsIGJ1dCBpdCBpcyB1bmNsZWFyIHRvIHdoYXQgZXh0ZW5kIHRoZXNlIGNvbGxlY3Rpb25zIHdlcmUgcmVsZXZhbnQgZm9yIGNvbXBpbGF0aW9uIGNob2ljZXMgdG8gY3JlYXQgYSBuZXcgbWFudXNjcmlwdC4NCg0KKipSUToqKg0KDQotIERpZCB0aGUgRGUgQWxsZWx1aWEgYXMgYSBzZXJtb24gY29sbGVjdGlvbiBpbmZsdWVuY2UgdGhlIGxpa2VsaWhvb2Qgb2Ygc2VybW9ucyBiZWluZyBjaG9zZW4gdG8gYmUgY29tcGlsZWQgdG9nZXRoZXI/DQoNCi0gV2VyZSBzdWJjb2xsZWN0aW9ucyBvZiBEZSBBbGxlbHVpYSBtb3JlIGFwcGVhbGluZyB0byBtZWRpZXZhbCBjb21waWxhdG9ycz8NCg0KLSBXZXJlIHRoZW1hdGljIHByb2ZpbGVzIGltcG9ydGFudCB0byBjb21waWxlIHNlcm1vbnMgdG9nZXRoZXIgY29tcGFyZWQgdG8gc2VybW9ucyBmcm9tIHRoZSBzYW1lIGNvbGxlY3Rpb24/DQoNCioqTW9kZWw6KioNCg0KLSBJcyBBbGxlbHVpYSBzZXJtb25zIG1vcmUgbGlrZWx5IHRvIGNvbm5lY3Qgd2l0aCBBbGxlbHVpYSBzZXJtb25zIG9yIHJhdGhlciB3aXRoIG90aGVyIHNlcm1vbnM/DQoNCi0gQXJlIHN1YmNvbGxlY3Rpb25zIG1vcmUgbGlrZWx5IHRvIGNvbm5lY3QgdG9nZXRoZXIgY29tcGFyZWQgdG8gcmFuZG9tIHNlcm1vbnM/DQoNCi0gVGhlIGNvbm5lY3Rpb24gYmV0d2VlbiBzZXJtb25zIGlzIGNvcnJlY3RlZCBmb3IgdGhlbWF0aWMgc2ltaWxhcml0eQ0KDQotIFRoZSBhbGxlbHVpYSBzZXJtb24gaG9tb3BoaWx5IGlzIGNvcnJlY3RlZCBmb3Igc3Ryb25nbHkgKFw+MjUlKSBvdmVybGFwcGluZyBzZXJtb24gY29sbGVjdGlvbnMgKFZlcmJpcyBBcG9zdG9saSAoQSkgKDh0aEMpLCBHYWxsaWNhbmEgKDZ0aEMpICYgU0NQICgxMnRoQykpDQoNCi0gVGhlIGFsbGVsdWlhIHNlcm1vbiBob21vcGhpbHkgaXMgY29ycmVjdGVkIGZvciBkZXJpdmF0aXZlIHNlcm1vbnMgZnJvbSBBbGxlbHVpYSAoQnJ1eGVsbGVzICYgTGFwc3UgTXVuZGkgZnJvbSB0aGUgMTF0aCBjZW50dXJ5KQ0K</div>
 
 
 </div>

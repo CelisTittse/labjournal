@@ -1,0 +1,779 @@
+							************************
+									 Alle5.txt
+							************************
+
+Filename is Alle5.txt.
+
+This file contains basic descriptives for SIENA data set <<Alle5>>.
+
+Date and time: 20/10/2026 15:53:18 
+
+RSiena version 1.6.6 (20 04 2026)
+
+
+@1
+Data input.
+===========
+
+4 observations,
+284 actors,
+1 dependent network variables,
+0 dependent bipartite variables,
+0 dependent discrete behavior variables,
+0 dependent continuous behavior variables,
+3 constant actor covariates,
+0 exogenous changing actor covariates,
+0 constant dyadic covariates,
+0 exogenous changing dyadic covariates,
+0 no files with times of composition change.
+
+
+@2
+Reading network variables.
+--------------------------
+
+Name of network variable: net.
+oneMode network.
+For observation moment 1, degree distributions are as follows:
+Nodes
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15 
+ 16  17  18  19  20  21  22  23  24  25  26  27  28  29  30 
+ 31  32  33  34  35  36  37  38  39  40  41  42  43  44  45 
+ 46  47  48  49  50  51  52  53  54  55  56  57  58  59  60 
+ 61  62  63  64  65  66  67  68  69  70  71  72  73  74  75 
+ 76  77  78  79  80  81  82  83  84  85  86  87  88  89  90 
+ 91  92  93  94  95  96  97  98  99 100 101 102 103 104 105 
+106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 
+121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 
+136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 
+151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 
+166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 
+181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 
+196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 
+211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 
+226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 
+241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 
+256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 
+271 272 273 274 275 276 277 278 279 280 281 282 283 284
+out-degrees
+  0  11   1   1   1   4  17   0  17  18   0   1   4   3   3 
+ 17   0   2   0   0   0   0   1   2  17   4  18   4   0   0 
+ 17  17   3   2   5   1   0   0  12   4   1   2   0   0   0 
+  0   0   0   7   4   5   5   5   0   0   0   3   1   0   0 
+  0   1   0   0   2   0   1   0   0   0   0   0   1   0   0 
+  0   3   0   0   0   2   0   3   0   2   0   0   2   2   0 
+  0   0   0   0   1   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   1   0 
+  2   0   0   0   0   0   0   0   1   0   0   0   0   0   6 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   3 
+  0   0   0   0   4   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   1   0   0   2   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+  0   0   0  16   0   0   0   0  17   1   2   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   1   0   0   0   0   0 
+  0   0   0   2   0   2   0   0   2   3  11  21   0   0   0 
+  9  10   0   0  16  11  10   1  23   0   0   9   0   2  11 
+  7   0  17   2   0   0   0   7   0   0  14   0  17   0
+in-degrees
+  0  11   1   1   1   4  17   0  17  18   0   1   4   3   3 
+ 17   0   2   0   0   0   0   1   2  17   4  18   4   0   0 
+ 17  17   3   2   5   1   0   0  12   4   1   2   0   0   0 
+  0   0   0   7   4   5   5   5   0   0   0   3   1   0   0 
+  0   1   0   0   2   0   1   0   0   0   0   0   1   0   0 
+  0   3   0   0   0   2   0   3   0   2   0   0   2   2   0 
+  0   0   0   0   1   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   1   0 
+  2   0   0   0   0   0   0   0   1   0   0   0   0   0   6 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   3 
+  0   0   0   0   4   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   1   0   0   2   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+  0   0   0  16   0   0   0   0  17   1   2   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   1   0   0   0   0   0 
+  0   0   0   2   0   2   0   0   2   3  11  21   0   0   0 
+  9  10   0   0  16  11  10   1  23   0   0   9   0   2  11 
+  7   0  17   2   0   0   0   7   0   0  14   0  17   0
+
+No missing data for observation 1.
+
+For observation moment 2, degree distributions are as follows:
+Nodes
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15 
+ 16  17  18  19  20  21  22  23  24  25  26  27  28  29  30 
+ 31  32  33  34  35  36  37  38  39  40  41  42  43  44  45 
+ 46  47  48  49  50  51  52  53  54  55  56  57  58  59  60 
+ 61  62  63  64  65  66  67  68  69  70  71  72  73  74  75 
+ 76  77  78  79  80  81  82  83  84  85  86  87  88  89  90 
+ 91  92  93  94  95  96  97  98  99 100 101 102 103 104 105 
+106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 
+121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 
+136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 
+151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 
+166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 
+181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 
+196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 
+211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 
+226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 
+241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 
+256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 
+271 272 273 274 275 276 277 278 279 280 281 282 283 284
+out-degrees
+  0  51  51  51  51  47  51   0  51  38  26  24  48  47  49 
+ 50   0  51   0   0   0   0  51  47  50  47  51  51   0   1 
+ 50  50  21  47  51  51   0  47  38  51  51  51   0   0   0 
+  0   0   0   8   0   8   0   8   0   0  19   8   8   0   0 
+  0   7  19   0  20   0  51   8   1   0   0   8   7   0   0 
+  0   8   0   0   0   1   0   1   0   2   0   0   2   2   0 
+  0   0   0   0  18   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   8 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0  21   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0  26   0   0   0   0   0   0 
+  0   0  17   0   0   0  26   0   0   0   0   0   0   0   0 
+  0   0   7  51   0   0   0   0  51  26   2   0   0   0   0 
+  0   0   0   0   0   0   0   7  47  20  26  21   0  21   0 
+ 21  17  20  20   0  26   0   0  21  39  51  51   0  21   0 
+ 51  51   0   0  51  47  47  51  50   0   0  47   0  35  51 
+ 51   0  50  51   0   0   0  15   0   0  50   0  51   7
+in-degrees
+  0  51  51  51  51  47  51   0  51  38  26  24  48  47  49 
+ 50   0  51   0   0   0   0  51  47  50  47  51  51   0   1 
+ 50  50  21  47  51  51   0  47  38  51  51  51   0   0   0 
+  0   0   0   8   0   8   0   8   0   0  19   8   8   0   0 
+  0   7  19   0  20   0  51   8   1   0   0   8   7   0   0 
+  0   8   0   0   0   1   0   1   0   2   0   0   2   2   0 
+  0   0   0   0  18   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   8 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0  21   0   0   0   0   0 
+  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+  0   0   0   0   0   0   0   0  26   0   0   0   0   0   0 
+  0   0  17   0   0   0  26   0   0   0   0   0   0   0   0 
+  0   0   7  51   0   0   0   0  51  26   2   0   0   0   0 
+  0   0   0   0   0   0   0   7  47  20  26  21   0  21   0 
+ 21  17  20  20   0  26   0   0  21  39  51  51   0  21   0 
+ 51  51   0   0  51  47  47  51  50   0   0  47   0  35  51 
+ 51   0  50  51   0   0   0  15   0   0  50   0  51   7
+
+No missing data for observation 2.
+
+For observation moment 3, degree distributions are as follows:
+Nodes
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15 
+ 16  17  18  19  20  21  22  23  24  25  26  27  28  29  30 
+ 31  32  33  34  35  36  37  38  39  40  41  42  43  44  45 
+ 46  47  48  49  50  51  52  53  54  55  56  57  58  59  60 
+ 61  62  63  64  65  66  67  68  69  70  71  72  73  74  75 
+ 76  77  78  79  80  81  82  83  84  85  86  87  88  89  90 
+ 91  92  93  94  95  96  97  98  99 100 101 102 103 104 105 
+106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 
+121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 
+136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 
+151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 
+166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 
+181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 
+196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 
+211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 
+226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 
+241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 
+256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 
+271 272 273 274 275 276 277 278 279 280 281 282 283 284
+out-degrees
+  0  52  52  52  51  52  52   0  55  78  31  78  52  52  78 
+ 52   0  52   0   0   0   0  52  52  53  52  54  52   0  26 
+ 54  52  31  52  52  52   0  52  77  52  52  52   0   0   0 
+  0   0   0  27  28  27  27  33  29  29  31  36  28  29  29 
+  0  54  31  29  31   0  52  22  28  27  29  29  54   0  23 
+ 29  26  28   1  13  10  11  11   0  11   0   0  11  11   9 
+  0   1   0   0  31   0   0   0   0   0   0   0   0   0   1 
+  0   0   0   1   0   0   0   0   0   0   0   2   1   3   0 
+  6   0   0   0   0   0   0   0   6   0   0   0   0   0  28 
+  0   0   0   0   0   4   0   0   0   0   0  29   0   0   0 
+  0   0   0   0   0   1   0   0   0  31   0   0   5   0  27 
+  0   0   0   0  29   0   0   0   0   1   0   0   0   0   0 
+  0   0   0   2   3  10   1  11  31   0   1   0   0   0   0 
+  0   0  31   4   6   0  31   0   0   0   0   4   0   0   0 
+  0  27  31  54   4   0   0   0  53  31  10   4   1   0   0 
+  0   0   0   4   0   0   9  31  62  31  31  31   0  31   0 
+ 31  27  31  31  29  31   4   0  31  52  52  53   0  31   0 
+ 52  52   0   1  53  52  52  52  53   0   0  52   0  52  52 
+ 52   4  54  52   0   0   0  52   0   0  52   1  52  31
+in-degrees
+  0  52  52  52  51  52  52   0  55  78  31  78  52  52  78 
+ 52   0  52   0   0   0   0  52  52  53  52  54  52   0  26 
+ 54  52  31  52  52  52   0  52  77  52  52  52   0   0   0 
+  0   0   0  27  28  27  27  33  29  29  31  36  28  29  29 
+  0  54  31  29  31   0  52  22  28  27  29  29  54   0  23 
+ 29  26  28   1  13  10  11  11   0  11   0   0  11  11   9 
+  0   1   0   0  31   0   0   0   0   0   0   0   0   0   1 
+  0   0   0   1   0   0   0   0   0   0   0   2   1   3   0 
+  6   0   0   0   0   0   0   0   6   0   0   0   0   0  28 
+  0   0   0   0   0   4   0   0   0   0   0  29   0   0   0 
+  0   0   0   0   0   1   0   0   0  31   0   0   5   0  27 
+  0   0   0   0  29   0   0   0   0   1   0   0   0   0   0 
+  0   0   0   2   3  10   1  11  31   0   1   0   0   0   0 
+  0   0  31   4   6   0  31   0   0   0   0   4   0   0   0 
+  0  27  31  54   4   0   0   0  53  31  10   4   1   0   0 
+  0   0   0   4   0   0   9  31  62  31  31  31   0  31   0 
+ 31  27  31  31  29  31   4   0  31  52  52  53   0  31   0 
+ 52  52   0   1  53  52  52  52  53   0   0  52   0  52  52 
+ 52   4  54  52   0   0   0  52   0   0  52   1  52  31
+
+No missing data for observation 3.
+
+For observation moment 4, degree distributions are as follows:
+Nodes
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15 
+ 16  17  18  19  20  21  22  23  24  25  26  27  28  29  30 
+ 31  32  33  34  35  36  37  38  39  40  41  42  43  44  45 
+ 46  47  48  49  50  51  52  53  54  55  56  57  58  59  60 
+ 61  62  63  64  65  66  67  68  69  70  71  72  73  74  75 
+ 76  77  78  79  80  81  82  83  84  85  86  87  88  89  90 
+ 91  92  93  94  95  96  97  98  99 100 101 102 103 104 105 
+106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 
+121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 
+136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 
+151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 
+166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 
+181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 
+196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 
+211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 
+226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 
+241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 
+256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 
+271 272 273 274 275 276 277 278 279 280 281 282 283 284
+out-degrees
+  0  78  77  73  72  76  77  25  76 100  39  98  78  76  97 
+ 76  43  75  50   0  44  44  77  77  77  78  77  77  24  81 
+ 77  77  31  77  76  78  23  78  97  78  78  78  77   9   0 
+ 24  25   0  81  81  81  81  81  81  81  31  81  81  81  81 
+  0  81  31  81  35  25  76  52  59  81  81  81  66   0  29 
+ 74  76  77  42  31  22  28  20  44  27  54   1  25  28  27 
+ 50  51  48  48  29  44   0  27  54  25  49  49  57  54  53 
+ 44  23  18  57  44  40  44  43  45  52  44  31  39  40  19 
+ 54  33   3  33   4  33   0  33  43  20  33  10  16  51  81 
+  8  20  19  10  21   6  16  45  15  42  47  81  44  50  48 
+  1  10  46  52  47   0  51  52   0  59  51  42   7  18  81 
+ 46  49  52  53  81  51  45  47  51  52  51  42  45  51  52 
+ 52  52  11  49  33  31  52   9  31  51  47  52  51   1  50 
+ 53  52  59  37  42  39  53   1  47  25  25  24  26  11  11 
+ 12  26  38  77  23  43  11  24  76  31  21   2  44  46  17 
+ 18  50  52  25  51  47  46  53  81  31  31  31  25  31  29 
+ 36  30  31  31  78  32  24  26  33  76  78  77   0  31  25 
+ 77  77  53  44  75  76  76  76  77   2   0  76  58  76  76 
+ 76  23  76  76  13  25  26  76  27   0  77   0  76  33
+in-degrees
+  0  78  77  73  72  76  77  25  76 100  39  98  78  76  97 
+ 76  43  75  50   0  44  44  77  77  77  78  77  77  24  81 
+ 77  77  31  77  76  78  23  78  97  78  78  78  77   9   0 
+ 24  25   0  81  81  81  81  81  81  81  31  81  81  81  81 
+  0  81  31  81  35  25  76  52  59  81  81  81  66   0  29 
+ 74  76  77  42  31  22  28  20  44  27  54   1  25  28  27 
+ 50  51  48  48  29  44   0  27  54  25  49  49  57  54  53 
+ 44  23  18  57  44  40  44  43  45  52  44  31  39  40  19 
+ 54  33   3  33   4  33   0  33  43  20  33  10  16  51  81 
+  8  20  19  10  21   6  16  45  15  42  47  81  44  50  48 
+  1  10  46  52  47   0  51  52   0  59  51  42   7  18  81 
+ 46  49  52  53  81  51  45  47  51  52  51  42  45  51  52 
+ 52  52  11  49  33  31  52   9  31  51  47  52  51   1  50 
+ 53  52  59  37  42  39  53   1  47  25  25  24  26  11  11 
+ 12  26  38  77  23  43  11  24  76  31  21   2  44  46  17 
+ 18  50  52  25  51  47  46  53  81  31  31  31  25  31  29 
+ 36  30  31  31  78  32  24  26  33  76  78  77   0  31  25 
+ 77  77  53  44  75  76  76  76  77   2   0  76  58  76  76 
+ 76  23  76  76  13  25  26  76  27   0  77   0  76  33
+
+No missing data for observation 4.
+
+
+
+
+@2
+Reading constant actor covariates.
+----------------------------------
+
+3 variables, named:
+alleluia        
+descendant      
+overlap         
+
+A total of 3 non-changing individual covariates.
+
+Number of missing cases:
+alleluia        0 	( 0.0 %)
+descendant      0 	( 0.0 %)
+overlap         0 	( 0.0 %)
+
+Information about covariates:
+              minimum  maximum	  mean  centered 
+alleluia        0.0     1.0      0.180    N 
+descendant      0.0     1.0      0.102    N 
+overlap         0.0     1.0      0.507    N 
+
+
+
+For the similarity variable calculated from each actor covariate,
+the mean is subtracted.
+These means are:
+Similarity alleluia                 :       0.7043 
+Similarity descendant               :       0.8160 
+Similarity overlap                  :       0.4983 
+
+
+
+@1
+Initial data description.
+=========================
+
+
+@2
+Change in networks:
+-------------------
+
+For the following statistics, missing values (if any) are not counted.
+All   observed networks are symmetric.
+Therefore, it is assumed that this is an analysis of an non-directed relation.
+
+Network density indicators:
+observation time              1      2      3      4
+density                    0.007  0.039  0.059  0.161
+average degree             1.845 11.007 16.739 45.514
+number of ties               262   1563   2377   6463
+missing fraction           0.000  0.000  0.000  0.000
+
+The average degree is 18.776 
+
+
+Edge changes between subsequent observations:
+ periods        0 =>  0   0 =>  1   1 =>  0   1 =>  1   Distance Jaccard   Missing
+  1 ==>   2     38607      1317        16       246      2666     0.156         0 (0%)
+  2 ==>   3     37808       815         1      1562      1632     0.657         0 (0%)
+  3 ==>   4     33691      4118        32      2345      8300     0.361         0 (0%)
+
+The distances reported in the output file for conditional estimation
+ for the network variable refer to the total symmetric adjacency matrix,
+ and therefore are double the distance reported above.)
+
+Directed dyad Counts:
+ observation    total    mutual    asymm.     null
+     1.         80372      524         0     79848
+     2.         80372     3126         0     77246
+     3.         80372     4754         0     75618
+     4.         80372    12926         0     67446
+
+Standard values for initial parameter values
+-------------------------------------------------
+
+constant net rate (period 1)           18.8419 
+constant net rate (period 2)           11.5347 
+constant net rate (period 3)           58.6572 
+degree (density)                                   0.4440 
+
+Initialisation of data set <<Alle5>> executed succesfully.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/10/2026 15:53:20
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 110920.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/10/2026 15:54:01
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 301823.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/10/2026 15:54:12
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 753257.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/10/2026 15:54:57
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 700300.
+Effects object used: myeff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 266616328300.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                        18.8419
+  0.2  Rate parameter                        11.5347
+  0.3  Rate parameter                        58.6572
+  1. eval:  degree (density)                                0.4440
+  2. eval:  Dummy2:net ego                                  0.0000
+  3. eval:  Dummy3:net ego                                  0.0000
+
+
+Values of target statistics are
+  1. Number of edges                                                   10403.0000
+  2. Sum outdegrees x Dummy2:net                                       -2181.3333
+  3. Sum outdegrees x Dummy3:net                                       5990.6667
+These were calculated from the data.
+
+ 3 parameters, 3 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 1814 iterations.
+Parameter estimates based on 813 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1001 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -0.5495  14.4329  -0.0381 
+  2.   0.2464  10.0162   0.0246 
+  3.   0.0666  15.9897   0.0042 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.0536 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 1814 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     5.0460  (   0.1426)
+ 0.2  Rate parameter period 2     2.8745  (   0.1017)
+ 0.3  Rate parameter period 3    14.8369  (   0.2370)
+
+Other parameters:
+ 1. eval:  degree (density)                                        0.8537  (   0.1724)
+ 2. eval:  Dummy2:net ego                                          2.1213  (   0.5138)
+ 3. eval:  Dummy3:net ego                                          1.4213  (   0.1598)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.030      0.074     -0.004
+     0.831      0.264      0.019
+    -0.161      0.229      0.026
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 585.79 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 22/10/2026 15:07:19
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 466650.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 22/10/2026 15:07:46
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 175258.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 266616328300.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         5.0460
+  0.2  Rate parameter                         2.8745
+  0.3  Rate parameter                        14.8369
+  1. eval:  degree (density)                                0.8537
+  2. eval:  GWESP (69)                                      0.0000
+  3. eval:  Dummy2:net ego                                  2.1213
+  4. eval:  Dummy3:net ego                                  1.4213
+
+
+Values of target statistics are
+  1. Number of edges                                                   10403.0000
+  2. Numb. edgew. shrd prtns.(69)                                      41340.5957
+  3. Sum outdegrees x Dummy2:net                                       -2181.3333
+  4. Sum outdegrees x Dummy3:net                                       5990.6667
+These were calculated from the data.
+
+ 4 parameters, 4 statistics
+
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 22/10/2026 16:04:15
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 813511.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 266616328300.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         5.0460
+  0.2  Rate parameter                         2.8745
+  0.3  Rate parameter                        14.8369
+  1. eval:  degree (density)                                0.8537
+  2. eval:  GWESP (69)                                      0.0000
+  3. eval:  Dummy2:net ego                                  2.1213
+  4. eval:  Dummy3:net ego                                  1.4213
+
+
+Values of target statistics are
+  1. Number of edges                                                   10403.0000
+  2. Numb. edgew. shrd prtns.(69)                                      41340.5957
+  3. Sum outdegrees x Dummy2:net                                       -2181.3333
+  4. Sum outdegrees x Dummy3:net                                       5990.6667
+These were calculated from the data.
+
+ 4 parameters, 4 statistics
+
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 22/10/2026 16:19:25
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 718663.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 266616328300.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         5.0460
+  0.2  Rate parameter                         2.8745
+  0.3  Rate parameter                        14.8369
+  1. eval:  degree (density)                                0.8537
+  2. eval:  GWESP (50)                                      0.0000
+  3. eval:  Dummy2:net ego                                  2.1213
+  4. eval:  Dummy3:net ego                                  1.4213
+
+
+Values of target statistics are
+  1. Number of edges                                                   10403.0000
+  2. Numb. edgew. shrd prtns.(50)                                      34211.1791
+  3. Sum outdegrees x Dummy2:net                                       -2181.3333
+  4. Sum outdegrees x Dummy3:net                                       5990.6667
+These were calculated from the data.
+
+ 4 parameters, 4 statistics
+
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 22/10/2026 16:19:49
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 48882.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 266616328300.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         5.0460
+  0.2  Rate parameter                         2.8745
+  0.3  Rate parameter                        14.8369
+  1. eval:  degree (density)                                0.8537
+  2. eval:  GWESP (50)                                      0.0000
+  3. eval:  Dummy2:net ego                                  2.1213
+  4. eval:  Dummy3:net ego                                  1.4213
+
+
+Values of target statistics are
+  1. Number of edges                                                   10403.0000
+  2. Numb. edgew. shrd prtns.(50)                                      34211.1791
+  3. Sum outdegrees x Dummy2:net                                       -2181.3333
+  4. Sum outdegrees x Dummy3:net                                       5990.6667
+These were calculated from the data.
+
+ 4 parameters, 4 statistics
+
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 22/10/2026 17:46:00
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 757410.

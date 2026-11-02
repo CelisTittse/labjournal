@@ -1,64 +1,19 @@
-<<<<<<< HEAD
-starting worker pid=6532 on localhost:11619 at 15:57:40.388
-starting worker pid=22240 on localhost:11619 at 15:57:40.597
-starting worker pid=27376 on localhost:11619 at 15:57:40.816
-starting worker pid=20396 on localhost:11619 at 15:57:41.000
-starting worker pid=3720 on localhost:11619 at 15:57:41.178
-starting worker pid=25736 on localhost:11619 at 15:57:41.358
-starting worker pid=28244 on localhost:11619 at 15:57:41.543
-starting worker pid=23584 on localhost:11619 at 15:57:41.729
-starting worker pid=29664 on localhost:11619 at 15:57:41.908
-starting worker pid=11548 on localhost:11619 at 15:57:42.082
-starting worker pid=26104 on localhost:11619 at 15:57:42.276
-starting worker pid=11556 on localhost:11619 at 15:57:42.471
-starting worker pid=12696 on localhost:11619 at 15:57:42.642
-=======
-starting worker pid=2584 on localhost:11126 at 13:16:01.295
-starting worker pid=28616 on localhost:11126 at 13:16:01.465
-starting worker pid=29552 on localhost:11126 at 13:16:01.642
-starting worker pid=4732 on localhost:11126 at 13:16:01.817
-starting worker pid=23428 on localhost:11126 at 13:16:01.986
-starting worker pid=13404 on localhost:11126 at 13:16:02.156
-starting worker pid=18888 on localhost:11126 at 13:16:02.325
-starting worker pid=23028 on localhost:11126 at 13:16:02.497
-starting worker pid=25264 on localhost:11126 at 13:16:02.669
-starting worker pid=21408 on localhost:11126 at 13:16:02.846
-starting worker pid=17940 on localhost:11126 at 13:16:03.023
-starting worker pid=13032 on localhost:11126 at 13:16:03.204
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+starting worker pid=22708 on localhost:11778 at 17:45:06.630
+starting worker pid=26212 on localhost:11778 at 17:45:06.643
+starting worker pid=24932 on localhost:11778 at 17:45:06.660
+starting worker pid=17252 on localhost:11778 at 17:45:06.672
+starting worker pid=29520 on localhost:11778 at 17:45:06.788
+starting worker pid=29176 on localhost:11778 at 17:45:06.822
+starting worker pid=30660 on localhost:11778 at 17:45:06.841
+starting worker pid=29416 on localhost:11778 at 17:45:06.875
+starting worker pid=26936 on localhost:11778 at 17:45:06.889
+starting worker pid=22036 on localhost:11778 at 17:45:06.896
+starting worker pid=30564 on localhost:11778 at 17:45:06.918
+starting worker pid=27392 on localhost:11778 at 17:45:06.955
+starting worker pid=9132 on localhost:11778 at 17:45:06.962
 Error in unserialize(node$con) : error reading from connection
 Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
 Execution halted
 Error in unserialize(node$con) : error reading from connection
 Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
 Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-ze(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Execution halted
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
->>>>>>> 016a4cbc780b0256006b7067667589919c1e419d

@@ -1,0 +1,161 @@
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/10/2026 16:49:21
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 429325.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance :   34   4 226.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         1.3669
+  0.2  Rate parameter                         0.1679
+  0.3  Rate parameter                         9.0409
+  1. eval:  all_spr ego and alt                             0.0000
+  2. eval:  all_spr ego x all_spr alter                     0.0000
+  3. eval:  all_east ego and alt                            0.0000
+  4. eval:  all_east ego x all_east alter                   0.0000
+  5. eval:  all_mix ego and alt                             0.0000
+  6. eval:  all_mix ego x all_mix alter                     0.0000
+  7. eval:  all_mixq ego and alt                            0.0000
+  8. eval:  all_mixq ego x all_mixq alter                   0.0000
+  9. eval:  all_425 ego and alt                             0.0000
+ 10. eval:  all_425 ego x all_425 alter                     0.0000
+ 11. eval:  overlap ego and alt                             0.0000
+ 12. eval:  overlap ego x overlap alter                     0.0000
+ 13. eval:  descendant ego and alt                          0.0000
+ 14. eval:  descendant ego x descendant alter               0.0000
+ 15. eval:  scp ego and alt                                 0.0000
+ 16. eval:  scp ego x scp alter                             0.0000
+
+
+Values of target statistics are
+  1. 2 * sum degr. x all_spr                                             80.2353
+  2. all_spr ego x all_spr alter                                         32.3322
+  3. 2 * sum degr. x all_east                                           172.2353
+  4. all_east ego x all_east alter                                       78.0969
+  5. 2 * sum degr. x all_mix                                            -23.1765
+  6. all_mix ego x all_mix alter                                         -2.1661
+  7. 2 * sum degr. x all_mixq                                           -18.8235
+  8. all_mixq ego x all_mixq alter                                       36.8927
+  9. 2 * sum degr. x all_425                                           -233.6471
+ 10. all_425 ego x all_425 alter                                         38.1200
+ 11. 2 * sum degr. x overlap                                            149.6471
+ 12. overlap ego x overlap alter                                         49.2180
+ 13. 2 * sum degr. x descendant                                         195.7255
+ 14. descendant ego x descendant alter                                  115.5022
+ 15. 2 * sum degr. x scp                                                144.9020
+ 16. scp ego x scp alter                                                 38.4019
+These were calculated from the data.
+
+ 16 parameters, 16 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 2172 iterations.
+Parameter estimates based on 1171 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1001 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+Overall maximum t-ratio for convergence not computable.
+  1.  -0.3477  12.3761  -0.0281 
+  2.   0.2172   4.1587   0.0522 
+  3.   0.1139  13.6070   0.0084 
+  4.  -0.0301   4.0016  -0.0075 
+  5.   0.0420   7.2874   0.0058 
+  6.  -0.0269   1.1959  -0.0225 
+  7.   0.0420   7.2874   0.0058 
+  8.  -0.0310   1.5859  -0.0196 
+  9.   0.1918  12.4182   0.0154 
+ 10.   0.0291   4.0308   0.0072 
+ 11.   0.2318  11.0668   0.0209 
+ 12.  -0.0066   2.7467  -0.0024 
+ 13.  -0.3357  17.2274  -0.0195 
+ 14.  -0.2503   6.0230  -0.0416 
+ 15.   0.3417  10.6331   0.0321 
+ 16.   0.0636   3.8448   0.0165 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  NA .
+*** Warning: Covariance matrix not positive definite *** 
+***            Standard errors not reliable           *** 
+The approximate linear combination that has variance 0 is
+-0.15 * beta[5] + 1 * beta[6] + -1 * beta[8]
+Do not use any reported standard errors.
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 2172 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     0.8850  (   0.2151)
+ 0.2  Rate parameter period 2     0.0779  (   0.0556)
+ 0.3  Rate parameter period 3     3.8314  (   0.3706)
+
+Other parameters:
+ 1. eval:  all_spr ego and alt                                  NANA
+ 2. eval:  all_spr ego x all_spr alter                          NANA
+ 3. eval:  all_east ego and alt                                 NANA
+ 4. eval:  all_east ego x all_east alter                        NANA
+ 5. eval:  all_mix ego and alt                                  NANA
+ 6. eval:  all_mix ego x all_mix alter                          NANA
+ 7. eval:  all_mixq ego and alt                                 NANA
+ 8. eval:  all_mixq ego x all_mixq alter                        NANA
+ 9. eval:  all_425 ego and alt                                  NANA
+10. eval:  all_425 ego x all_425 alter                          NANA
+11. eval:  overlap ego and alt                                  NANA
+12. eval:  overlap ego x overlap alter                          NANA
+13. eval:  descendant ego and alt                               NANA
+14. eval:  descendant ego x descendant alter                    NANA
+15. eval:  scp ego and alt                                      NANA
+16. eval:  scp ego x scp alter                                  NANA
+
+
+@3
+Covariance matrices
+                   
+There is a linear dependency between the parameter estimates
+ therefore the covariance matrix should not be used.
+
+Total computation time 75.93 seconds.

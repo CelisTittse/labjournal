@@ -1,0 +1,174 @@
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 12/10/2026 15:02:10
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 274955.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 12/10/2026 15:02:53
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 610082.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 12/10/2026 15:03:52
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 386293.
+Effects object used: myeff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance :  4540 525622002.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                        40.3557
+  0.2  Rate parameter                        46.7199
+  0.3  Rate parameter                       100.0000
+  1. eval:  degree (density)                               -1.2599
+  2. eval:  GWESP (69)                                      0.0000
+  3. eval:  degree of alter                                 0.0000
+  4. eval:  alleluia ego and alt                            0.0000
+  5. eval:  alleluia ego x alleluia alter                   0.0000
+  6. eval:  descendant ego and alt                          0.0000
+  7. eval:  descendant ego x descendant alter               0.0000
+  8. eval:  overlap ego and alt                             0.0000
+  9. eval:  overlap ego x overlap alter                     0.0000
+ 10. eval:  Dummy2:net ego x degree of alter                0.0000
+ 11. eval:  Dummy3:net ego x degree of alter                0.0000
+ 12. eval:  Dummy2:net ego                                  0.0000
+ 13. eval:  Dummy3:net ego                                  0.0000
+
+
+Values of target statistics are
+  1. Number of edges                                                   14133.0000
+  2. Numb. edgew. shrd prtns.(69)                                      56270.0747
+  3. Sum of squared degrees                                            3549408.0000
+  4. 2 * sum degr. x alleluia                                          15362.0000
+  5. alleluia ego x alleluia alter                                     2452.0000
+  6. 2 * sum degr. x descendant                                        4916.0000
+  7. descendant ego x descendant alter                                  242.0000
+  8. 2 * sum degr. x overlap                                           18168.0000
+  9. overlap ego x overlap alter                                       3244.0000
+ 10. Dummy2:net ego x degree of alter                                  -1154044.0000
+ 11. Dummy3:net ego x degree of alter                                  2122560.0000
+ 12. Sum outdegrees x Dummy2:net                                       -8186.0000
+ 13. Sum outdegrees x Dummy3:net                                       13300.0000
+These were calculated from the data.
+
+ 13 parameters, 13 statistics
+
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 12/10/2026 15:18:30
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 924929.
+Effects object used: myeff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance :   82  32 268.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         1.6603
+  0.2  Rate parameter                         0.6504
+  0.3  Rate parameter                         5.4171
+  1. eval:  degree (density)                               -1.0601
+  2. eval:  GWESP (69)                                      0.0000
+  3. eval:  degree of alter                                 0.0000
+  4. eval:  alleluia ego and alt                            0.0000
+  5. eval:  alleluia ego x alleluia alter                   0.0000
+  6. eval:  descendant ego and alt                          0.0000
+  7. eval:  descendant ego x descendant alter               0.0000
+  8. eval:  overlap ego and alt                             0.0000
+  9. eval:  overlap ego x overlap alter                     0.0000
+ 10. eval:  Dummy2:net ego x degree of alter                0.0000
+ 11. eval:  Dummy3:net ego x degree of alter                0.0000
+ 12. eval:  Dummy2:net ego                                  0.0000
+ 13. eval:  Dummy3:net ego                                  0.0000
+
+
+Values of target statistics are
+  1. Number of edges                                                    301.0000
+  2. Numb. edgew. shrd prtns.(69)                                      1121.5507
+  3. Sum of squared degrees                                            5584.0000
+  4. 2 * sum degr. x alleluia                                            38.0000
+  5. alleluia ego x alleluia alter                                        2.0000
+  6. 2 * sum degr. x descendant                                          62.0000
+  7. descendant ego x descendant alter                                    8.0000
+  8. 2 * sum degr. x overlap                                            478.0000
+  9. overlap ego x overlap alter                                        160.0000
+ 10. Dummy2:net ego x degree of alter                                  -1055.3333
+ 11. Dummy3:net ego x degree of alter                                  2274.6667
+ 12. Sum outdegrees x Dummy2:net                                        -78.6667
+ 13. Sum outdegrees x Dummy3:net                                        189.3333
+These were calculated from the data.
+
+ 13 parameters, 13 statistics
+

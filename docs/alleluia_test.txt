@@ -1,0 +1,112 @@
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 09/10/2026 09:47:50
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 778890.
+Effects object used: e 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distance for simulations is 4026 .
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0. Rate parameter                          15.7889
+  1. eval:  GWESP (69)                                      0.0000
+  2. eval:  allel_full ego and alt                          0.0000
+  3. eval:  allel_full ego x allel_full alter               0.0000
+  4. eval:  descendant ego and alt                          0.0000
+  5. eval:  descendant ego x descendant alter               0.0000
+  6. eval:  overlap ego and alt                             0.0000
+  7. eval:  overlap ego x overlap alter                     0.0000
+
+
+Values of target statistics are
+  1. Numb. edgew. shrd prtns.(69)                                      9141.0752
+  2. 2 * sum degr. x allel_full                                         440.0000
+  3. allel_full ego x allel_full alter                                   26.0000
+  4. 2 * sum degr. x descendant                                         166.0000
+  5. descendant ego x descendant alter                                   12.0000
+  6. 2 * sum degr. x overlap                                           2578.0000
+  7. overlap ego x overlap alter                                        736.0000
+These were calculated from the data.
+
+ 7 parameters, 7 statistics
+
+Total computation time 179.96 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 09/10/2026 09:50:51
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 650139.
+Effects object used: e 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distance for simulations is  970 .
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0. Rate parameter                           3.8047
+  1. eval:  degree (density)                               -1.1229
+  2. eval:  GWESP (69)                                      0.0000
+  3. eval:  allel_full ego and alt                          0.0000
+  4. eval:  allel_full ego x allel_full alter               0.0000
+  5. eval:  descendant ego and alt                          0.0000
+  6. eval:  descendant ego x descendant alter               0.0000
+  7. eval:  overlap ego and alt                             0.0000
+  8. eval:  overlap ego x overlap alter                     0.0000
+
+
+Values of target statistics are
+  1. Number of edges                                                   1927.0000
+  2. Numb. edgew. shrd prtns.(69)                                      7631.4235
+  3. 2 * sum degr. x allel_full                                         318.0000
+  4. allel_full ego x allel_full alter                                   18.0000
+  5. 2 * sum degr. x descendant                                          36.0000
+  6. descendant ego x descendant alter                                    2.0000
+  7. 2 * sum degr. x overlap                                           1826.0000
+  8. overlap ego x overlap alter                                        534.0000
+These were calculated from the data.
+
+ 8 parameters, 8 statistics
+
+Total computation time 3.81 seconds.

@@ -950,3 +950,49 @@ covariance/correlation matrix of X can be found using
 summary(ans) within R, or by using the 'verbose' option in Siena07.
  
 Total computation time 2076.25 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 17:45:05
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 921876.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                        18.6158
+  0.2  Rate parameter                        11.2944
+  0.3  Rate parameter                        58.1908
+  1. eval:  transitive ties                                 0.0000
+
+
+Values of target statistics are
+  1. Number of ties with transitive closure                            20862.0000
+These were calculated from the data.
+
+ 1 parameters, 1 statistics
+

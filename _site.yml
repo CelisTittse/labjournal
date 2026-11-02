@@ -24,10 +24,6 @@ navbar:
         href: eda.html
       - text: "Model High Middle Ages Collections"
         href: rsiena_model.html
-      - text: "Model results"
-        href: alleluia.txt
-      - text: "Model Effects"
-        href: myeff.html
 
   right:
   - icon: fab fa-github
