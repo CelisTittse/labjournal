@@ -577,11 +577,13 @@ overlap_l
 4.  words are vectored with TF-IDF (1)
 5.  Similarity matrix is created by cosine similarity between each sermon.
 
+<!-- -->
+
 (1) for t = lemma and d = document and n = number of times
 
 (n times t in d / total n ts in d) \* log (total number of d / n d containing t)
 
-[https://raw.githubusercontent.com/KotobaTrilius/latin-stopwords/main/latin](https://raw.githubusercontent.com/KotobaTrilius/latin-stopwords/main/latin")
+[https://raw.githubusercontent.com/KotobaTrilius/latin-stopwords/main/latin](https://raw.githubusercontent.com/KotobaTrilius/latin-stopwords/main/latin%22)
 
 ### Mantel permutation
 
@@ -804,21 +806,16 @@ eff0 <- includeEffects(eff0, transTies, timeDummy = "all")
 ```
 
 ### Model 0 Results
-Estimates and standard errors
-                             
-Rate parameters:
- 0.1  Rate parameter period 1     4.6450  (   0.1293)
- 0.2  Rate parameter period 2     2.8127  (   0.1011)
- 0.3  Rate parameter period 3    14.4898  (   0.2281)
 
-Other parameters:
- 1. eval:  transitive ties                                         5.8116  (   0.6356)
- 
+Estimates and standard errors
+
+Rate parameters: 0.1 Rate parameter period 1 4.6450 ( 0.1293) 0.2 Rate parameter period 2 2.8127 ( 0.1011) 0.3 Rate parameter period 3 14.4898 ( 0.2281)
+
+Other parameters: 1. eval: transitive ties 5.8116 ( 0.6356)
+
 ### Model 0 conclusion
 
-The zero model is the simplest model possible. To indicate whether the clustering prediction holds. Three times p<0.001 difference is worrying because the model is so simple. Furthermore, the MDH = ~[4300, 87000] which is enormous. 
-
-
+The zero model is the simplest model possible. To indicate whether the clustering prediction holds. Three times p\<0.001 difference is worrying because the model is so simple. Furthermore, the MDH = \~[4300, 87000] which is enormous.
 
 ```{r model 1 effects}
 # RQ1: Is Alleluia sermons more likely to connect with Alleluia sermons or rather with other sermons?
@@ -835,8 +832,6 @@ eff1 <- includeEffects(eff1, X, interaction1 = "theme")
 eff1
 ```
 
-
-
 ```{r goodness of fit}
 # (ans1 <- est_model(eff1, thetaBound = 150))
 # 
@@ -850,29 +845,20 @@ eff1
 # gof1.degree
 # gof1.triads
 ```
+
 ### Model 1 results
+
 Estimates and standard errors
-                             
-Rate parameters:
- 0.1  Rate parameter period 1     8.5024  (   0.3183)
- 0.2  Rate parameter period 2     5.0790  (   0.2219)
- 0.3  Rate parameter period 3    15.8178  (   0.2844)
 
-Other parameters:
- 1. eval:  transitive ties                                         9.5085  (   4.7104)
- 2. eval:  same_Asubs                                             -0.0454  (   0.3332)
- 3. eval:  c912cols                                                2.5980  (   0.1827)
- 4. eval:  theme                                                   0.2218  (   0.0309)
- 5. eval:  desc                                                    2.5509  (   0.2589)
- 6. eval:  c12cols                                               125.1061  (   5.9065)
- 7. eval:  alleluia ego and alt                                   -0.9040  (   0.1329)
- 8. eval:  alleluia ego x alleluia alter                           1.7311  (   0.2641)
- 
-Overall maximum convergence ratio =  2.9329 .
+Rate parameters: 0.1 Rate parameter period 1 8.5024 ( 0.3183) 0.2 Rate parameter period 2 5.0790 ( 0.2219) 0.3 Rate parameter period 3 15.8178 ( 0.2844)
 
-The model doesn't converge at all, (2.93) and that has to do with the collections in the 12th century. They overlap strongly with the existing model, and predict thus too well. The leap from wave 11 to 12 increases a lot of ties, so the model needs to work hard towards adding new ties and because the big collections like SCP were very popular it fits very well. 
+Other parameters: 1. eval: transitive ties 9.5085 ( 4.7104) 2. eval: same_Asubs -0.0454 ( 0.3332) 3. eval: c912cols 2.5980 ( 0.1827) 4. eval: theme 0.2218 ( 0.0309) 5. eval: desc 2.5509 ( 0.2589) 6. eval: c12cols 125.1061 ( 5.9065) 7. eval: alleluia ego and alt -0.9040 ( 0.1329) 8. eval: alleluia ego x alleluia alter 1.7311 ( 0.2641)
 
-Therefore, this parameter will be fixed. 
+Overall maximum convergence ratio = 2.9329 .
+
+The model doesn't converge at all, (2.93) and that has to do with the collections in the 12th century. They overlap strongly with the existing model, and predict thus too well. The leap from wave 11 to 12 increases a lot of ties, so the model needs to work hard towards adding new ties and because the big collections like SCP were very popular it fits very well.
+
+Therefore, this parameter will be fixed.
 
 ```{r model 2}
 eff2 <- setEffect(eff1, X, interaction1 = "c12cols", fix = TRUE, initialValue = 10)
@@ -895,47 +881,37 @@ eff2 <- setEffect(eff2, transTies, initialValue = 5.8, fix = FALSE)
 
 ```
 
-
-
 ## Model 1.2
+
 ### Model 1.2 Results
-Initial parameter values are 
-  0.1  Rate parameter                         8.5024
-  0.2  Rate parameter                         5.0790
-  0.3  Rate parameter                        15.8178
-  1. eval:  transitive ties                                 9.5085
-  2. eval:  same_Asubs                                     -0.0454
-  3. eval:  c912cols                                        2.5980
-  4. eval:  theme                                           0.2218
-  5. eval:  desc                                            2.5509
-  6. eval:  c12cols                                       125.1061  (fixed) 
-  7. eval:  alleluia ego and alt                           -0.9040
-  8. eval:  alleluia ego x alleluia alter                   1.7311
-  
-Overall maximum convergence ratio =  0.1135
+
+Initial parameter values are 0.1 Rate parameter 8.5024 0.2 Rate parameter 5.0790 0.3 Rate parameter 15.8178 1. eval: transitive ties 9.5085 2. eval: same_Asubs -0.0454 3. eval: c912cols 2.5980 4. eval: theme 0.2218 5. eval: desc 2.5509 6. eval: c12cols 125.1061 (fixed) 7. eval: alleluia ego and alt -0.9040 8. eval: alleluia ego x alleluia alter 1.7311
+
+Overall maximum convergence ratio = 0.1135
 
 ### Model 1.2 conclusions
+
 The three research questions are combined into one model. It needs to be said that the goodness of fit is rather terrible and no conclusion can be drawn from this analysis. The model does converge on (0.11).
 
-However, would that be the cause, this would be my interpretation. 
+However, would that be the cause, this would be my interpretation.
 
-RQ1: Something that I didn't expect, but Alleluia shows a positive effect of connecting with sermons from alleluia (z=7.33) and a negative effect of forming edge with sermons outside collection (z = -8.55). 
+RQ1: Something that I didn't expect, but Alleluia shows a positive effect of connecting with sermons from alleluia (z=7.33) and a negative effect of forming edge with sermons outside collection (z = -8.55).
 
-RQ2: The subcollections are not more likely to be form a tie compared to between subcollections or other sermons (z = 0.30). The thematic overlap between the addition in Mixed? and the thematic overlap exhibited in that subcollection, may have influenced the low result of this analysis. 
+RQ2: The subcollections are not more likely to be form a tie compared to between subcollections or other sermons (z = 0.30). The thematic overlap between the addition in Mixed? and the thematic overlap exhibited in that subcollection, may have influenced the low result of this analysis.
 
-RQ3: Thematic similarity is an significant (z = 9.99) factor to form ties in the next phase. 
+RQ3: Thematic similarity is an significant (z = 9.99) factor to form ties in the next phase.
 
-### Potential problems: 
-- the transitive ties are frozen in the second run. 
-- the goodness of fit is significantly different, changing per wave the number of triads and singles, and the degree is seriously off. I think it is difficult for the model to stocastically work on a "edge-adding" model when it is estimated in projected network. 
-- The assumption of causality is probablity wrong. The model implices wave2 is caused by wave1 + ties, but on a microlevel this assumption doesn't hold, because the ties are created by non-random estimation of the sum of different ties. One tie reflects the relationship between ties of the network as well as a summation of multiple manuscripts that could be written in an unrelated context. For example: baltics 1010 monestary and secular scriptorium against the Notre dame in 1090. 
+### Potential problems:
+
+- the transitive ties are frozen in the second run.
+- the goodness of fit is significantly different, changing per wave the number of triads and singles, and the degree is seriously off. I think it is difficult for the model to stocastically work on a "edge-adding" model when it is estimated in projected network.
+- The assumption of causality is probablity wrong. The model implices wave2 is caused by wave1 + ties, but on a microlevel this assumption doesn't hold, because the ties are created by non-random estimation of the sum of different ties. One tie reflects the relationship between ties of the network as well as a summation of multiple manuscripts that could be written in an unrelated context. For example: baltics 1010 monestary and secular scriptorium against the Notre dame in 1090.
 - Put differently, the sermons are not necessary aware of the existence of other sermons (some sermons are out of scope from the datasets we have, and may be less copied)
 
-
 ## Thoughts of next steps
-One of the strongest ideas is the estimation of effects to predict next distributions. SIENA does this really well. The translations however from macro to micro and back is difficult due to the nature of the source material. 
 
-I've learned that a model should resemble the data as close as possible, and I'm also very grateful for Koolman's boat, which is a strong methodological tool. 
+One of the strongest ideas is the estimation of effects to predict next distributions. SIENA does this really well. The translations however from macro to micro and back is difficult due to the nature of the source material.
 
-Bipartite networks will be looking in second as well as stocastic block models. 
+I've learned that a model should resemble the data as close as possible, and I'm also very grateful for Koolman's boat, which is a strong methodological tool.
 
+Bipartite networks will be looking in second as well as stocastic block models.
