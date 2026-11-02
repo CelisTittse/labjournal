@@ -6,7 +6,11 @@ Filename is ./results/soc_init.txt.
 
 This file contains basic descriptives for SIENA data set <<./results/soc_init>>.
 
+<<<<<<< HEAD
 Date and time: 11/10/2026 21:51:42 
+=======
+Date and time: 02/10/2026 15:27:11 
+>>>>>>> 016a4cbc780b0256006b7067667589919c1e419d
 
 RSiena version 1.6.6 (20 04 2026)
 

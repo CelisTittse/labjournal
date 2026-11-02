@@ -37,10 +37,17 @@ ROOT_IN = "./data/data_raw/"
 MS_SE_PATH = f"{ROOT_IN}sf_mss_okt_25.xlsx"
 ROOT_OUT = "./data/data_deriv"
 
+<<<<<<< HEAD
 CENTURIES = list(range(9, 13)) # list of centuries to run, or None for all
 NUMBER_ITERATIONS = 1000
 TRADES_PER_MS = 10            # curveball trades per iteration = this * n_manuscripts
 THRESHOLD_ALPHA = 0.2        # applied to the FDR corrected q value
+=======
+CENTURIES = [13] # list of centuries to run, or None for all
+NUMBER_ITERATIONS = 1000
+TRADES_PER_MS = 10            # curveball trades per iteration = this * n_manuscripts
+THRESHOLD_ALPHA = 0.01        # applied to the FDR corrected q value
+>>>>>>> 016a4cbc780b0256006b7067667589919c1e419d
 TAIL = "upper"                # "upper": edge is significant when observed
                               #          weight is HIGHER than the null
                               # "lower": significant when LOWER than the null
@@ -51,22 +58,33 @@ N_BOXPLOT = 10                # number of edges kept for the boxplot
 SAVE_ADJ = True
 SAVE_EDGES = False
 
+<<<<<<< HEAD
 SAMPLE_N_MSS = False # or false for full
 
 # --------------------------------------------------------------------------- #
 # Data preparation
 # --------------------------------------------------------------------------- #
 def create_ms_se_arrays(sub_df: pd.DataFrame, n_sample: bool|int):
+=======
+# --------------------------------------------------------------------------- #
+# Data preparation
+# --------------------------------------------------------------------------- #
+def create_ms_se_arrays(sub_df: pd.DataFrame):
+>>>>>>> 016a4cbc780b0256006b7067667589919c1e419d
     """Return integer-coded edge arrays plus the label arrays.
 
     ms_idx[k], se_idx[k] is the k-th manuscript-sermon edge.
     Sermon labels are sorted, so index order equals string order.
     """
+<<<<<<< HEAD
     s_full = sub_df[["shelfmark", "certain"]].copy()
 
     # sample n manuscripts
     s = s_full.sample(n_sample) if n_sample else s_full
 
+=======
+    s = sub_df[["shelfmark", "certain"]].copy()
+>>>>>>> 016a4cbc780b0256006b7067667589919c1e419d
     s = s[s["certain"].apply(lambda x: isinstance(x, str))]
     s["certain"] = s["certain"].str.split(", ")
     s["certain"] = s["certain"].apply(lambda x: [e.strip() for e in x])
@@ -123,7 +141,11 @@ def curveball(ms_sets: list[set], n_trades: int, rng: np.random.Generator) -> li
 # --------------------------------------------------------------------------- #
 def permutation_test(sub_df: pd.DataFrame, n_iter: int, trades_per_ms: float,
                      rng: np.random.Generator, keep_dist_for: int = 0):
+<<<<<<< HEAD
     ms_idx, se_idx, ms_labels, se_labels = create_ms_se_arrays(sub_df, n_sample=SAMPLE_N_MSS)
+=======
+    ms_idx, se_idx, ms_labels, se_labels = create_ms_se_arrays(sub_df)
+>>>>>>> 016a4cbc780b0256006b7067667589919c1e419d
     n_ms, n_se, E = len(ms_labels), len(se_labels), len(ms_idx)
 
     W_obs = cooccurrence(ms_idx, se_idx, n_ms, n_se).tocoo()
@@ -222,6 +244,7 @@ def main():
 
         base = os.path.join(ROOT_OUT, f"se_se_c{int(century)}")
 
+<<<<<<< HEAD
 
         sample_file_str = f'_samp_{SAMPLE_N_MSS}' if SAMPLE_N_MSS else ''
 
@@ -230,6 +253,13 @@ def main():
             print(f"Saved {base}_adjacency.csv")
         if SAVE_EDGES:
             edges.sort_values(pcol).to_csv(f"{base}_a%{THRESHOLD_ALPHA*100}_edges_{date}_{sample_file_str}.csv", index=False)
+=======
+        if SAVE_ADJ:
+            pd.DataFrame(A, index=se_labels, columns=se_labels).to_csv(f"{base}_a%{THRESHOLD_ALPHA*100}_adj_{date}.csv")
+            print(f"Saved {base}_adjacency.csv")
+        if SAVE_EDGES:
+            edges.sort_values(pcol).to_csv(f"{base}_a%{THRESHOLD_ALPHA*100}_edges_{date}.csv", index=False)
+>>>>>>> 016a4cbc780b0256006b7067667589919c1e419d
             print(f"Saved {base}_edges.csv")
 
         if PLOT_BOXPLOT and dist is not None and dist.shape[1]:
