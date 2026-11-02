@@ -1,0 +1,952 @@
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 09:27:09
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 125471.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                        18.6158
+  0.2  Rate parameter                        11.2944
+  0.3  Rate parameter                        58.1908
+  1. eval:  alleluia ego and alt                            0.0000
+  2. eval:  alleluia ego x alleluia alter                   0.0000
+
+
+Values of target statistics are
+  1. 2 * sum degr. x alleluia                                          -4359.7746
+  2. alleluia ego x alleluia alter                                      462.8037
+These were calculated from the data.
+
+ 2 parameters, 2 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 1759 iterations.
+Parameter estimates based on 758 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1001 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   1.8581  71.2010   0.0261 
+  2.  -0.3676  17.8096  -0.0206 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.0349 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 1759 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     4.6973  (   0.1290)
+ 0.2  Rate parameter period 2     2.8540  (   0.1008)
+ 0.3  Rate parameter period 3    14.7029  (   0.2320)
+
+Other parameters:
+ 1. eval:  alleluia ego and alt                                   -3.8118  (   0.3702)
+ 2. eval:  alleluia ego x alleluia alter                           4.2489  (   0.4553)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.137     -0.163
+    -0.969      0.207
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 231.75 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 09:42:55
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 255707.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                        18.6158
+  0.2  Rate parameter                        11.2944
+  0.3  Rate parameter                        58.1908
+  1. eval:  transitive ties                                 0.0000
+  2. eval:  same_Asubs                                      0.0000
+  3. eval:  desc                                            0.0000
+  4. eval:  alleluia ego and alt                            0.0000
+  5. eval:  alleluia ego x alleluia alter                   0.0000
+
+
+Values of target statistics are
+  1. Number of ties with transitive closure                            20862.0000
+  2. Sum of ties x same_Asubs                                           -14.2249
+  3. Sum of ties x desc                                                 355.9391
+  4. 2 * sum degr. x alleluia                                          -4359.7746
+  5. alleluia ego x alleluia alter                                      462.8037
+These were calculated from the data.
+
+ 5 parameters, 5 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 2000 iterations.
+Parameter estimates based on 999 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1001 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -0.1518   8.7860  -0.0173 
+  2.  -0.9950  15.5597  -0.0639 
+  3.  -0.1199  42.4333  -0.0028 
+  4.  -1.8322  78.9737  -0.0232 
+  5.  -0.9857  22.2361  -0.0443 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.067 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 2000 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     4.7462  (   0.1274)
+ 0.2  Rate parameter period 2     2.8903  (   0.1058)
+ 0.3  Rate parameter period 3    14.5798  (   0.2227)
+
+Other parameters:
+ 1. eval:  transitive ties                                         6.5168  (   1.3909)
+ 2. eval:  same_Asubs                                              0.5221  (   0.2203)
+ 3. eval:  desc                                                    1.7922  (   0.1160)
+ 4. eval:  alleluia ego and alt                                   -6.2929  (   0.6726)
+ 5. eval:  alleluia ego x alleluia alter                           7.5170  (   0.8523)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     1.935      0.003      0.004     -0.009     -0.036
+     0.011      0.049      0.000     -0.003     -0.017
+     0.023      0.004      0.013      0.005     -0.006
+    -0.009     -0.024      0.060      0.452     -0.561
+    -0.031     -0.091     -0.063     -0.978      0.726
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 637.25 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 10:21:04
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 629892.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         4.7462
+  0.2  Rate parameter                         2.8903
+  0.3  Rate parameter                        14.5798
+  1. eval:  transitive ties                                 6.5168
+  2. eval:  same_Asubs                                      0.5221
+  3. eval:  desc                                            1.7922
+  4. eval:  alleluia ego and alt                           -6.2929
+  5. eval:  alleluia ego x alleluia alter                   7.5170
+
+
+Values of target statistics are
+  1. Number of ties with transitive closure                            20862.0000
+  2. Sum of ties x same_Asubs                                           -14.2249
+  3. Sum of ties x desc                                                 481.9695
+  4. 2 * sum degr. x alleluia                                          -4359.7746
+  5. alleluia ego x alleluia alter                                      462.8037
+These were calculated from the data.
+
+ 5 parameters, 5 statistics
+
+Total computation time 125.5 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 12:05:47
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 107260.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 12:05:52
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 877800.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 12:07:02
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 568024.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 12:07:29
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 963582.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 12:08:34
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 8913.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 12:09:56
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 69348.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                        18.6158
+  0.2  Rate parameter                        11.2944
+  0.3  Rate parameter                        58.1908
+  1. eval:  transitive ties                                 0.0000
+
+
+Values of target statistics are
+  1. Number of ties with transitive closure                            20862.0000
+These were calculated from the data.
+
+ 1 parameters, 1 statistics
+
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 12:32:19
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 121511.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                        18.6158
+  0.2  Rate parameter                        11.2944
+  0.3  Rate parameter                        58.1908
+  1. eval:  transitive ties                                 0.0000
+
+
+Values of target statistics are
+  1. Number of ties with transitive closure                            20862.0000
+These were calculated from the data.
+
+ 1 parameters, 1 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 2159 iterations.
+Parameter estimates based on 1158 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1001 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   2.1479   8.6548   0.2482 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.2482 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 2159 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     4.6450  (   0.1293)
+ 0.2  Rate parameter period 2     2.8127  (   0.1011)
+ 0.3  Rate parameter period 3    14.4898  (   0.2281)
+
+Other parameters:
+ 1. eval:  transitive ties                                         5.8116  (   0.6356)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.404
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 6583.99 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 15:09:43
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 96366.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                        18.6158
+  0.2  Rate parameter                        11.2944
+  0.3  Rate parameter                        58.1908
+  1. eval:  transitive ties                                 0.0000
+  2. eval:  same_Asubs                                      0.0000
+  3. eval:  desc                                            0.0000
+  4. eval:  alleluia ego and alt                            0.0000
+  5. eval:  alleluia ego x alleluia alter                   0.0000
+
+
+Values of target statistics are
+  1. Number of ties with transitive closure                            20862.0000
+  2. Sum of ties x same_Asubs                                           -14.2249
+  3. Sum of ties x desc                                                 411.3295
+  4. 2 * sum degr. x alleluia                                          -4359.7746
+  5. alleluia ego x alleluia alter                                      462.8037
+These were calculated from the data.
+
+ 5 parameters, 5 statistics
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 15:10:50
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 526270.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                        18.6158
+  0.2  Rate parameter                        11.2944
+  0.3  Rate parameter                        58.1908
+  1. eval:  transitive ties                                 0.0000
+  2. eval:  same_Asubs                                      0.0000
+  3. eval:  c912cols                                        0.0000
+  4. eval:  theme                                           0.0000
+  5. eval:  desc                                            0.0000
+  6. eval:  c12cols                                         0.0000
+  7. eval:  alleluia ego and alt                            0.0000
+  8. eval:  alleluia ego x alleluia alter                   0.0000
+
+
+Values of target statistics are
+  1. Number of ties with transitive closure                            20862.0000
+  2. Sum of ties x same_Asubs                                           -14.2249
+  3. Sum of ties x c912cols                                            1511.7385
+  4. Sum of ties x theme                                               5284.6788
+  5. Sum of ties x desc                                                 411.3295
+  6. Sum of ties x c12cols                                             3530.3214
+  7. 2 * sum degr. x alleluia                                          -4359.7746
+  8. alleluia ego x alleluia alter                                      462.8037
+These were calculated from the data.
+
+ 8 parameters, 8 statistics
+
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 15:11:08
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 550888.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                        18.6158
+  0.2  Rate parameter                        11.2944
+  0.3  Rate parameter                        58.1908
+  1. eval:  transitive ties                                 0.0000
+  2. eval:  same_Asubs                                      0.0000
+  3. eval:  c912cols                                        0.0000
+  4. eval:  theme                                           0.0000
+  5. eval:  desc                                            0.0000
+  6. eval:  c12cols                                         0.0000
+  7. eval:  alleluia ego and alt                            0.0000
+  8. eval:  alleluia ego x alleluia alter                   0.0000
+
+
+Values of target statistics are
+  1. Number of ties with transitive closure                            20862.0000
+  2. Sum of ties x same_Asubs                                           -14.2249
+  3. Sum of ties x c912cols                                            1511.7385
+  4. Sum of ties x theme                                               5284.6788
+  5. Sum of ties x desc                                                 411.3295
+  6. Sum of ties x c12cols                                             3530.3214
+  7. 2 * sum degr. x alleluia                                          -4359.7746
+  8. alleluia ego x alleluia alter                                      462.8037
+These were calculated from the data.
+
+ 8 parameters, 8 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 2159 iterations.
+Parameter estimates based on 1158 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1001 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -10.8611  10.0617  -1.0795 
+  2.   -1.4585  16.0269  -0.0910 
+  3.   -7.5984  69.6235  -0.1091 
+  4. -133.4206 220.5270  -0.6050 
+  5.   -2.7053  45.4054  -0.0596 
+  6. -196.3057  77.3202  -2.5389 
+  7.   61.3626 128.8172   0.4764 
+  8.    2.6550  21.7713   0.1219 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  2.9329 .
+One or more of the t-statistics are rather large.
+Convergence of the algorithm is doubtful.
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 2159 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     8.5024  (   0.3183)
+ 0.2  Rate parameter period 2     5.0790  (   0.2219)
+ 0.3  Rate parameter period 3    15.8178  (   0.2844)
+
+Other parameters:
+ 1. eval:  transitive ties                                         9.5085  (   4.7104)
+ 2. eval:  same_Asubs                                             -0.0454  (   0.3332)
+ 3. eval:  c912cols                                                2.5980  (   0.1827)
+ 4. eval:  theme                                                   0.2218  (   0.0309)
+ 5. eval:  desc                                                    2.5509  (   0.2589)
+ 6. eval:  c12cols                                               125.1061  (   5.9065)
+ 7. eval:  alleluia ego and alt                                   -0.9040  (   0.1329)
+ 8. eval:  alleluia ego x alleluia alter                           1.7311  (   0.2641)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+    22.188     -0.550      0.088      0.095      0.798      9.194      0.012      0.711
+    -0.350      0.111     -0.006     -0.002     -0.018     -0.012     -0.004     -0.049
+     0.103     -0.100      0.033      0.001      0.000     -0.180     -0.005      0.008
+     0.651     -0.183      0.148      0.001      0.004      0.043      0.000      0.003
+     0.655     -0.213      0.006      0.484      0.067      0.673      0.001      0.031
+     0.330     -0.006     -0.166      0.233      0.440     34.886      0.425      0.151
+     0.019     -0.088     -0.221     -0.029      0.030      0.541      0.018     -0.009
+     0.571     -0.556      0.156      0.366      0.461      0.097     -0.256      0.070
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 1905.81 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 15:54:41
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 314801.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         8.5024
+  0.2  Rate parameter                         5.0790
+  0.3  Rate parameter                        15.8178
+  1. eval:  transitive ties                                 9.5085
+  2. eval:  same_Asubs                                     -0.0454
+  3. eval:  c912cols                                        2.5980
+  4. eval:  theme                                           0.2218
+  5. eval:  desc                                            2.5509
+  6. eval:  c12cols                                       125.1061  (fixed) 
+  7. eval:  alleluia ego and alt                           -0.9040
+  8. eval:  alleluia ego x alleluia alter                   1.7311
+
+
+Values of target statistics are
+  1. Number of ties with transitive closure                            20862.0000
+  2. Sum of ties x same_Asubs                                           -14.2249
+  3. Sum of ties x c912cols                                            1511.7385
+  4. Sum of ties x theme                                               5284.6788
+  5. Sum of ties x desc                                                 411.3295
+  6. Sum of ties x c12cols                                             3530.3214
+  7. 2 * sum degr. x alleluia                                          -4359.7746
+  8. alleluia ego x alleluia alter                                      462.8037
+These were calculated from the data.
+
+ 8 parameters, 8 statistics
+
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 02/11/2026 15:57:39
+New results follow.
+-----------------------------------
+
+RSiena version 1.6.6 (20 apr 26)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 779953.
+Effects object used: eff 
+Model Type:
+ Forcing model 
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2   3
+distance : 263415988234.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.7211103.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         8.5024
+  0.2  Rate parameter                         5.0790
+  0.3  Rate parameter                        15.8178
+  1. eval:  transitive ties                                 9.5085
+  2. eval:  same_Asubs                                     -0.0454
+  3. eval:  c912cols                                        2.5980
+  4. eval:  theme                                           0.2218
+  5. eval:  desc                                            2.5509
+  6. eval:  c12cols                                       125.1061  (fixed) 
+  7. eval:  alleluia ego and alt                           -0.9040
+  8. eval:  alleluia ego x alleluia alter                   1.7311
+
+
+Values of target statistics are
+  1. Number of ties with transitive closure                            20862.0000
+  2. Sum of ties x same_Asubs                                           -14.2249
+  3. Sum of ties x c912cols                                            1511.7385
+  4. Sum of ties x theme                                               5284.6788
+  5. Sum of ties x desc                                                 411.3295
+  6. Sum of ties x c12cols                                             3530.3214
+  7. 2 * sum degr. x alleluia                                          -4359.7746
+  8. alleluia ego x alleluia alter                                      462.8037
+These were calculated from the data.
+
+ 8 parameters, 8 statistics
+
+Estimation problem with parameter(s) 1 this/these parameter(s) is/are fixed.
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 2398 iterations.
+Parameter estimates based on 1397 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1001 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -10.6633  10.0709  -1.0588     (fixed parameter)
+  2.   -0.9371  14.3874  -0.0651                      
+  3.   -3.8781  70.5566  -0.0550                      
+  4.  -14.8584 221.4651  -0.0671                      
+  5.   -1.4326  47.5614  -0.0301                      
+  6. -192.4416  76.0760  -2.5296     (fixed parameter)
+  7.   -1.8022 122.0289  -0.0148                      
+  8.   -1.6524  20.3850  -0.0811                      
+
+Good convergence is indicated by the t-ratios of non-fixed parameters being close to zero.
+
+Overall maximum convergence ratio =  0.1135 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 2398 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     8.4607  (   0.3227)
+ 0.2  Rate parameter period 2     5.0554  (   0.2117)
+ 0.3  Rate parameter period 3    15.8363  (   0.2764)
+
+Other parameters:
+ 1. eval:  transitive ties                                         9.5085  (  fixed  )
+ 2. eval:  same_Asubs                                              0.0988  (   0.3311)
+ 3. eval:  c912cols                                                2.6120  (   0.1997)
+ 4. eval:  theme                                                   0.2349  (   0.0235)
+ 5. eval:  desc                                                    2.5687  (   0.2052)
+ 6. eval:  c12cols                                               125.1061  (  fixed  )
+ 7. eval:  alleluia ego and alt                                   -0.9725  (   0.1137)
+ 8. eval:  alleluia ego x alleluia alter                           1.6885  (   0.2304)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+        NA         NA         NA         NA         NA         NA         NA         NA
+        NA      0.110      0.000      0.000      0.007         NA     -0.005     -0.029
+        NA     -0.001      0.040      0.001      0.009         NA     -0.003      0.004
+        NA     -0.047      0.183      0.001      0.001         NA      0.000      0.001
+        NA      0.099      0.224      0.207      0.042         NA     -0.006      0.007
+        NA         NA         NA         NA         NA         NA         NA         NA
+        NA     -0.144     -0.122     -0.148     -0.267         NA      0.013     -0.009
+        NA     -0.384      0.086      0.123      0.150         NA     -0.361      0.053
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 2076.25 seconds.

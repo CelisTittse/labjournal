@@ -2,6 +2,7 @@
 title: "Intro"
 output: html_document
 date: "2026-09-08"
+bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -9,20 +10,47 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## First Draft Introduction
-How did medieval readers and compilers transmit a sermon collection? Did individual sermons circulate largely independently or did the presence of one sermon encourage the preservation and transmission of others as part of a recognisable textual configuration? This project proposes to investigate these questions through the transmission history of the Ancient Augustinian sermon collection De Alleluia. 
 
-The central hypothesis is that De Alleluia may have behaved as a collection in transmission, not as a whole but as separate subcollections. However, it is currently unclear where or not this Augustinian collection is a product of scholarly conjuring or a result of established configurations of sermons constrained subsequent patterns of historical transmission. 
+The sermons on Augustine (d. 430) are one of most popular medieval sermons. From the point they were written down in the 5th century to the point Thomas Aquinas read one in the 13th century, it passed through a multitude of hands because every copy needed to be written by hand. Within this transmission process, sermons were compiled with multiple sermons, some consistently, and some (seemingly) random.
 
-To investigate this, we propose to construct a series of century-based sermon–sermon networks. The sermons will constitute the network nodes and a relationship between two sermons will represent their repeated occurrence within the same manuscript context. Because sermons are compiled within a special order, the network will be directed. This approach allows us to follow the same 52 textual units across successive historical periods whilst examining how their relational structure changes over time.
+Previous scholarship (from the 13th century onward [ask Kendall exactly]) has defined these collection under specific names based on medieval named collections (e.g. De Verbis Domini) or manuscripts with many rare Augustinian sermons (e.g. Wolfenbuttel). Although the collections are apost-hoc construction, it is used for making editions of individual sermons. The underlying rational is that manuscripts with similar sermon configurations are like to be more closely related, and to reduce the number of transcriptions to be made, collections are the first step towards make the family tree (stemma) of a sermon. For example, sermons 251 and 250 have a stemma that is construed of manuscripts defined as A[lleluia]1 to 5 and P[aenetentia]1 to 3, named after collections. But are collections a valid category to reconstruct transmission? If that were the case, the configuaration of sermons within manuscripts should indicate the existence of those collections.
 
-The corpus will be constructed out of the De Coninck’s file with authentic Augustinian sermons or the PASSIM database with additional manuscripts and a divers scala of patristic sermons. It has not been decided which corpus to choose. The De Coninck’s file has 595 unique authentic Augustinian sermons, century-based data, and checked information, but only has circa 2450 manuscripts and describes exclusively Augustinian sermons. Whereas, PASSIM has more manuscripts (c. 4500), other authors, like pseudo-Augustine, and, therefore, more exhaustive observations (aka manuscripts). However, this corpus is messy and will not be cleaned for this paper. The best corpus needs to be chosen to answer the apparent research questions. 
+To better understand the collective power of collections, a special collection from antiquity is under investiguation: De Allelulia. This 47 sermon long collection was preserved in five manuscripts from Nothern France, with the oldest from the 9th century [@boodts2025]. Three nuancing factors may have played a role in sermon compilation:
 
-The first, and most prominent, research question concerns collection coherence. Are sermons that occur together in earlier manuscripts disproportionately likely to occur together in later manuscripts? In other words, does the presence of sermon A increase the likelihood of subsequently encountering sermon B, beyond what we would expect from the individual popularity of A and B? This can be performed on the different proposed subcollections of De Alleluia, like the spring, easter or mixed versions, as well. This provides a means of distinguishing collection-level transmission from the largely independent circulation of individual sermons.
+- The sermon are transmitted in small clusters [@macchioro2025][@schmidt_computational_2023]
 
-A second dimension concerns thematic similarity. Topic modelling will provide attributes for each sermon. This allows us to calculate similarity between sermons based on their thematic profiles, drawn from the editions of sermons. Elaborating on Gleb’s earlier work, sermons may circulate together because they address similar topics or because they belong to an established textual configuration. We will, therefore, test if network persistence remains significant after controlling for thematic similarity and sermon popularity.
+- Sermons can be thematically clustered [@schmidt unpublished]
 
-These questions will be analysed with a longitudinal network using an actor-oriented framework, including RSiena, where its assumptions are appropriate. In RSiena, the actors or nodes are assumed to have agency over time, contrary to texts. However, treating sermons as “actors” is a methodological abstraction pointing to compilers arranges the configuration of sermons. The model allows us to investigate if the existing relational position of a sermon predicts subsequent changes in its associations. 
+- Sets of sermons can be transmitted by other collection
 
+- Two (high) medieval collections (e.g. Bruxelles and Lapsu Mundi) are textually dependent on De Alleluia
 
-[@SNASS]. <!--- this is a reference, stored in references.bib. It will be automatically added at the bottom of the page --->
-<br>
+De Alleluia has defined subcollections rather than small clusters [@boodts2025]:
+
+1.  Spring (Carthage, 418) (items 1-9)
+2.  Easter (Hippo) (items 10-19)
+3.  Winter (after 425) (items 25-33)
+
+Next to the organised sets of the collections, some sermons are found as miscellaneous, described by De Coninck and Partoens [@ConinckFile] as mixed: items 20-24 and 34-47. Although, Verbraken suggested six additional sermons in between the mixed version.
+
+We as historians can call these collections collections, but it is unclear to what extend these collections were relevant for compilation choices to creat a new manuscript.
+
+**RQ:**
+
+- Did the De Alleluia as a sermon collection influence the likelihood of sermons being chosen to be compiled together?
+
+- Were subcollections of De Alleluia more appealing to medieval compilators?
+
+- Were thematic profiles important to compile sermons together compared to sermons from the same collection?
+
+**Model:**
+
+- Is Alleluia sermons more likely to connect with Alleluia sermons or rather with other sermons?
+
+- Are subcollections more likely to connect together compared to random sermons?
+
+- The connection between sermons is corrected for thematic similarity
+
+- The alleluia sermon homophily is corrected for strongly (\>25%) overlapping sermon collections (Verbis Apostoli (A) (8thC), Gallicana (6thC) & SCP (12thC))
+
+- The alleluia sermon homophily is corrected for derivative sermons from Alleluia (Bruxelles & Lapsu Mundi from the 11th century)

@@ -198,7 +198,6 @@ plot_alleluia_century <- function(g_full, cent, delete_non_nodes) {
 
 cents_early <- seq(9, 12)
 
-cens_late <- seq(13, 15)
 
 par(mfrow = c(2, 2), mar= c(1,1,1,1))
 
@@ -206,13 +205,6 @@ for (c in cents_early){
   plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
   title(main = paste("Century:", c))
 }
-
-# par(mfrow = c(2, 2), mar= c(1,1,1,1))
-# 
-# for (c in cens_late){
-#   plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
-#   title(main = paste("Century:", c))
-# }
 
 
 # to do:
@@ -264,5 +256,3 @@ for (c in unique(sf_se_analysis$century)){
 }
 
 ```
-### Type of Collection per century
--> TODO: preek matrix | per century | kleurtjes per subcollectie | Freq Ms 

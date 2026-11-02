@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2026-09-21" />
+
+<title>EDA and visualisation</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="literature_review_hypotheses.html">Literature Review</a>
+    </li>
+    <li>
+      <a href="model_statistics.Rmd">Model Definition</a>
+    </li>
+    <li>
+      <a href="data_wrangling.html">Data</a>
+    </li>
+    <li>
+      <a href="eda.html">Exploratory EDA</a>
+    </li>
+    <li>
+      <a href="rsiena_model.html">Model High Middle Ages Collections</a>
+    </li>
+    <li>
+      <a href="alleluia.txt">Model results</a>
+    </li>
+    <li>
+      <a href="myeff.html">Model Effects</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">EDA and visualisation</h1>
+<h4 class="date">2026-09-21</h4>
+
+</div>
+
+
+<div id="eda" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> EDA</h1>
+<div id="missing-data-choices" class="section level3" number="1.0.1">
+<h3><span class="header-section-number">1.0.1</span> Missing data
+choices</h3>
+<p>The manuscripts with unknown dates or unknown “waves” are removed
+from the dataset, until further notice.</p>
+<p>The data is undirected. Because the directed data assumes that the
+compiler was only able to choice (agency) a succession of sermons, se1
+-&gt; se2 -&gt; se3, but he/she compiles [se1, se2, se3] with knowledge
+of all three sermons.</p>
+<pre><code>## # A tibble: 5 × 6
+##   Source Target manuscript                                century Directed    Id
+##   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;                                       &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+## 1 se-230 se-114 Roma, Biblioteca Nazionale Centrale Vitt…       5 undirec…     0
+## 2 se-247 se-114 Roma, Biblioteca Nazionale Centrale Vitt…       5 undirec…     1
+## 3 se-247 se-230 Roma, Biblioteca Nazionale Centrale Vitt…       5 undirec…     2
+## 4 se-392 se-114 Roma, Biblioteca Nazionale Centrale Vitt…       5 undirec…     3
+## 5 se-392 se-230 Roma, Biblioteca Nazionale Centrale Vitt…       5 undirec…     4</code></pre>
+<pre><code>## # A tibble: 5 × 58
+##   Id     alleluia alleluia_spring alleluia_easter alleluia_mixed
+##   &lt;chr&gt;     &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
+## 1 se-1          1               0               0              0
+## 2 se-10         0               0               0              0
+## 3 se-100        0               0               0              0
+## 4 se-101        0               0               0              0
+## 5 se-102        0               0               0              0
+## # ℹ 53 more variables: `alleluia_mixed?` &lt;dbl&gt;, alleluia_after_425 &lt;dbl&gt;,
+## #   bobbio_II &lt;dbl&gt;, bobbio_III &lt;dbl&gt;, bobbio &lt;dbl&gt;, coniugali &lt;dbl&gt;,
+## #   bruxelles &lt;dbl&gt;, brux_paen &lt;dbl&gt;, brux_coniugali &lt;dbl&gt;, brux_allel &lt;dbl&gt;,
+## #   brux_cluny &lt;dbl&gt;, campanienne &lt;dbl&gt;, camp_monte &lt;dbl&gt;, camp_napels &lt;dbl&gt;,
+## #   carthusienne &lt;dbl&gt;, cluny &lt;dbl&gt;, colbertine &lt;dbl&gt;, bardi &lt;dbl&gt;,
+## #   bardi_I &lt;dbl&gt;, bardi_II &lt;dbl&gt;, bardi_III &lt;dbl&gt;, bardi_IV &lt;dbl&gt;,
+## #   bardi_V &lt;dbl&gt;, carnis &lt;dbl&gt;, diversis &lt;dbl&gt;, erfurt &lt;dbl&gt;, eremo &lt;dbl&gt;, …</code></pre>
+</div>
+<div id="transpose-to-igraph" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Transpose to
+igraph</h2>
+<pre><code>##  [1] &quot;name&quot;               &quot;alleluia&quot;           &quot;alleluia_spring&quot;   
+##  [4] &quot;alleluia_easter&quot;    &quot;alleluia_mixed&quot;     &quot;alleluia_mixed?&quot;   
+##  [7] &quot;alleluia_after_425&quot; &quot;bobbio_II&quot;          &quot;bobbio_III&quot;        
+## [10] &quot;bobbio&quot;             &quot;coniugali&quot;          &quot;bruxelles&quot;         
+## [13] &quot;brux_paen&quot;          &quot;brux_coniugali&quot;     &quot;brux_allel&quot;        
+## [16] &quot;brux_cluny&quot;         &quot;campanienne&quot;        &quot;camp_monte&quot;        
+## [19] &quot;camp_napels&quot;        &quot;carthusienne&quot;       &quot;cluny&quot;             
+## [22] &quot;colbertine&quot;         &quot;bardi&quot;              &quot;bardi_I&quot;           
+## [25] &quot;bardi_II&quot;           &quot;bardi_III&quot;          &quot;bardi_IV&quot;          
+## [28] &quot;bardi_V&quot;            &quot;carnis&quot;             &quot;diversis&quot;          
+## [31] &quot;erfurt&quot;             &quot;eremo&quot;              &quot;gallicana&quot;         
+## [34] &quot;germanica&quot;          &quot;lapsu&quot;              &quot;lorsch&quot;            
+## [37] &quot;lyon&quot;               &quot;mainz&quot;              &quot;marmoutier&quot;        
+## [40] &quot;paenitentia&quot;        &quot;diaconus&quot;           &quot;diaconus_wint&quot;     
+## [43] &quot;diaconus_summ&quot;      &quot;quattuor&quot;           &quot;quinquaginta&quot;      
+## [46] &quot;scp&quot;                &quot;scp_verbraken&quot;      &quot;sessorienne&quot;       
+## [49] &quot;tripartite&quot;         &quot;tripartite_I&quot;       &quot;tripartite_II&quot;     
+## [52] &quot;tripartite_III&quot;     &quot;vda&quot;                &quot;vd_a&quot;              
+## [55] &quot;vd_b&quot;               &quot;va_a&quot;               &quot;va_b&quot;              
+## [58] &quot;wolfenbuettel&quot;</code></pre>
+<pre><code>## [1] &quot;manuscript&quot; &quot;century&quot;    &quot;Directed&quot;   &quot;Id&quot;</code></pre>
+<p><img src="eda_files/figure-html/igraph-1.png" alt="" width="672" /></p>
+</div>
+<div id="basic" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Basic</h2>
+<pre class="r"><code># get n nodes (removed if degree = 0)
+century_count &lt;- function (g_full, cent) {
+  # slice graph
+  g_i &lt;- subgraph.edges(
+    g,
+    E(g)[century == cent],
+    delete.vertices = T
+  )
+  
+  n_unq_mss = length(unique(E(g_i)$manuscript))
+  
+  # voeg een weight toe
+  E(g_i)$weight = 1
+  
+  g_i &lt;- simplify(g_i, edge.attr.comb = list(weight = &quot;sum&quot;))
+  
+  # normalise weight
+  E(g_i)$weight &lt;- E(g_i)$weight / max(E(g_i)$weight)
+  avg_edges &lt;- if(n_unq_mss &gt; 0) ecount(g_i) / n_unq_mss else 0
+  
+  return(data.frame(
+    Century = cent,
+    Nodes = vcount(g_i),
+    Manuscripts = n_unq_mss,
+    Edges = ecount(g_i),
+    Avg_Edge_Per_MS = avg_edges,
+    Degree = igraph::mean_degree(g_i),
+    Transitivity = igraph::transitivity(g_i, type = &quot;global&quot;),
+    Density = igraph::edge_density(g_i),
+    stringsAsFactors = FALSE
+  ))
+}
+
+# Size
+# number of nodes
+vcount(g)</code></pre>
+<pre><code>## [1] 591</code></pre>
+<pre class="r"><code># number of edges
+ecount(g)</code></pre>
+<pre><code>## [1] 791802</code></pre>
+<pre class="r"><code>centuries &lt;- seq(9, 12)
+
+df_results &lt;- do.call(rbind, lapply(centuries, function(c) {
+  century_count(g_full = g, cent = c)
+}))
+
+knitr::kable(df_results)</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="9%" />
+<col width="7%" />
+<col width="14%" />
+<col width="7%" />
+<col width="19%" />
+<col width="12%" />
+<col width="16%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Century</th>
+<th align="right">Nodes</th>
+<th align="right">Manuscripts</th>
+<th align="right">Edges</th>
+<th align="right">Avg_Edge_Per_MS</th>
+<th align="right">Degree</th>
+<th align="right">Transitivity</th>
+<th align="right">Density</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">359</td>
+<td align="right">104</td>
+<td align="right">10412</td>
+<td align="right">100.11538</td>
+<td align="right">58.00557</td>
+<td align="right">0.7616285</td>
+<td align="right">0.1620267</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">267</td>
+<td align="right">51</td>
+<td align="right">7530</td>
+<td align="right">147.64706</td>
+<td align="right">56.40449</td>
+<td align="right">0.7963437</td>
+<td align="right">0.2120470</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">366</td>
+<td align="right">202</td>
+<td align="right">11811</td>
+<td align="right">58.47030</td>
+<td align="right">64.54098</td>
+<td align="right">0.7298697</td>
+<td align="right">0.1768246</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">455</td>
+<td align="right">426</td>
+<td align="right">30466</td>
+<td align="right">71.51643</td>
+<td align="right">133.91648</td>
+<td align="right">0.6899333</td>
+<td align="right">0.2949702</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>sf_se_data |&gt; 
+  mutate(century_str = fct_relevel(as.character(century), 
+            as.character(seq(4, 16)) 
+            )) %&gt;%
+  ggplot(aes(x = century, y=n_ses)) +
+    geom_smooth() +
+    labs(x = &quot;Century&quot;, 
+         y = &quot;ses/ms (log)&quot;, 
+         title = &quot;Number of authentic Augustinian sermons per manuscript&quot;,
+         subtitle = &quot;Centain sermons with an attributed century&quot;) +
+    scale_y_log10() +
+    theme_minimal()</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and
+## formula = &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="eda_files/figure-html/EDA%20undirected-1.png" alt="" width="672" /></p>
+<pre class="r"><code>se_edge |&gt; 
+  distinct(century, manuscript) |&gt; 
+  mutate(century_str = fct_relevel(as.character(century), 
+            as.character(seq(4, 16)) 
+            )) |&gt; 
+  group_by(century_str) |&gt; 
+  summarise(mss = n()) |&gt; 
+  as.data.frame() |&gt; 
+  ggplot(aes(x=century_str, y = mss)) +
+  geom_col() +
+  theme_minimal() +
+  labs(x=&#39;Century&#39;,
+       y = &quot;N manuscripts&quot;, 
+       title=&quot;Number of manuscripts per century&quot;)</code></pre>
+<p><img src="eda_files/figure-html/EDA%20undirected-2.png" alt="" width="672" /></p>
+<div id="conclusion-eda" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Conclusion EDA</h3>
+<p>The number of observations should be more reliabile if it is higher
+than 50 obervations. In this case, only the 9th to the 15th century can
+be used for observation and the 5th to the 8th century can be redirected
+to my qualitative collegues. The 16th century is underrepresented in
+this dataset, because it only includes manuscripts, which saw a steady
+decline in production from the 16th century, as well as, discussion
+about the validity of church fathers within the Reformation debate,
+resulting in a lower production of augustinian sermons in manuscripts.
+<b></p>
+<pre class="r"><code>plot_alleluia_century &lt;- function(g_full, cent, delete_non_nodes) {
+  # slice graph
+  G1 &lt;- subgraph.edges(
+    g_full,
+    E(g_full)[century == cent],
+    delete.vertices = delete_non_nodes
+  )
+  
+  # maak kleuren
+  colour_collection &lt;- (
+    ifelse((V(G1)$lapsu == 1) &amp; (cent &gt;= 11), &quot;purple&quot;, 
+    ifelse(V(G1)$alleluia == 1, &quot;blue&quot;,
+    ifelse(V(G1)$vda == 1, &quot;yellow&quot;,
+    ifelse(V(G1)$quinquaginta == 1, &quot;orange&quot;,
+    ifelse((V(G1)$scp == 1) &amp; (cent &gt;= 12), &quot;darkgreen&quot;,
+                  &quot;lightgrey&quot;
+                ))))))
+  
+  
+  # layout
+  layout &lt;- layout_with_mds(G1, dist = NULL, dim = 2)
+  # trek uit elkaar
+  layout &lt;- norm_coords(layout, xmin = -75, xmax = 75, ymin = -50, ymax = 50)
+  # 
+  # # node size degree
+  V(G1)$size &lt;- betweenness(G1) / max(betweenness(G1)) * 800 + 250
+  
+  # remove edges but keep layout
+  G1_edgeless = delete_edges(G1, edges=E(G1))
+  
+    # plot century
+  p1 &lt;- plot(G1_edgeless,
+    vertex.color = adjustcolor(colour_collection, alpha.f = 0.8),
+    vertex.label = NA,
+    layout=layout,
+    rescale=F
+  )
+  
+  return (p1)
+}
+
+cents_early &lt;- seq(9, 12)
+
+cens_late &lt;- seq(13, 15)
+
+par(mfrow = c(2, 2), mar= c(1,1,1,1))
+
+for (c in cents_early){
+  plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
+  title(main = paste(&quot;Century:&quot;, c))
+}</code></pre>
+<p><img src="eda_files/figure-html/plot%20alleluia-1.png" alt="" width="672" /></p>
+<pre class="r"><code># par(mfrow = c(2, 2), mar= c(1,1,1,1))
+# 
+# for (c in cens_late){
+#   plot_alleluia_century(g_full=g, cent=c, delete_non_nodes=TRUE)
+#   title(main = paste(&quot;Century:&quot;, c))
+# }
+
+
+# to do:
+# opslaan met .png en weer inladen. </code></pre>
+</div>
+<div id="clustering-coefitient" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Clustering
+coefitient</h3>
+<p>The structure of the networks change over the centuries. In the
+graph, the centuries after the 12th century display stronger clustering.
+This can be tested with a global transitivity score, which can be seen
+in the next plot.</p>
+<pre class="r"><code>df_results |&gt; 
+  filter(Century %in% seq(8, 15)) |&gt; 
+  ggplot(aes(Century, Transitivity)) +
+  geom_col() +
+  theme_minimal() +
+  labs(title = &quot;Clustering coefficient per century&quot;, 
+       x = &quot;Century&quot;, 
+       y = &quot;Clustering coefficient&quot;)</code></pre>
+<p><img src="eda_files/figure-html/clustering%20over%20centuries-1.png" alt="" width="672" />
+###</p>
+<pre class="r"><code>sf_se_analysis &lt;- sf_se_data |&gt; 
+  filter(century %in% seq(8, 15))
+
+sf_se_analysis |&gt; 
+  filter(n_ses &lt; 100) |&gt; 
+  ggplot(aes(x = n_ses, fill=as.character(century))) +
+  geom_histogram(binwidth = 1) +
+  theme_minimal() +
+  scale_y_log10() +
+  facet_wrap(vars(century))</code></pre>
+<p><img src="eda_files/figure-html/degree%20probability-1.png" alt="" width="672" /></p>
+<pre class="r"><code>for (c in unique(sf_se_analysis$century)){
+  df &lt;- sf_se_analysis |&gt; 
+    filter(century == c)
+
+  tibble(Degree = 1:max(df$n_ses), Count = tabulate(df$n_ses))
+  
+  degree_dist = tibble(Degree = 1:max(df$n_ses), Count = tabulate(df$n_ses))
+  
+  degree_dist = degree_dist %&gt;% mutate(Density = Count / sum(Count)) %&gt;% filter(Density &gt; 0)
+  
+  model = lm(log(Density) ~ log(Degree), data = degree_dist)
+  print(&quot;Century:&quot;, str(c))
+  print(coef(model))
+
+}</code></pre>
+<pre><code>##  int 8
+## [1] &quot;Century:&quot;
+## (Intercept) log(Degree) 
+##  -1.7538526  -0.5063932 
+##  int 9
+## [1] &quot;Century:&quot;
+## (Intercept) log(Degree) 
+##  -2.3073755  -0.7702862 
+##  int 10
+## [1] &quot;Century:&quot;
+## (Intercept) log(Degree) 
+##   -2.371427   -0.536236 
+##  int 11
+## [1] &quot;Century:&quot;
+## (Intercept) log(Degree) 
+##  -2.0231350  -0.9256692 
+##  int 12
+## [1] &quot;Century:&quot;
+## (Intercept) log(Degree) 
+##  -2.1350187  -0.9425769 
+##  int 13
+## [1] &quot;Century:&quot;
+## (Intercept) log(Degree) 
+##  -2.5799580  -0.7403172 
+##  int 14
+## [1] &quot;Century:&quot;
+## (Intercept) log(Degree) 
+##  -2.7438789  -0.6269846 
+##  int 15
+## [1] &quot;Century:&quot;
+## (Intercept) log(Degree) 
+##  -2.7256372  -0.8334533</code></pre>
+</div>
+<div id="type-of-collection-per-century" class="section level3"
+number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Type of Collection
+per century</h3>
+<p>-&gt; TODO: preek matrix | per century | kleurtjes per subcollectie |
+Freq Ms</p>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkVEQSBhbmQgdmlzdWFsaXNhdGlvbiINCm91dHB1dDogaHRtbF9kb2N1bWVudA0KZGF0ZTogIjIwMjYtMDktMjEiDQotLS0NCg0KIyBFREENCg0KIyMjIE1pc3NpbmcgZGF0YSBjaG9pY2VzDQpUaGUgbWFudXNjcmlwdHMgd2l0aCB1bmtub3duIGRhdGVzIG9yIHVua25vd24gIndhdmVzIiBhcmUgcmVtb3ZlZCBmcm9tIHRoZSBkYXRhc2V0LCB1bnRpbCBmdXJ0aGVyIG5vdGljZS4NCg0KVGhlIGRhdGEgaXMgdW5kaXJlY3RlZC4gQmVjYXVzZSB0aGUgZGlyZWN0ZWQgZGF0YSBhc3N1bWVzIHRoYXQgdGhlIGNvbXBpbGVyIHdhcyBvbmx5IGFibGUgdG8gY2hvaWNlIChhZ2VuY3kpIGEgc3VjY2Vzc2lvbiBvZiBzZXJtb25zLCBzZTEgLT4gc2UyIC0+IHNlMywgYnV0IGhlL3NoZSBjb21waWxlcyBbc2UxLCBzZTIsIHNlM10gd2l0aCBrbm93bGVkZ2Ugb2YgYWxsIHRocmVlIHNlcm1vbnMuIA0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRSwgd2FybmluZz1GfQ0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0KbGlicmFyeSh0aWR5dmVyc2UpDQpsaWJyYXJ5KHJlYWR4bCkNCmxpYnJhcnkoaWdyYXBoKQ0KYGBgDQoNCmBgYHtyIGxvYWQgbm9kZXMgZWRnZXMsIHdhcm5pbmc9RiwgZWNobz1GfQ0Kcm9vdF9kYXRhX3BhdGggPSAiLi9kYXRhL2RhdGFfZGVyaXYvIg0KDQpzZV9lZGdlX3BhdGggPSAic2Vfc2VfdW5kaXJfMDgwOTI2Lnhsc3giDQpzZV9ub2RlX3BhdGggPSAic2Vfbm9kZXNfY29sbHNfMDgwOTI2Lnhsc3giDQoNCnJhd19zZV9kYXRhID0gcmVhZF9leGNlbCgiLi9kYXRhL2RhdGFfcmF3L3NmX21zc19va3RfMjUueGxzeCIpIHw+IA0KICBkcm9wX25hKGNlbnR1cnkpDQoNCnNlX2VkZ2UgPC0gcmVhZF9leGNlbChwYXN0ZTAocm9vdF9kYXRhX3BhdGgsIHNlX2VkZ2VfcGF0aCkpIHw+IA0KICBkcm9wX25hKGNlbnR1cnkpDQojIDkgbWFudXNjcmlwdHMgcmVtb3ZlZCB3aXRob3V0IGRhdGluZw0KDQojIHNvbWUgbm9kZXMgaGFzIGR1cGxpY2F0ZXMgYW5kIHRoZXkgYXJlIGNvbGxhcHNlZCBpZiBvbmUgaGFzIDEgdGhhbiAxIGVsc2UgMCB0byBiZSBpbnZlc3RpZ2F0ZWQNCnNlX25vZGVzIDwtIHJlYWRfZXhjZWwocGFzdGUwKHJvb3RfZGF0YV9wYXRoLCBzZV9ub2RlX3BhdGgpKSB8PiANCiAgZ3JvdXBfYnkoSWQpIHw+IA0KICBzdW1tYXJpc2UoDQogICAgYWNyb3NzKGV2ZXJ5dGhpbmcoKSwgXCh4KSBtYXgoeCwgbmEucm0gPSBUUlVFKSksDQogICAgLmdyb3VwcyA9ICJkcm9wIg0KICApDQoNCiMgbWFrZSByYXcgZGF0YSBjZW50dXJ5IC0+IGludA0Kc2Zfc2VfZGF0YSA8LSByYXdfc2VfZGF0YSB8Pg0KICBtdXRhdGUoY2VudHVyeSA9IGFzLmludGVnZXIoY2VudHVyeSksDQogICAgICAgICBuX3NlcyA9IHN0cl9jb3VudChjZXJ0YWluLCAiICIpICsgMSkgfD4gDQogIGRyb3BfbmEoKQ0KICANCnByaW50KGhlYWQoc2VfZWRnZSwgNSkpDQoNCnByaW50KGhlYWQoc2Vfbm9kZXMsIDUpKQ0KYGBgDQoNCiMjIFRyYW5zcG9zZSB0byBpZ3JhcGgNCg0KYGBge3IgaWdyYXBoLCBlY2hvPUZBTFNFfQ0KIyBlZGdlbGlzdCBpbnRvIGlncmFwaCBvYmplY3QNCmcgPC0gZ3JhcGhfZnJvbV9kYXRhX2ZyYW1lKHNlX2VkZ2UsIA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZlcnRpY2VzID0gc2Vfbm9kZXMsDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgZGlyZWN0ZWQgPSBGKQ0KDQojIGNoZWNrIGF0dGlidXRlcw0KdmVydGV4X2F0dHJfbmFtZXMoZykNCmVkZ2VfYXR0cl9uYW1lcyhnKQ0KDQojIHByZXBhcmUgbGVnZW5kDQppbmNsX2NvbGxzIDwtIGMoIkFsbGVsdWlhIiwgIlZEQSIsICJRdWlucXVhZ2ludGEiLCAiTGFwc3UgTXVuZGkiLCAiU0NQIikNCmNvbGxfY29sb3JzIDwtIGMoImJsdWUiLCAieWVsbG93IiwgIm9yYW5nZSIsICJwdXJwbGUiLCAiZGFya2dyZWVuIikNCg0KcGxvdChOVUxMICx4YXh0PSduJyx5YXh0PSduJyxidHk9J24nLHlsYWI9JycseGxhYj0nJywgeGxpbT0wOjEsIHlsaW09MDoxKQ0KbGVnZW5kKCJ0b3BsZWZ0IiwgbGVnZW5kID1pbmNsX2NvbGxzLCBwY2g9MTYsIHB0LmNleD0zLCBjZXg9MS41LCBidHk9J24nLA0KICAgIGNvbCA9IGNvbGxfY29sb3JzKQ0KbXRleHQoIkluY2x1ZGVkIENvbGxlY3Rpb25zIiwgYXQ9MC4yLCBjZXg9MikNCmBgYA0KDQojIyBCYXNpYw0KYGBge3IgRURBIHVuZGlyZWN0ZWQsIHdhcm5pbmc9Rn0NCiMgZ2V0IG4gbm9kZXMgKHJlbW92ZWQgaWYgZGVncmVlID0gMCkNCmNlbnR1cnlfY291bnQgPC0gZnVuY3Rpb24gKGdfZnVsbCwgY2VudCkgew0KICAjIHNsaWNlIGdyYXBoDQogIGdfaSA8LSBzdWJncmFwaC5lZGdlcygNCiAgICBnLA0KICAgIEUoZylbY2VudHVyeSA9PSBjZW50XSwNCiAgICBkZWxldGUudmVydGljZXMgPSBUDQogICkNCiAgDQogIG5fdW5xX21zcyA9IGxlbmd0aCh1bmlxdWUoRShnX2kpJG1hbnVzY3JpcHQpKQ0KICANCiAgIyB2b2VnIGVlbiB3ZWlnaHQgdG9lDQogIEUoZ19pKSR3ZWlnaHQgPSAxDQogIA0KICBnX2kgPC0gc2ltcGxpZnkoZ19pLCBlZGdlLmF0dHIuY29tYiA9IGxpc3Qod2VpZ2h0ID0gInN1bSIpKQ0KICANCiAgIyBub3JtYWxpc2Ugd2VpZ2h0DQogIEUoZ19pKSR3ZWlnaHQgPC0gRShnX2kpJHdlaWdodCAvIG1heChFKGdfaSkkd2VpZ2h0KQ0KICBhdmdfZWRnZXMgPC0gaWYobl91bnFfbXNzID4gMCkgZWNvdW50KGdfaSkgLyBuX3VucV9tc3MgZWxzZSAwDQogIA0KICByZXR1cm4oZGF0YS5mcmFtZSgNCiAgICBDZW50dXJ5ID0gY2VudCwNCiAgICBOb2RlcyA9IHZjb3VudChnX2kpLA0KICAgIE1hbnVzY3JpcHRzID0gbl91bnFfbXNzLA0KICAgIEVkZ2VzID0gZWNvdW50KGdfaSksDQogICAgQXZnX0VkZ2VfUGVyX01TID0gYXZnX2VkZ2VzLA0KICAgIERlZ3JlZSA9IGlncmFwaDo6bWVhbl9kZWdyZWUoZ19pKSwNCiAgICBUcmFuc2l0aXZpdHkgPSBpZ3JhcGg6OnRyYW5zaXRpdml0eShnX2ksIHR5cGUgPSAiZ2xvYmFsIiksDQogICAgRGVuc2l0eSA9IGlncmFwaDo6ZWRnZV9kZW5zaXR5KGdfaSksDQogICAgc3RyaW5nc0FzRmFjdG9ycyA9IEZBTFNFDQogICkpDQp9DQoNCiMgU2l6ZQ0KIyBudW1iZXIgb2Ygbm9kZXMNCnZjb3VudChnKQ0KIyBudW1iZXIgb2YgZWRnZXMNCmVjb3VudChnKQ0KDQpjZW50dXJpZXMgPC0gc2VxKDksIDEyKQ0KDQpkZl9yZXN1bHRzIDwtIGRvLmNhbGwocmJpbmQsIGxhcHBseShjZW50dXJpZXMsIGZ1bmN0aW9uKGMpIHsNCiAgY2VudHVyeV9jb3VudChnX2Z1bGwgPSBnLCBjZW50ID0gYykNCn0pKQ0KDQprbml0cjo6a2FibGUoZGZfcmVzdWx0cykNCg0Kc2Zfc2VfZGF0YSB8PiANCiAgbXV0YXRlKGNlbnR1cnlfc3RyID0gZmN0X3JlbGV2ZWwoYXMuY2hhcmFjdGVyKGNlbnR1cnkpLCANCiAgICAgICAgICAgIGFzLmNoYXJhY3RlcihzZXEoNCwgMTYpKSANCiAgICAgICAgICAgICkpICU+JQ0KICBnZ3Bsb3QoYWVzKHggPSBjZW50dXJ5LCB5PW5fc2VzKSkgKw0KICAgIGdlb21fc21vb3RoKCkgKw0KICAgIGxhYnMoeCA9ICJDZW50dXJ5IiwgDQogICAgICAgICB5ID0gInNlcy9tcyAobG9nKSIsIA0KICAgICAgICAgdGl0bGUgPSAiTnVtYmVyIG9mIGF1dGhlbnRpYyBBdWd1c3RpbmlhbiBzZXJtb25zIHBlciBtYW51c2NyaXB0IiwNCiAgICAgICAgIHN1YnRpdGxlID0gIkNlbnRhaW4gc2VybW9ucyB3aXRoIGFuIGF0dHJpYnV0ZWQgY2VudHVyeSIpICsNCiAgICBzY2FsZV95X2xvZzEwKCkgKw0KICAgIHRoZW1lX21pbmltYWwoKQ0KDQpzZV9lZGdlIHw+IA0KICBkaXN0aW5jdChjZW50dXJ5LCBtYW51c2NyaXB0KSB8PiANCiAgbXV0YXRlKGNlbnR1cnlfc3RyID0gZmN0X3JlbGV2ZWwoYXMuY2hhcmFjdGVyKGNlbnR1cnkpLCANCiAgICAgICAgICAgIGFzLmNoYXJhY3RlcihzZXEoNCwgMTYpKSANCiAgICAgICAgICAgICkpIHw+IA0KICBncm91cF9ieShjZW50dXJ5X3N0cikgfD4gDQogIHN1bW1hcmlzZShtc3MgPSBuKCkpIHw+IA0KICBhcy5kYXRhLmZyYW1lKCkgfD4gDQogIGdncGxvdChhZXMoeD1jZW50dXJ5X3N0ciwgeSA9IG1zcykpICsNCiAgZ2VvbV9jb2woKSArDQogIHRoZW1lX21pbmltYWwoKSArDQogIGxhYnMoeD0nQ2VudHVyeScsDQogICAgICAgeSA9ICJOIG1hbnVzY3JpcHRzIiwgDQogICAgICAgdGl0bGU9Ik51bWJlciBvZiBtYW51c2NyaXB0cyBwZXIgY2VudHVyeSIpDQpgYGANCg0KIyMjIENvbmNsdXNpb24gRURBDQpUaGUgbnVtYmVyIG9mIG9ic2VydmF0aW9ucyBzaG91bGQgYmUgbW9yZSByZWxpYWJpbGUgaWYgaXQgaXMgaGlnaGVyIHRoYW4gNTAgb2JlcnZhdGlvbnMuIEluIHRoaXMgY2FzZSwgb25seSB0aGUgOXRoIHRvIHRoZSAxNXRoIGNlbnR1cnkgY2FuIGJlIHVzZWQgZm9yIG9ic2VydmF0aW9uIGFuZCB0aGUgNXRoIHRvIHRoZSA4dGggY2VudHVyeSBjYW4gYmUgcmVkaXJlY3RlZCB0byBteSBxdWFsaXRhdGl2ZSBjb2xsZWd1ZXMuIFRoZSAxNnRoIGNlbnR1cnkgaXMgdW5kZXJyZXByZXNlbnRlZCBpbiB0aGlzIGRhdGFzZXQsIGJlY2F1c2UgaXQgb25seSBpbmNsdWRlcyBtYW51c2NyaXB0cywgd2hpY2ggc2F3IGEgc3RlYWR5IGRlY2xpbmUgaW4gcHJvZHVjdGlvbiBmcm9tIHRoZSAxNnRoIGNlbnR1cnksIGFzIHdlbGwgYXMsIGRpc2N1c3Npb24gYWJvdXQgdGhlIHZhbGlkaXR5IG9mIGNodXJjaCBmYXRoZXJzIHdpdGhpbiB0aGUgUmVmb3JtYXRpb24gZGViYXRlLCByZXN1bHRpbmcgaW4gYSBsb3dlciBwcm9kdWN0aW9uIG9mIGF1Z3VzdGluaWFuIHNlcm1vbnMgaW4gbWFudXNjcmlwdHMuIDxiPg0KDQoNCmBgYHtyIHBsb3QgYWxsZWx1aWF9DQpwbG90X2FsbGVsdWlhX2NlbnR1cnkgPC0gZnVuY3Rpb24oZ19mdWxsLCBjZW50LCBkZWxldGVfbm9uX25vZGVzKSB7DQogICMgc2xpY2UgZ3JhcGgNCiAgRzEgPC0gc3ViZ3JhcGguZWRnZXMoDQogICAgZ19mdWxsLA0KICAgIEUoZ19mdWxsKVtjZW50dXJ5ID09IGNlbnRdLA0KICAgIGRlbGV0ZS52ZXJ0aWNlcyA9IGRlbGV0ZV9ub25fbm9kZXMNCiAgKQ0KICANCiAgIyBtYWFrIGtsZXVyZW4NCiAgY29sb3VyX2NvbGxlY3Rpb24gPC0gKA0KICAgIGlmZWxzZSgoVihHMSkkbGFwc3UgPT0gMSkgJiAoY2VudCA+PSAxMSksICJwdXJwbGUiLCANCiAgICBpZmVsc2UoVihHMSkkYWxsZWx1aWEgPT0gMSwgImJsdWUiLA0KICAgIGlmZWxzZShWKEcxKSR2ZGEgPT0gMSwgInllbGxvdyIsDQogICAgaWZlbHNlKFYoRzEpJHF1aW5xdWFnaW50YSA9PSAxLCAib3JhbmdlIiwNCiAgICBpZmVsc2UoKFYoRzEpJHNjcCA9PSAxKSAmIChjZW50ID49IDEyKSwgImRhcmtncmVlbiIsDQogICAgICAgICAgICAgICAgICAibGlnaHRncmV5Ig0KICAgICAgICAgICAgICAgICkpKSkpKQ0KICANCiAgDQogICMgbGF5b3V0DQogIGxheW91dCA8LSBsYXlvdXRfd2l0aF9tZHMoRzEsIGRpc3QgPSBOVUxMLCBkaW0gPSAyKQ0KICAjIHRyZWsgdWl0IGVsa2Fhcg0KICBsYXlvdXQgPC0gbm9ybV9jb29yZHMobGF5b3V0LCB4bWluID0gLTc1LCB4bWF4ID0gNzUsIHltaW4gPSAtNTAsIHltYXggPSA1MCkNCiAgIyANCiAgIyAjIG5vZGUgc2l6ZSBkZWdyZWUNCiAgVihHMSkkc2l6ZSA8LSBiZXR3ZWVubmVzcyhHMSkgLyBtYXgoYmV0d2Vlbm5lc3MoRzEpKSAqIDgwMCArIDI1MA0KICANCiAgIyByZW1vdmUgZWRnZXMgYnV0IGtlZXAgbGF5b3V0DQogIEcxX2VkZ2VsZXNzID0gZGVsZXRlX2VkZ2VzKEcxLCBlZGdlcz1FKEcxKSkNCiAgDQogICAgIyBwbG90IGNlbnR1cnkNCiAgcDEgPC0gcGxvdChHMV9lZGdlbGVzcywNCiAgICB2ZXJ0ZXguY29sb3IgPSBhZGp1c3Rjb2xvcihjb2xvdXJfY29sbGVjdGlvbiwgYWxwaGEuZiA9IDAuOCksDQogICAgdmVydGV4LmxhYmVsID0gTkEsDQogICAgbGF5b3V0PWxheW91dCwNCiAgICByZXNjYWxlPUYNCiAgKQ0KICANCiAgcmV0dXJuIChwMSkNCn0NCg0KY2VudHNfZWFybHkgPC0gc2VxKDksIDEyKQ0KDQpjZW5zX2xhdGUgPC0gc2VxKDEzLCAxNSkNCg0KcGFyKG1mcm93ID0gYygyLCAyKSwgbWFyPSBjKDEsMSwxLDEpKQ0KDQpmb3IgKGMgaW4gY2VudHNfZWFybHkpew0KICBwbG90X2FsbGVsdWlhX2NlbnR1cnkoZ19mdWxsPWcsIGNlbnQ9YywgZGVsZXRlX25vbl9ub2Rlcz1UUlVFKQ0KICB0aXRsZShtYWluID0gcGFzdGUoIkNlbnR1cnk6IiwgYykpDQp9DQoNCiMgcGFyKG1mcm93ID0gYygyLCAyKSwgbWFyPSBjKDEsMSwxLDEpKQ0KIyANCiMgZm9yIChjIGluIGNlbnNfbGF0ZSl7DQojICAgcGxvdF9hbGxlbHVpYV9jZW50dXJ5KGdfZnVsbD1nLCBjZW50PWMsIGRlbGV0ZV9ub25fbm9kZXM9VFJVRSkNCiMgICB0aXRsZShtYWluID0gcGFzdGUoIkNlbnR1cnk6IiwgYykpDQojIH0NCg0KDQojIHRvIGRvOg0KIyBvcHNsYWFuIG1ldCAucG5nIGVuIHdlZXIgaW5sYWRlbi4gDQpgYGANCiMjIyBDbHVzdGVyaW5nIGNvZWZpdGllbnQNClRoZSBzdHJ1Y3R1cmUgb2YgdGhlIG5ldHdvcmtzIGNoYW5nZSBvdmVyIHRoZSBjZW50dXJpZXMuIEluIHRoZSBncmFwaCwgdGhlIGNlbnR1cmllcyBhZnRlciB0aGUgMTJ0aCBjZW50dXJ5IGRpc3BsYXkgc3Ryb25nZXIgY2x1c3RlcmluZy4gVGhpcyBjYW4gYmUgdGVzdGVkIHdpdGggYSBnbG9iYWwgdHJhbnNpdGl2aXR5IHNjb3JlLCB3aGljaCBjYW4gYmUgc2VlbiBpbiB0aGUgbmV4dCBwbG90LiANCg0KYGBge3IgY2x1c3RlcmluZyBvdmVyIGNlbnR1cmllc30NCmRmX3Jlc3VsdHMgfD4gDQogIGZpbHRlcihDZW50dXJ5ICVpbiUgc2VxKDgsIDE1KSkgfD4gDQogIGdncGxvdChhZXMoQ2VudHVyeSwgVHJhbnNpdGl2aXR5KSkgKw0KICBnZW9tX2NvbCgpICsNCiAgdGhlbWVfbWluaW1hbCgpICsNCiAgbGFicyh0aXRsZSA9ICJDbHVzdGVyaW5nIGNvZWZmaWNpZW50IHBlciBjZW50dXJ5IiwgDQogICAgICAgeCA9ICJDZW50dXJ5IiwgDQogICAgICAgeSA9ICJDbHVzdGVyaW5nIGNvZWZmaWNpZW50IikNCg0KYGBgDQojIyMgDQoNCmBgYHtyIGRlZ3JlZSBwcm9iYWJpbGl0eSwgd2FybmluZz1GfQ0Kc2Zfc2VfYW5hbHlzaXMgPC0gc2Zfc2VfZGF0YSB8PiANCiAgZmlsdGVyKGNlbnR1cnkgJWluJSBzZXEoOCwgMTUpKQ0KDQpzZl9zZV9hbmFseXNpcyB8PiANCiAgZmlsdGVyKG5fc2VzIDwgMTAwKSB8PiANCiAgZ2dwbG90KGFlcyh4ID0gbl9zZXMsIGZpbGw9YXMuY2hhcmFjdGVyKGNlbnR1cnkpKSkgKw0KICBnZW9tX2hpc3RvZ3JhbShiaW53aWR0aCA9IDEpICsNCiAgdGhlbWVfbWluaW1hbCgpICsNCiAgc2NhbGVfeV9sb2cxMCgpICsNCiAgZmFjZXRfd3JhcCh2YXJzKGNlbnR1cnkpKQ0KDQoNCmZvciAoYyBpbiB1bmlxdWUoc2Zfc2VfYW5hbHlzaXMkY2VudHVyeSkpew0KICBkZiA8LSBzZl9zZV9hbmFseXNpcyB8PiANCiAgICBmaWx0ZXIoY2VudHVyeSA9PSBjKQ0KDQogIHRpYmJsZShEZWdyZWUgPSAxOm1heChkZiRuX3NlcyksIENvdW50ID0gdGFidWxhdGUoZGYkbl9zZXMpKQ0KICANCiAgZGVncmVlX2Rpc3QgPSB0aWJibGUoRGVncmVlID0gMTptYXgoZGYkbl9zZXMpLCBDb3VudCA9IHRhYnVsYXRlKGRmJG5fc2VzKSkNCiAgDQogIGRlZ3JlZV9kaXN0ID0gZGVncmVlX2Rpc3QgJT4lIG11dGF0ZShEZW5zaXR5ID0gQ291bnQgLyBzdW0oQ291bnQpKSAlPiUgZmlsdGVyKERlbnNpdHkgPiAwKQ0KICANCiAgbW9kZWwgPSBsbShsb2coRGVuc2l0eSkgfiBsb2coRGVncmVlKSwgZGF0YSA9IGRlZ3JlZV9kaXN0KQ0KICBwcmludCgiQ2VudHVyeToiLCBzdHIoYykpDQogIHByaW50KGNvZWYobW9kZWwpKQ0KDQp9DQoNCmBgYA0KIyMjIFR5cGUgb2YgQ29sbGVjdGlvbiBwZXIgY2VudHVyeQ0KLT4gVE9ETzogcHJlZWsgbWF0cml4IHwgcGVyIGNlbnR1cnkgfCBrbGV1cnRqZXMgcGVyIHN1YmNvbGxlY3RpZSB8IEZyZXEgTXMgDQo=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("eda.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

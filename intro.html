@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2026-09-08" />
+
+<title>Intro</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="literature_review_hypotheses.html">Literature Review</a>
+    </li>
+    <li>
+      <a href="model_statistics.Rmd">Model Definition</a>
+    </li>
+    <li>
+      <a href="data_wrangling.html">Data</a>
+    </li>
+    <li>
+      <a href="eda.html">Exploratory EDA</a>
+    </li>
+    <li>
+      <a href="rsiena_model.html">Model High Middle Ages Collections</a>
+    </li>
+    <li>
+      <a href="alleluia.txt">Model results</a>
+    </li>
+    <li>
+      <a href="myeff.html">Model Effects</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Intro</h1>
+<h4 class="date">2026-09-08</h4>
+
+</div>
+
+
+<div id="first-draft-introduction" class="section level2" number="1">
+<h2><span class="header-section-number">1</span> First Draft
+Introduction</h2>
+<p>How did medieval readers and compilers transmit a sermon collection?
+Did individual sermons circulate largely independently or did the
+presence of one sermon encourage the preservation and transmission of
+others as part of a recognisable textual configuration? This project
+proposes to investigate these questions through the transmission history
+of the Ancient Augustinian sermon collection De Alleluia.</p>
+<p>The central hypothesis is that De Alleluia may have behaved as a
+collection in transmission, not as a whole but as separate
+subcollections. However, it is currently unclear where or not this
+Augustinian collection is a product of scholarly conjuring or a result
+of established configurations of sermons constrained subsequent patterns
+of historical transmission.</p>
+<p>To investigate this, we propose to construct a series of
+century-based sermon–sermon networks. The sermons will constitute the
+network nodes and a relationship between two sermons will represent
+their repeated occurrence within the same manuscript context. Because
+sermons are compiled within a special order, the network will be
+directed. This approach allows us to follow the same 52 textual units
+across successive historical periods whilst examining how their
+relational structure changes over time.</p>
+<p>The corpus will be constructed out of the De Coninck’s file with
+authentic Augustinian sermons or the PASSIM database with additional
+manuscripts and a divers scala of patristic sermons. It has not been
+decided which corpus to choose. The De Coninck’s file has 595 unique
+authentic Augustinian sermons, century-based data, and checked
+information, but only has circa 2450 manuscripts and describes
+exclusively Augustinian sermons. Whereas, PASSIM has more manuscripts
+(c. 4500), other authors, like pseudo-Augustine, and, therefore, more
+exhaustive observations (aka manuscripts). However, this corpus is messy
+and will not be cleaned for this paper. The best corpus needs to be
+chosen to answer the apparent research questions.</p>
+<p>The first, and most prominent, research question concerns collection
+coherence. Are sermons that occur together in earlier manuscripts
+disproportionately likely to occur together in later manuscripts? In
+other words, does the presence of sermon A increase the likelihood of
+subsequently encountering sermon B, beyond what we would expect from the
+individual popularity of A and B? This can be performed on the different
+proposed subcollections of De Alleluia, like the spring, easter or mixed
+versions, as well. This provides a means of distinguishing
+collection-level transmission from the largely independent circulation
+of individual sermons.</p>
+<p>A second dimension concerns thematic similarity. Topic modelling will
+provide attributes for each sermon. This allows us to calculate
+similarity between sermons based on their thematic profiles, drawn from
+the editions of sermons. Elaborating on Gleb’s earlier work, sermons may
+circulate together because they address similar topics or because they
+belong to an established textual configuration. We will, therefore, test
+if network persistence remains significant after controlling for
+thematic similarity and sermon popularity.</p>
+<p>These questions will be analysed with a longitudinal network using an
+actor-oriented framework, including RSiena, where its assumptions are
+appropriate. In RSiena, the actors or nodes are assumed to have agency
+over time, contrary to texts. However, treating sermons as “actors” is a
+methodological abstraction pointing to compilers arranges the
+configuration of sermons. The model allows us to investigate if the
+existing relational position of a sermon predicts subsequent changes in
+its associations.</p>
+<p><span class="citation">[@SNASS]</span>.
+<!--- this is a reference, stored in references.bib. It will be automatically added at the bottom of the page --->
+<br></p>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkludHJvIg0Kb3V0cHV0OiBodG1sX2RvY3VtZW50DQpkYXRlOiAiMjAyNi0wOS0wOCINCi0tLQ0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCmBgYA0KDQojIyBGaXJzdCBEcmFmdCBJbnRyb2R1Y3Rpb24NCkhvdyBkaWQgbWVkaWV2YWwgcmVhZGVycyBhbmQgY29tcGlsZXJzIHRyYW5zbWl0IGEgc2VybW9uIGNvbGxlY3Rpb24/IERpZCBpbmRpdmlkdWFsIHNlcm1vbnMgY2lyY3VsYXRlIGxhcmdlbHkgaW5kZXBlbmRlbnRseSBvciBkaWQgdGhlIHByZXNlbmNlIG9mIG9uZSBzZXJtb24gZW5jb3VyYWdlIHRoZSBwcmVzZXJ2YXRpb24gYW5kIHRyYW5zbWlzc2lvbiBvZiBvdGhlcnMgYXMgcGFydCBvZiBhIHJlY29nbmlzYWJsZSB0ZXh0dWFsIGNvbmZpZ3VyYXRpb24/IFRoaXMgcHJvamVjdCBwcm9wb3NlcyB0byBpbnZlc3RpZ2F0ZSB0aGVzZSBxdWVzdGlvbnMgdGhyb3VnaCB0aGUgdHJhbnNtaXNzaW9uIGhpc3Rvcnkgb2YgdGhlIEFuY2llbnQgQXVndXN0aW5pYW4gc2VybW9uIGNvbGxlY3Rpb24gRGUgQWxsZWx1aWEuIA0KDQpUaGUgY2VudHJhbCBoeXBvdGhlc2lzIGlzIHRoYXQgRGUgQWxsZWx1aWEgbWF5IGhhdmUgYmVoYXZlZCBhcyBhIGNvbGxlY3Rpb24gaW4gdHJhbnNtaXNzaW9uLCBub3QgYXMgYSB3aG9sZSBidXQgYXMgc2VwYXJhdGUgc3ViY29sbGVjdGlvbnMuIEhvd2V2ZXIsIGl0IGlzIGN1cnJlbnRseSB1bmNsZWFyIHdoZXJlIG9yIG5vdCB0aGlzIEF1Z3VzdGluaWFuIGNvbGxlY3Rpb24gaXMgYSBwcm9kdWN0IG9mIHNjaG9sYXJseSBjb25qdXJpbmcgb3IgYSByZXN1bHQgb2YgZXN0YWJsaXNoZWQgY29uZmlndXJhdGlvbnMgb2Ygc2VybW9ucyBjb25zdHJhaW5lZCBzdWJzZXF1ZW50IHBhdHRlcm5zIG9mIGhpc3RvcmljYWwgdHJhbnNtaXNzaW9uLiANCg0KVG8gaW52ZXN0aWdhdGUgdGhpcywgd2UgcHJvcG9zZSB0byBjb25zdHJ1Y3QgYSBzZXJpZXMgb2YgY2VudHVyeS1iYXNlZCBzZXJtb27igJNzZXJtb24gbmV0d29ya3MuIFRoZSBzZXJtb25zIHdpbGwgY29uc3RpdHV0ZSB0aGUgbmV0d29yayBub2RlcyBhbmQgYSByZWxhdGlvbnNoaXAgYmV0d2VlbiB0d28gc2VybW9ucyB3aWxsIHJlcHJlc2VudCB0aGVpciByZXBlYXRlZCBvY2N1cnJlbmNlIHdpdGhpbiB0aGUgc2FtZSBtYW51c2NyaXB0IGNvbnRleHQuIEJlY2F1c2Ugc2VybW9ucyBhcmUgY29tcGlsZWQgd2l0aGluIGEgc3BlY2lhbCBvcmRlciwgdGhlIG5ldHdvcmsgd2lsbCBiZSBkaXJlY3RlZC4gVGhpcyBhcHByb2FjaCBhbGxvd3MgdXMgdG8gZm9sbG93IHRoZSBzYW1lIDUyIHRleHR1YWwgdW5pdHMgYWNyb3NzIHN1Y2Nlc3NpdmUgaGlzdG9yaWNhbCBwZXJpb2RzIHdoaWxzdCBleGFtaW5pbmcgaG93IHRoZWlyIHJlbGF0aW9uYWwgc3RydWN0dXJlIGNoYW5nZXMgb3ZlciB0aW1lLg0KDQpUaGUgY29ycHVzIHdpbGwgYmUgY29uc3RydWN0ZWQgb3V0IG9mIHRoZSBEZSBDb25pbmNr4oCZcyBmaWxlIHdpdGggYXV0aGVudGljIEF1Z3VzdGluaWFuIHNlcm1vbnMgb3IgdGhlIFBBU1NJTSBkYXRhYmFzZSB3aXRoIGFkZGl0aW9uYWwgbWFudXNjcmlwdHMgYW5kIGEgZGl2ZXJzIHNjYWxhIG9mIHBhdHJpc3RpYyBzZXJtb25zLiBJdCBoYXMgbm90IGJlZW4gZGVjaWRlZCB3aGljaCBjb3JwdXMgdG8gY2hvb3NlLiBUaGUgRGUgQ29uaW5ja+KAmXMgZmlsZSBoYXMgNTk1IHVuaXF1ZSBhdXRoZW50aWMgQXVndXN0aW5pYW4gc2VybW9ucywgY2VudHVyeS1iYXNlZCBkYXRhLCBhbmQgY2hlY2tlZCBpbmZvcm1hdGlvbiwgYnV0IG9ubHkgaGFzIGNpcmNhIDI0NTAgbWFudXNjcmlwdHMgYW5kIGRlc2NyaWJlcyBleGNsdXNpdmVseSBBdWd1c3RpbmlhbiBzZXJtb25zLiBXaGVyZWFzLCBQQVNTSU0gaGFzIG1vcmUgbWFudXNjcmlwdHMgKGMuIDQ1MDApLCBvdGhlciBhdXRob3JzLCBsaWtlIHBzZXVkby1BdWd1c3RpbmUsIGFuZCwgdGhlcmVmb3JlLCBtb3JlIGV4aGF1c3RpdmUgb2JzZXJ2YXRpb25zIChha2EgbWFudXNjcmlwdHMpLiBIb3dldmVyLCB0aGlzIGNvcnB1cyBpcyBtZXNzeSBhbmQgd2lsbCBub3QgYmUgY2xlYW5lZCBmb3IgdGhpcyBwYXBlci4gVGhlIGJlc3QgY29ycHVzIG5lZWRzIHRvIGJlIGNob3NlbiB0byBhbnN3ZXIgdGhlIGFwcGFyZW50IHJlc2VhcmNoIHF1ZXN0aW9ucy4gDQoNClRoZSBmaXJzdCwgYW5kIG1vc3QgcHJvbWluZW50LCByZXNlYXJjaCBxdWVzdGlvbiBjb25jZXJucyBjb2xsZWN0aW9uIGNvaGVyZW5jZS4gQXJlIHNlcm1vbnMgdGhhdCBvY2N1ciB0b2dldGhlciBpbiBlYXJsaWVyIG1hbnVzY3JpcHRzIGRpc3Byb3BvcnRpb25hdGVseSBsaWtlbHkgdG8gb2NjdXIgdG9nZXRoZXIgaW4gbGF0ZXIgbWFudXNjcmlwdHM/IEluIG90aGVyIHdvcmRzLCBkb2VzIHRoZSBwcmVzZW5jZSBvZiBzZXJtb24gQSBpbmNyZWFzZSB0aGUgbGlrZWxpaG9vZCBvZiBzdWJzZXF1ZW50bHkgZW5jb3VudGVyaW5nIHNlcm1vbiBCLCBiZXlvbmQgd2hhdCB3ZSB3b3VsZCBleHBlY3QgZnJvbSB0aGUgaW5kaXZpZHVhbCBwb3B1bGFyaXR5IG9mIEEgYW5kIEI/IFRoaXMgY2FuIGJlIHBlcmZvcm1lZCBvbiB0aGUgZGlmZmVyZW50IHByb3Bvc2VkIHN1YmNvbGxlY3Rpb25zIG9mIERlIEFsbGVsdWlhLCBsaWtlIHRoZSBzcHJpbmcsIGVhc3RlciBvciBtaXhlZCB2ZXJzaW9ucywgYXMgd2VsbC4gVGhpcyBwcm92aWRlcyBhIG1lYW5zIG9mIGRpc3Rpbmd1aXNoaW5nIGNvbGxlY3Rpb24tbGV2ZWwgdHJhbnNtaXNzaW9uIGZyb20gdGhlIGxhcmdlbHkgaW5kZXBlbmRlbnQgY2lyY3VsYXRpb24gb2YgaW5kaXZpZHVhbCBzZXJtb25zLg0KDQpBIHNlY29uZCBkaW1lbnNpb24gY29uY2VybnMgdGhlbWF0aWMgc2ltaWxhcml0eS4gVG9waWMgbW9kZWxsaW5nIHdpbGwgcHJvdmlkZSBhdHRyaWJ1dGVzIGZvciBlYWNoIHNlcm1vbi4gVGhpcyBhbGxvd3MgdXMgdG8gY2FsY3VsYXRlIHNpbWlsYXJpdHkgYmV0d2VlbiBzZXJtb25zIGJhc2VkIG9uIHRoZWlyIHRoZW1hdGljIHByb2ZpbGVzLCBkcmF3biBmcm9tIHRoZSBlZGl0aW9ucyBvZiBzZXJtb25zLiBFbGFib3JhdGluZyBvbiBHbGVi4oCZcyBlYXJsaWVyIHdvcmssIHNlcm1vbnMgbWF5IGNpcmN1bGF0ZSB0b2dldGhlciBiZWNhdXNlIHRoZXkgYWRkcmVzcyBzaW1pbGFyIHRvcGljcyBvciBiZWNhdXNlIHRoZXkgYmVsb25nIHRvIGFuIGVzdGFibGlzaGVkIHRleHR1YWwgY29uZmlndXJhdGlvbi4gV2Ugd2lsbCwgdGhlcmVmb3JlLCB0ZXN0IGlmIG5ldHdvcmsgcGVyc2lzdGVuY2UgcmVtYWlucyBzaWduaWZpY2FudCBhZnRlciBjb250cm9sbGluZyBmb3IgdGhlbWF0aWMgc2ltaWxhcml0eSBhbmQgc2VybW9uIHBvcHVsYXJpdHkuDQoNClRoZXNlIHF1ZXN0aW9ucyB3aWxsIGJlIGFuYWx5c2VkIHdpdGggYSBsb25naXR1ZGluYWwgbmV0d29yayB1c2luZyBhbiBhY3Rvci1vcmllbnRlZCBmcmFtZXdvcmssIGluY2x1ZGluZyBSU2llbmEsIHdoZXJlIGl0cyBhc3N1bXB0aW9ucyBhcmUgYXBwcm9wcmlhdGUuIEluIFJTaWVuYSwgdGhlIGFjdG9ycyBvciBub2RlcyBhcmUgYXNzdW1lZCB0byBoYXZlIGFnZW5jeSBvdmVyIHRpbWUsIGNvbnRyYXJ5IHRvIHRleHRzLiBIb3dldmVyLCB0cmVhdGluZyBzZXJtb25zIGFzIOKAnGFjdG9yc+KAnSBpcyBhIG1ldGhvZG9sb2dpY2FsIGFic3RyYWN0aW9uIHBvaW50aW5nIHRvIGNvbXBpbGVycyBhcnJhbmdlcyB0aGUgY29uZmlndXJhdGlvbiBvZiBzZXJtb25zLiBUaGUgbW9kZWwgYWxsb3dzIHVzIHRvIGludmVzdGlnYXRlIGlmIHRoZSBleGlzdGluZyByZWxhdGlvbmFsIHBvc2l0aW9uIG9mIGEgc2VybW9uIHByZWRpY3RzIHN1YnNlcXVlbnQgY2hhbmdlcyBpbiBpdHMgYXNzb2NpYXRpb25zLiANCg0KDQpbQFNOQVNTXS4gPCEtLS0gdGhpcyBpcyBhIHJlZmVyZW5jZSwgc3RvcmVkIGluIHJlZmVyZW5jZXMuYmliLiBJdCB3aWxsIGJlIGF1dG9tYXRpY2FsbHkgYWRkZWQgYXQgdGhlIGJvdHRvbSBvZiB0aGUgcGFnZSAtLS0+DQo8YnI+DQo=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("intro.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

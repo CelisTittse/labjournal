@@ -3,17 +3,33 @@ title: "binary_model"
 author: "Celis Tittse"
 date: "2026-10-05"
 output: html_document
+editor_options: 
+  chunk_output_type: inline
 ---
 
 # Binary observed model
 
-We're going to work with threshold.
+To make a unimode binary model, edges should not be regarded if they are a product of sermons or manuscripts with a large number of sermons, increasing the degree. For example, if I have two sermons that occur in 50% of the manuscript, they are very likely to occur together, because they are omnipresent. We want to analyse sermons that occur together that cannot be predicted by random change.
+
+Therefore, a null model was created that filters edges that occur in more than 5% of randomly shuffled manuscripts. In other words, ties with a higher degree than 5% of 1000 random configurations.
+
+The rules for this null model were as follows:
+
+The unimode model is created by a null model on bipartite manuscripts.
+
+ms - [se1, se2, se3] ms2 - [se1, se4]
+
+The length of the sermon sequence is perserved, only the sermons are swapped between manuscripts. To this end, the sermons that are already swopped with not be swapped in the opposite direction, and are not the same. So, se1 and se1 are not swopped, and ms-se1 and ms2-se4 are swopped back on the next swopping round. There were 1000 swopping rounds per century.
+
+This analysis is conducted on the 5% higher than random ties between sermons.
 
 ```{r setup, include=FALSE, warning=F, echo=F}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readxl)
 library(igraph)
+library(parallel)
+library(vegan)
 
 # check if packages are available
 fpackage.check <- function(packages) {
@@ -25,16 +41,28 @@ fpackage.check <- function(packages) {
     })
 }
 
-packages = c("RSiena", "devtools", "igraph")
+len <- function (x) length(x)
+
+packages = c("RSiena", "devtools", "igraph", "vegan")
 fpackage.check(packages)
 
 set.seed(24553253)
 
+# remove sna
+detach("package:sna", unload = TRUE)
+
 ```
+
+The eda has shown that something changes in the clusters coefficient of the full network of sermons between 9-12th century and 13-16th century. Furthermore, the 9th to 12th century almost only increases new ties where as the ties of the 12th to the 13th century change by almost 50%.
+
+To meet the ends of learning SIENA, analysing the manuscripts that are most used for editing purposes, and keeping a simple model, this analysis will be conducted on 9th to 12th century manuscripts.
+
+Earlier centuries (5th to 8th) had a maximum of 17 manuscripts and didn't yield any more than 5% non-random sermon ties.
 
 ```{r load nodes edges, warning=F, echo=F}
 root_data_path = "./data/data_deriv/"
 
+# make matrix from csv matrix
 load_adj_matrix <- function(file_name) {
   df <- read_csv(paste0(root_data_path, file_name), show_col_types = FALSE)
   
@@ -49,7 +77,7 @@ load_adj_matrix <- function(file_name) {
 
 # ======= WAVES ADJUNCTION MATRICES ==========
 # 9TH TO 12TH CENTURY
-se_adj_9_f = "se_se_filta5%_c9_adj_061026.csv"
+se_adj_9_f = "se_se_filta5%_c9_adj_061026.csv" 
 se_adj_10_f = "se_se_filta5%_c10_adj_061026.csv"
 se_adj_11_f = "se_se_filta5%_c11_adj_061026.csv"
 se_adj_12_f = "se_se_filta5%_c12_adj_061026.csv"
@@ -60,6 +88,7 @@ se_adj_11 <- load_adj_matrix(se_adj_11_f)
 se_adj_12 <- load_adj_matrix(se_adj_12_f)
 
 se_node_path = "se_nodes_colls_080926.xlsx"
+
 # some nodes has duplicates and they are collapsed if one has 1 than 1 else 0 to be investigated
 se_nodes <- read_excel(paste0(root_data_path, se_node_path)) |> 
   group_by(Id) |> 
@@ -67,59 +96,151 @@ se_nodes <- read_excel(paste0(root_data_path, se_node_path)) |>
     across(everything(), \(x) max(x, na.rm = TRUE)),
     .groups = "drop"
   )
+# double checked and manually changed when necessary
 
-# make raw data century -> int
-sf_se_data <- raw_se_data |>
-  mutate(century = as.integer(century),
-         n_ses = str_count(certain, " ") + 1) |> 
-  drop_na()
-
-coll_ref_df <- read_excel('./data/data_raw/collections.xlsx', sheet="coll_cato")
 
 ```
 
-### Synchronise the nodes
+```{r collection filter}
+colls_df <- read_excel('./data/data_raw/collections.xlsx')
+coll_ref_df <- read_excel('./data/data_raw/collections.xlsx', sheet="coll_cato") |> 
+  mutate(century = as.integer(century)) |> 
+  drop_na(century)
 
-The nodes are sometimes with zero degree, if they didn't have any edges that could not be explained by random chance (alpha=0.05)
+covar_colls_l <- lapply(colls_df, function(x) {
+  x <- as.character(x)
+  x[!is.na(x)]
+})
 
-```{r plot}
+
+# the alleluia sermons
+allel_nodes <- se_nodes |> 
+  filter(alleluia == 1) |> 
+  pull(Id)
+
+allel_nodes
+
+
+
+```
+
+# Network visualisation
+
+### Alleluia in full network
+
+To get a general idea of how alleluia is distributed in the general network. For clarity the nodes without edges are removed per plot.
+
+```{r plot full}
 # from matrix to igraph
-g9 <- graph_from_adjacency_matrix(se_adj_9, mode = "max", diag = F)
-g10 <- graph_from_adjacency_matrix(se_adj_10, mode = "max", diag = F)
-g11 <- graph_from_adjacency_matrix(se_adj_11, mode = "max", diag = F)
-g12 <- graph_from_adjacency_matrix(se_adj_12, mode = "max", diag = F)
+g9 <- graph_from_adjacency_matrix(se_adj_9, 
+                                  mode = "max", diag = F)
+g10 <- graph_from_adjacency_matrix(se_adj_10, 
+                                   mode = "max", diag = F)
+g11 <- graph_from_adjacency_matrix(se_adj_11, 
+                                   mode = "max", diag = F)
+g12 <- graph_from_adjacency_matrix(se_adj_12, 
+                                   mode = "max", diag = F)
 
-# remove unused 
-g9_cleaned <- delete_vertices(g9, V(g9)[degree(g9) == 0])
-g10_cleaned <- delete_vertices(g10, V(g10)[degree(g10) == 0])
-g11_cleaned <- delete_vertices(g11, V(g11)[degree(g11) == 0])
-g12_cleaned <- delete_vertices(g12, V(g12)[degree(g12) == 0])
-
-plot_graph <- function (g){
-  # layout
-  layout <- layout_with_mds(g, dist = NULL, dim = 2)
+plot_graph <- function (g, century, layout=NULL, size=200, clean=FALSE, color_nodes = list()){
+  # which nodes to keep, if clean remove nodes with 0
+  keep <- rep(TRUE, vcount(g))
+  if (isTRUE(clean)) keep <- degree(g) > 0
   
-  V(g)$size <- 150
+  # remove unkept nodes
+  g <- induced_subgraph(g, which(keep))
   
-    # plot century
+  if (is.null(layout)) layout <- layout_with_mds(g, dist = NULL, dim = 2)
+  
+  V(g)$size <- size
+  
+  # get allel color red
+  alleluia_color <- ifelse(names(V(g)) %in% allel_nodes, "red", "lightgray")
+  
+  # plot century
   p1 <- plot(g,
     vertex.label = NA,
+    vertex.color = adjustcolor(alleluia_color, alpha.f = 0.8),
     layout=layout,
+    edge.width = 3,
     rescale=F,
-    main=paste0("n nodes = ", length(V(g)))
+    main=paste0("n=", length(V(g)), "; century=", century)
 )
   p1
 }
 
 par(mfrow=c(2, 2), mar= c(1,1,1,1))
 
-for (g_i in list(g9_cleaned, g10_cleaned, g11_cleaned, g12_cleaned)){
-  plot_graph(g_i)
+g_clean_list <- list(g9, g10, g11, g12)
+cent_list <- 9:12
+
+for (i in seq(length(g_clean_list))){
+  g_i <- g_clean_list[[i]]
+  cent <- cent_list[i]
+  plot_graph(g=g_i, century=cent, clean=T, size=300)
 }
+
+coll
 
 ```
 
-```{r node sync}
+### Observations on overall network
+
+The Alleluia collection occurs together, although not in full and seperate. In any century, with this filter, the collection clusters seperately and mostly with other sermons outside the collection. Apart from the 12th century, it appears that not all sermons have a degree with this filter.
+
+### Alleluia subcollections plots
+
+```{r subcollection plots}
+# alleluia subcollections
+allel_colls <- covar_colls_l[grepl("^alleluia_", names(covar_colls_l))]
+
+# assign colours
+
+coll_cols <- setNames(
+  rainbow(length(allel_colls)),
+  names(allel_colls)
+)
+
+# plot four centuries
+g_list <- list(g9, g10, g11, g12)
+
+par(mfrow = c(2, 2), mar = c(1, 1, 2, 1))
+
+for (i in seq_along(g_list)) {
+
+  g <- induced_subgraph(g_list[[i]], V(g_list[[i]])$name %in% allel_nodes)
+
+  V(g)$color <- "lightgray"
+  E(g)$color <- "black"
+
+  for (c in names(allel_colls)) {
+    V(g)$color[V(g)$name %in% allel_colls[[c]]] <- coll_cols[c]
+  }
+
+  plot(g,
+       vertex.label = NA,
+       vertex.size = 15,
+       vertex.color = adjustcolor(V(g)$color, alpha.f = 0.8),
+       edge.width = 2,
+       layout = layout_with_mds(g),
+       main = paste("Century", i + 8, "- n =", vcount(g)))
+}
+
+legend("bottomright", legend = names(coll_cols),
+       col = coll_cols, pch = 19, bty = "n", cex = 0.7)
+
+
+```
+
+## Define the filter of sermons used for the analysis
+
+The options are: - Only alleluia sermons to get the model running and building the model - Alleluia sermons and its direct (model=1) neighbours get test on a bigger model without overstraching the running capacity - Use the full model.
+
+```{r filters}
+# ================== PARAMETERS ======================
+
+# option: "alleluia" | "sample" | "neighbours" or somthing else
+SIZE_RANDOM_SAMPLE = 100
+
 mats <- list(
   se_adj_9,
   se_adj_10,
@@ -127,7 +248,7 @@ mats <- list(
   se_adj_12
 )
 
-
+# ==================== FUNCTIONS ===================
 # drop nodes with no edges
 ses_lists <- lapply(mats, function(m) {
   keep <- rowSums(m != 0) > 0 | colSums(m != 0) > 0
@@ -135,15 +256,83 @@ ses_lists <- lapply(mats, function(m) {
   return (colnames(m))
 })
 
-# all sermons
+# get the neighbours of alleluia nodes and return a list of unique neighbours
+get_allel_sermons <- function(g, allel_nodes) {
+  # overlap of alleluia nodes with nodes in the network
+  non_missing_nodes <- intersect(allel_nodes, V(g)$name)
+  
+  # get neighbours
+  nn_allel <- adjacent_vertices(g, v = non_missing_nodes, mode = "all")
+  
+  # put nn in list
+  allel_nn_nodes <- list()
+
+  for (nn in nn_allel) {
+    if (!is.null(names(nn))) {
+      allel_nn_nodes <- append(allel_nn_nodes, as.list(names(nn)))
+    }
+  }
+
+  # unlist and make unique
+  unique(unlist(allel_nn_nodes))
+}
+
+# ============== TYPES OF NODE FILTERS ===============
+## ALL SERMONS WITH EDGES
 all_node_sermons <- unique(unlist(ses_lists))
 
+## RANDOM SAMPLE OF N SERMONS
+# a random sample of sermons (n=100)
+sample_vec <- all_node_sermons |> 
+  as.data.frame() |> 
+  slice_sample(n=100) |> 
+  as.list()
+
+## ONLY ALLELUIA SERMONS
+# alleluia sermons
+allel_nodes <- se_nodes |> 
+  filter(alleluia == 1) |> 
+  pull(Id)
+
+## ALLELUIA NEIGHBOURS MODE=1
+# get set of all centuries
+allel_sermons <- unique(c(
+  get_allel_sermons(g9, allel_nodes),
+  get_allel_sermons(g10, allel_nodes),
+  get_allel_sermons(g11, allel_nodes),
+  get_allel_sermons(g12, allel_nodes),
+  allel_nodes
+))
+
+print(paste("N only alleluia sermons:", length(allel_nodes)))
+print(paste("N direct neighbours Alleluia sermons:", length(allel_sermons)))
+print(paste("N random sample:", length(sample_vec$all_node_sermons)))
+print(paste("All sermons:", length(all_node_sermons)))
+
+# ===================== FILTER ==================
+
+FILTER_TYPE <- "neighbours"
+
+# option: "alleluia" | "sample" | "neighbours" or somthing else
+# the alleluia sermons
+if (FILTER_TYPE == "alleluia"){
+  filter_sermons <- allel_nodes
+} else if (FILTER_TYPE == "sample"){
+  filter_sermons <- sample_vec$all_node_sermons
+} else if (FILTER_TYPE == "neighbours"){
+   filter_sermons <- allel_sermons
+} else filter_sermons <- all_node_sermons
+
+print(paste("Filter type:", FILTER_TYPE))
+```
+
+```{r node sync}
 # filter on relevant nodes
 df <- se_nodes |> 
-  filter(Id %in% all_node_sermons)
+  filter(Id %in% filter_sermons)
 
 # sermons with ties that lack a row in se_nodes
-setdiff(all_node_sermons, se_nodes$Id)
+setdiff(filter_sermons, se_nodes$Id)
 
 # pad a matrix to the full set of ids, filling gaps with 0
 pad_matrix = function(m, ids) {
@@ -181,6 +370,63 @@ isSymmetric(wave_12)
 ```
 
 ```{r eda sync}
+g9_sync <- graph_from_adjacency_matrix(wave_9, mode = "max", diag = F)
+g10_sync <- graph_from_adjacency_matrix(wave_10, mode = "max", diag = F) 
+g11_sync <- graph_from_adjacency_matrix(wave_11, mode = "max", diag = F) 
+g12_sync <- graph_from_adjacency_matrix(wave_12, mode = "max", diag = F)
+
+
+g_full <- list(g9_sync, g10_sync, g11_sync, g12_sync)
+centuries <- seq(9, 12)
+
+par(mfrow=c(2, 2), mar= c(1,1,1,1))
+stable_layout <- layout_with_mds(g12_sync, dist = NULL, dim = 2)
+
+for (i in seq(length(g_clean_list))){
+  g_i <- g_full[[i]]
+  cent <- cent_list[i]
+  
+  size <- ifelse(cent %in% 11:12, 400, 300)
+  
+  plot_graph(g_i, century=cent, layout = NULL, size=size, clean=T)
+}
+
+mtext("Filtered network", side = 3, line = 0, outer = TRUE)
+
+
+```
+
+```{r dyad count plot}
+alleluia_counts <- sapply(g_full, function(g) {
+  e <- ends(g, E(g), names = TRUE)
+  a <- e[, 1] %in% allel_nodes
+  b <- e[, 2] %in% allel_nodes
+
+  c(
+    "A–A" = sum(a & b),
+    "A–NonA" = sum(a != b),
+    "NonA–NonA" = sum(!a & !b)
+  )
+})
+
+colnames(alleluia_counts) <- 9:12
+alleluia_counts <- as.data.frame(alleluia_counts)
+alleluia_counts <- data.frame(type = rownames(alleluia_counts), alleluia_counts,row.names = NULL)
+
+counts_long <- alleluia_counts |>
+  pivot_longer(-type, names_to = "century", values_to = "count") |> 
+  mutate(century = factor(century,levels = c("X9", "X10", "X11", "X12")))
+
+ggplot(counts_long, aes(x = century, y = count, fill = type)) +
+  geom_col(position = "fill") +
+  labs(x = "Century", y = "Number of edges (%)", fill = "Edge type",
+       title = "Edge distribution Alleluia with non-Alleluia sermons",
+       subtitle = "Sliced network on Alleluia sermons with neighbours") +
+  theme_minimal()
+
+```
+
+```{r filtered statistics}
 # get n nodes (removed if degree = 0)
 century_count <- function (g_i, cent) {
   n_unq_mss = length(unique(E(g_i)$manuscript))
@@ -205,24 +451,11 @@ century_count <- function (g_i, cent) {
   ))
 }
 
-centuries <- seq(9, 12)
-
-g9_sync <- graph_from_adjacency_matrix(wave_9, mode = "max", diag = F)
-g10_sync <- graph_from_adjacency_matrix(wave_10, mode = "max", diag = F) 
-g11_sync <- graph_from_adjacency_matrix(wave_11, mode = "max", diag = F) 
-g12_sync <- graph_from_adjacency_matrix(wave_12, mode = "max", diag = F)
-
-plot_graph(g12_sync)
-
-g_full <- list(g9_sync, g10_sync, g11_sync, g12_sync)
-
 df_results <- do.call(rbind, lapply(seq_along(g_full), function(i) {
   century_count(g_i = g_full[[i]], cent = centuries[i])
 }))
 
 knitr::kable(df_results)
-
-
 
 ```
 
@@ -263,291 +496,397 @@ ggplot(changes_long, aes(x = period, y = ties, fill = change)) +
 
 ```
 
-```{r collection edges, warning=F}
-pre_8C_colls = coll_ref_df |> 
-  mutate(century = as.integer(century)) |> 
-  filter(century < 13)
-         # !str_starts(collection, 'alleluia'))
+### Which collection could influence the alleluia corpus?
 
-colls = intersect(pre_8C_colls$collection, names(se_nodes))
+Other collections might be influencing the results of alleluia sermon connecting. Those, we need a list of sermons-sermon edges that occur in alleluia in the data, and not theoretical as shown above, and if those edges also occur in another collection.
 
-# how many edges with both sermons in the collection
-count_edges = function(m, coll) {
-  ids = se_nodes$Id[which(se_nodes[[coll]] == 1)]
-  ids = intersect(ids, rownames(m))
-  sub = m[ids, ids, drop = FALSE]
-  sum(sub[upper.tri(sub)] == 1, na.rm = TRUE)
+```{r alleluia edges and collection overlap}
+get_coll_overlap <- function (m, colls, relv_cs) {
+  g_a <- graph_from_adjacency_matrix(m, mode='undirected', diag = F)
+  
+  coll_list <- list()
+  
+  edges <- igraph::as_edgelist(g_a, names = TRUE)
+  print(paste(len(edges), len(E(g_a))))
+  
+  overlap_counts <- integer(0)
+
+  for (c in names(colls)) {
+    
+    if (c %in% relv_cs){
+  
+    count <- 0
+  
+    for (i in seq_len(nrow(edges))) {
+  
+      e1 <- edges[i, 1]
+      e2 <- edges[i, 2]
+  
+      if (e1 %in% colls[[c]] && e2 %in% colls[[c]]) {
+        count <- count + 1
+      }
+  
+    }
+  
+    if (count > 0) overlap_counts[c] <- count
+    }
+  }
+  
+  overlap_counts <- sort(overlap_counts, decreasing = TRUE)
+
+  print(overlap_counts)
+  print(paste(nrow(edges), "total edges"))
+  
+  return (names(overlap_counts))
 }
 
-edge_df = expand.grid(collection = colls, wave = names(waves),
-                      stringsAsFactors = FALSE) |>
-  rowwise() |>
-  mutate(edges = count_edges(waves[[wave]], collection),
-         n_sermons = sum(se_nodes[[collection]] == 1, na.rm = TRUE)) |>
-  ungroup() |>
-  mutate(relative = edges / (n_sermons * (n_sermons - 1) / 2),
-         wave = factor(wave, levels = names(waves)),
-         collection = factor(collection, levels = rev(colls)))
+get_relv_coll_cent <- function (df, cent) df |> 
+    filter(century < cent + 1,
+           !str_detect(collection, "^(alleluia|brux|lapsu|scp_verbraken)")) |> 
+    pull(collection)
 
-edge_df |> 
-  filter(n_sermons > 5) |> 
-  ggplot(aes(x = wave, y = collection, fill = relative)) +
-  geom_tile(colour = "white") +
-  geom_text(aes(label = sprintf("%.2f", relative)), size = 2) +
-  scale_fill_gradient(low = "white", high = "darkred") +
-  labs(x = NULL, y = NULL, fill = NULL,
-       title = "Edge density within each collection",
-       subtitle = "Collections up to the 12th century with more than 10 sermons") +
-  theme_minimal()
-```
-
-The results of this collection EDA are interesting. First of all, the relative number of more telling than the absolute number because VDA is a large collection with 100% non-random occurence in the dataset. What this tells us is the following. We have non-random edges for four centuries. The relative number shows us the observed edges divided by the total number of potential undirected edges given the number of sermons in a collection. observed sermons / (n \* n-1) / 2 \| n = number of sermons in collection.
-
-On the de Alleluia collections. The simplest difference is the prevelance of the mixed? against mixed, although this could also hint at other collections in which some of these extra sermons (ss 152 to 156) occur like VA_a, especially the combination s151 and se152 doesnt occur often, ss 153-156 more regular. Furthermore, Alleluia doesnt seem to be non-random in the sample, compared to others. In contract to Lapsu Mundi that used the Alleluia as source. That collection took off in the 12th century although created in the 11th century.
-
-However, we will retain them for comparison.
-
-As reference corpus, we will include a set of collections. The problem however is the overlap between multiple collections. For example, sessorienne and camp_napels share is signficant (\~5 sermons) with VD_b which make them indirectly important. Two collections stand out: quinquaginta, vda (split in va_b and vd_a), and scp because it is a big collection.
-
-```{r correcting for overlap with Alleluia }
-allel_colls = names(se_nodes)[str_starts(names(se_nodes), "alleluia")]
-other_colls = setdiff(colls, allel_colls)
-
-overlap_df = expand.grid(collection = other_colls, alleluia = allel_colls,
-                         stringsAsFactors = FALSE) |>
-  rowwise() |>
-  mutate(shared = sum(se_nodes[[collection]] == 1 & se_nodes[[alleluia]] == 1,
-                      na.rm = TRUE),
-         n_sermons = sum(se_nodes[[collection]] == 1, na.rm = TRUE),
-        share = shared / sum(se_nodes[[alleluia]] == 1, na.rm = TRUE)) |>
-  ungroup() |>
-  group_by(collection) |>
-  filter(sum(shared) > 0) |>  # filter on not common sermon with alleluia
-  ungroup() |>
-  mutate(alleluia = factor(alleluia, levels = allel_colls),
-         collection = factor(collection, levels = rev(other_colls)))
-
-overlap_df |> 
-  ggplot(aes(x = alleluia, y = collection, fill = share)) +
-  geom_tile(colour = "white") +
-  geom_text(aes(label = sprintf("%.2f", share)), size = 2) +
-  scale_fill_gradient(low = "white", high = "darkblue") +
-  labs(x = NULL, y = NULL, fill = NULL,
-       title = "Sermons shared between the alleluia collections and other collections",
-       subtitle = "Collections up to the 12th century") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+mats_full_allel = lapply(mats, pad_matrix, ids = allel_nodes)
+cent_list = 9:12
 
 
+overlap_l <- list()
 
-PERC_OVERLAP = 0.5
-
-allel_size = colSums(se_nodes[allel_colls] == 1, na.rm = TRUE)
-
-overlap_df |>
-  mutate(allel_n = allel_size[as.character(alleluia)],
-         share_of_alleluia = shared / allel_n,
-         share_of_collection = shared / n_sermons) |>
-  filter(share_of_alleluia > PERC_OVERLAP) |>
-  arrange(alleluia, desc(share_of_alleluia)) |>
-  select(alleluia, collection, shared, allel_n, n_sermons,
-         share_of_alleluia, share_of_collection) |>
-  knitr::kable(digits=2)
-
-```
-
-For the collections that share a huge number, we can see: - brux_allel, the portion of bruxelles that realise on Alleluia Spring (56% A-\>Br, and 36% Br-\>A) - SCP, large collection from the 12th century, that incorporated the easter Alleluia. - Gallicana U A easter = se {147, 191, 224, 242, 243, 251, 263} out of 22 sermons, Wolfenbuettel U A easter = se {147, 240, 241, 242, 243, 251} out of 73 sermons, I think Gallicana is the more interesting one, but maybe both - lapsu used alleluia spring.
-
-Maybe make decendents a different category. From the literature we know that bruxelles and lapsu are textually related to the alleluia collection.
-
-**Seperate independent variables:**
-
-- Alleluia, Alleluia spring, A easter, A mixed, and mixed?
-
-**Combined correction variables:**
-
-- Desendents
-
-  - Lapsu mundi
-
-  - Bruxelles-Alleluia
-
-- Overlap
-
-  - SCP
-
-  - De Verbis Apostoli (version A)
-
-  - Gallicana
-
-  - Wolfenbuettel? (doesnt really occur in the corpus)
+for (i in seq_len(len(mats_full_allel))) {
+  c = cent_list[i]
+  m = mats_full_allel[[i]]
   
+  # get potential/existing collections in that century
+  relv_cent_colls <- get_relv_coll_cent(coll_ref_df, c)
+  
+  # get collection names with overlapping sermon pairs
+  coll_names_overlap <- get_coll_overlap(m, covar_colls_l, relv_cent_colls)
+  
+  overlap_l[[c]] <- coll_names_overlap
+}
+
+overlap_l
+```
+
+# Thematic
+
+1.  The sermons are scraped from augustinus.it. (<https://www.augustinus.it/latino/discorsi/>)
+2.  Stanza (stanfort NLP package) is used as embedder, because latincy caused errors.
+3.  Texts were lemmatised and filtered.
+    1.  Stopwords removed (list from KotobaTrilius)
+    2.  POS: "NOUN", "VERB", "ADJ", "PROPN" kept
+    3.  Words occuring in more than 50% of sermons
+    4.  Words occuring in less than 5 sermons.
+    5.  lemmas smaller than 3 characters are removed
+4.  words are vectored with TF-IDF (1)
+5.  Similarity matrix is created by cosine similarity between each sermon.
+
+(1) for t = lemma and d = document and n = number of times
+
+(n times t in d / total n ts in d) \* log (total number of d / n d containing t)
+
+[https://raw.githubusercontent.com/KotobaTrilius/latin-stopwords/main/latin](https://raw.githubusercontent.com/KotobaTrilius/latin-stopwords/main/latin")
+
+### Mantel permutation
+
+To quickly validate the potential influence of thematic similarity, the edges of alleluia sermons are correlated to thematic distance with mantel permutations. To this end, spearman will be used because we assume a monotonic and not linear relationship, which is good enough for a simple check.
+
+```{r plots}
+theme_sim_m <- load_adj_matrix('alleluia_similarity_matrix.csv')
+
+mantel_results <- list()
+cent_list <- 9:12
+
+for (i in seq_len(len(mats_full_allel))) {
+  
+  c <- cent_list[i]
+  m <- mats_full_allel[[i]]
+  
+  ids <- intersect(rownames(m), rownames(theme_sim_m))
+  
+  print(c)
+  
+  mantel_results[[as.character(c)]] <- vegan::mantel(
+    as.dist(1 - m[ids, ids]),
+    as.dist(1 - theme_sim_m[ids, ids]),
+    method = "spearman",
+    permutations = 9999
+  )
+  
+  print(mantel_results[[as.character(c)]])
+}
+
+mantel_stats <- numeric(0)
+
+for (c in names(mantel_results)) {
+  mantel_stats[c] <- mantel_results[[c]]$statistic
+}
+
+plot(
+  as.numeric(names(mantel_stats)),
+  mantel_stats,
+  type = "b",
+  xlab = "Century",
+  ylab = "Mantel correlation (Spearman)",
+  main = "Similarity between alleluia and thematic networks"
+)
+```
+
+The results are interesting. First the 9th century shows a signficant but weak relationship between thema and non-random alleluia edges. This may be introduced by a two clusters of Mixed (?) subcollection of alleluia with high thematic similarity.
+
+The 10th century has no significant results, because their as so little edges between alleluia sermons.
+
+The 11th century has signficantly results with again that mixed? cluster and a Easter cluster. Although again weak relationship.
+
+Interestingly, the 12th century has no relationship between thematic clusters but has a lot of non-random edges. This would indicate that no prove of thematic correlation is found within this dataset, indication another edge-making mechanism at work.
+
+It seems informative to introduce thematic similarity into the analysis but with a time dummy.
+
 # RSiena
-```{r siena object}
-# put the nets in an array
+
+One big discussing point here. The network shows almost no breaking of ties between the waves. The model is breaking, maintaining, or addition ties to form the observed network, stepwise. However, the observed model doesn't work that way, because it is a projected single model network from a bipartite network, the edges are form simultaneously, resulting in high clustering networks that behave per definition differently. Consequently, the model has a hard time converging and approximating the observed network with it runs. Therefore, I would argue it is justified to simplify the model to a only adding model although this is non-comform theory were sermons could be disentangled in the scribe's eye. The margional error will be small to produce a model that is better at simulating the observed networks than without.
+
+Furthermore, the model yields NA's on testing the subcollection in the std's. Probablity because the model doesn't converge. Therefore, the research question is formulated more abstractly, to investiguate whether or not the subcollections in general are more influential in forming connections than Alleluia. To differentiate between the two, the model will test on tie dummies instead of node dummies. Because indivial nodes of subcollections dont converge, because making all subcollection one dummy of subcollection yields exactly the same as the alleluia dummy because the nodes are the same. Theoratically, the subcollection property lays within the sermon, not in the tie. A scribe would select two sermons and not a manuscript with the two sermons (is the hypothesis). However, this simplification reduces the model's dimensionality and retains the difference between alleluia collection and subcollections.
+
+```{r only additional}
 net_soc_array <- array(data = c(wave_9, wave_10, wave_11, wave_12), dim = c(dim(wave_9), 4))
 
-print(dim(wave_9))
+# change maximum of both matrices (only increasing)
+for (t in 2:dim(net_soc_array)[3]) {
+  net_soc_array[, , t] <- pmax(net_soc_array[, , t], net_soc_array[, , t - 1])
+}
 
 # dependent
-net <- sienaDependent(net_soc_array, type = "oneMode")
-net
+net <- sienaDependent(net_soc_array, type = "oneMode",
+                      allowOnly = TRUE)
 
+net
+```
+
+```{r thematic matrix}
+# align
+ids <- rownames(wave_9)
+
+# slice on ids 
+sim <- theme_sim_m[ids, ids]
+
+# sim z-score
+sim <- (sim - mean(sim[upper.tri(sim)])) /
+       sd(sim[upper.tri(sim)])
+
+diag(sim) <- 0
+
+
+# z-score
+sim <- (sim - mean(sim[upper.tri(sim)])) /
+       sd(sim[upper.tri(sim)])
+
+diag(sim) <- 0
+
+mean(sim)
 ```
 
 ```{r model schatten}
-# make dummies of relv cols 
-dummy <- function(cols) coCovar(as.numeric(rowSums(df[cols] == 1, na.rm = TRUE) > 0), centered = FALSE)
+df <- se_nodes |>
+  filter(Id %in% rownames(wave_9))
 
-covars = c("allel", "allel_spr", "allel_eas", "allel_mix", "allel_mixq",
-           "descendant", "overlap")
-
-dummy_cols <- c("alleluia", "alleluia_spring", "alleluia_easter",
-               "alleluia_mixed", "alleluia_mixed?")
-
-mydata = sienaDataCreate(
-  net        = net,
-  allel_spr  = dummy("alleluia_spring"), # alleluia as a whole is not include because it overlaps
-  allel_eas  = dummy("alleluia_easter"),
-  allel_mix  = dummy("alleluia_mixed"),
-  allel_mixq = dummy("alleluia_mixed?"),
-  descendant = dummy(c("lapsu", "brux_allel")),
-  overlap    = dummy(c("scp", "va_a", "gallicana"))
-)
-
-myeff <- getEffects(mydata)
-
-myeff <- includeEffects(myeff, 
-                        gwesp, 
-                        inPop)
-for (v in covars) {
-  myeff = includeEffects(myeff, egoXaltX, egoPlusAltX, interaction1 = v)
+# return present in collection [0,1] 
+in_collection <- function (col){
+  x <- df[[col]] == 1
+  x[is.na(x)] <- F
+  as.numeric(x)
 }
 
-myeff
+# add coCovar for each collection on node level
+node_dummy <- function(cols) {
+  x <- rep(0, nrow(df))
+  
+  for (col in cols) x[in_collection(col) == 1] <- 1
+  coCovar(x)
+}
 
-# maintaince of existing ties or "do two sermons signficantly reappear in next century"
-# however, the maintaince works sort of the same as density because almost no edges are removed (87) out of 7401 created and 4194 maintained. 
+# return matrix of shared edges of collections
+pair_share <- function(cols) {
+  n <- nrow(df)
+  m <- matrix(0, n, n)
+  for (col in cols) {
+    members <- in_collection(col) == 1
+    m[members, members] <- 1
+  }
+  diag(m) <- 0
+  m
+}
+
+# add coVar on dyad level for every wave
+pair_share_periods <- function(cols_p1, cols_p2, cols_p3) {
+  n <- nrow(df)
+  empty <- matrix(0, n, n)
+
+  m1 <- if (length(cols_p1) == 0) empty else pair_share(cols_p1)
+  m2 <- if (length(cols_p2) == 0) empty else pair_share(cols_p2)
+  m3 <- if (length(cols_p3) == 0) empty else pair_share(cols_p3)
+
+  varDyadCovar(array(c(m1, m2, m3), dim = c(n, n, 3)))
+}
+
+# ===========================================================
+a_sub_cols <- c("alleluia_spring", "alleluia_easter", "alleluia_after_425", "alleluia_mixed?") # mixed is covered by mixed?
+
+controle_cols <- c("campanienne", "sessorienne", "va_a", "va_b") # > 6 overlap from 9th onwards
+
+desc_cols <- c("lapsu", "bruxelles")
+later_cols <- c("scp", "diversis", "wolfenbuettel") # > 15 overlap on 12th century
+
+mydata <- sienaDataCreate(
+  net        = net,
+  alleluia   = node_dummy("alleluia"),
+  same_Asubs = coDyadCovar(pair_share(a_sub_cols)),
+  c912cols   = coDyadCovar(pair_share(controle_cols)),
+  desc       = pair_share_periods(c(), desc_cols, desc_cols),
+  c12cols    = pair_share_periods(c(), c(), later_cols),
+  theme      = coDyadCovar(sim)
+)
+
+print01Report(mydata, modelname = "./results/Alle7")
+
+attr(mydata$depvars$net, "uponly")
 ```
 
-page 167: For non-directed networks there is only one degree assortativity effect, the degree assortativity
-effect which is the outdegree-indegree version18 still with short name outInAss. There is also
-only one GWESP effect, called simply gwesp. So GWESP added. 
+```{r model en goodness of fit}
+# get new project
+myAlg   <- sienaAlgorithmCreate(projname = "./results/Alle7_model1")
+n_cores <- detectCores() - 1
 
-The algorithm shows an insignficant result on the subcollections of the A. However, the summed effect is significant (<0.001). The interpretation in my opinion is that the overlap between the collection with other collections interferes with the smaller collections. 
+# run model with time on density 
+est_model <- function(eff, prev = NULL, thetaBound = 150) {
+  siena07(myAlg, data = mydata, effects = eff,
+          returnDeps = TRUE, useCluster = TRUE, nbrNodes = n_cores,
+          thetaBound = thetaBound, prevAns = prev)
+}
 
-```{r run model}
-myAlgorithm <- sienaAlgorithmCreate(projname = "alleluia_3")
+# limit degree validation by only looking at 0 to 25 degrees
+DegreeDist0to100 <- function(i, obsData, sims, period, groupName, varName, ...) {
+  IndegreeDistribution(i, obsData, sims, period, groupName, varName, levls = seq(0, 25, by = 1))
+}
 
+# get undirected triad census
+TriadUndir <- function(i, obsData, sims, period, groupName, varName, ...) {
+  a <- as.matrix(sparseMatrixExtraction(i, obsData, sims, period, groupName, varName))
+  g <- graph_from_adjacency_matrix(a)
+  tc <- triad_census(g)
+  c("003"=tc[1], "102"=tc[3], "201"=tc[11], "300"=tc[16])
+}
 
-(ans <- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans, returnDeps = TRUE, 
-                useCluster = TRUE, nbrNodes = 4))
+gof_triads <- function(ans) {
+  sienaGOF(ans, TriadUndir, verbose = TRUE, join = FALSE,
+           varName = "net", period = 1:3, twoTailed = FALSE)
+}
 
-summary(ans)
-
+gof_degree <- function(ans) {
+  sienaGOF(ans, DegreeDist0to100, verbose = TRUE, join = FALSE,
+           varName = "net", period = 1:3, twoTailed = FALSE)
+}
 
 ```
- convergence max = 0.25 nu op 0.21 dus close, maar prima (https://www.stats.ox.ac.uk/~snijders/siena/basic_RSiena.html)
+
+```{r model 0}
+eff0 <- getEffects(mydata)
+
+eff0 <- includeEffects(eff0, transTies, timeDummy = "all")
+
+(ans0 <- est_model(eff0, thetaBound = 150))
+
+gof0.degree <- gof_degree(ans0)
+gof0.triads <- gof_triads(ans0)
+
+for (p in 1:3) print(plot(gof0.degree, scale = TRUE, center = TRUE, period = p))
+
+for (p in 1:3) print(plot(gof0.triads, scale = TRUE, center = T, period = p))
+
+gof0.degree
+gof0.triads
+```
+
+The zero model is the simplest model possible. To indicate whether the clustering prediction holds. Three times p<0.001 difference is worrying because the model is so simple. Furthermore, the MDH = ~[4300, 87000] which is enormous. 
+
+```{r model 1 effects}
+# RQ1: Is Alleluia sermons more likely to connect with Alleluia sermons or rather with other sermons?
+eff1 <- includeEffects(eff0, egoPlusAltX, egoXaltX, interaction1 = "alleluia")
+
+# RQ2: Are subcollections of Alleluia more prominent to connect with each other rather than Alleluia sermons. 
+eff1 <- includeEffects(eff1, X, interaction1 = "same_Asubs")
+
+# controle collections
+for (covar in c("c912cols", "desc", "c12cols")) eff1 <- includeEffects(eff1, X, interaction1 = covar)
+
+# theme added 
+eff1 <- includeEffects(eff1, X, interaction1 = "theme")
+eff1
+```
+
 
 
 ```{r goodness of fit}
+(ans1 <- est_model(eff1, thetaBound = 150))
 
-gofi0 <- sienaGOF(ans, IndegreeDistribution, verbose = FALSE, 
-                  join = TRUE, varName = "net")
+gof1.degree <- gof_degree(ans1)
+gof1.triads <- gof_triads(ans1)
 
-gofi0[[1]]
+for (p in 1:3) print(plot(gof1.degree, scale = TRUE, center = TRUE, period = p))
 
-gof0.tc <- sienaGOF(ans, TriadCensus, verbose = FALSE, join = TRUE, varName = "net")
+for (p in 1:3) print(plot(gof1.triads, scale = TRUE, center = T, period = p))
 
-# de alleluia together 
-Multipar.RSiena(ans, c(4:11))
-
-
-plot(gofi0)
-plot(gof0.tc)
-
-tt = test_time(ans)
-
-summary(tt)
-
+gof1.degree
+gof1.triads
 ```
+The model doesn't converge at all, (2.93) and that has to do with the collections in the 12th century. They overlap strongly with the existing model, and predict thus too well. The leap from wave 11 to 12 increases a lot of ties, so the model needs to work hard towards adding new ties and because the big collections like SCP were very popular it fits very well. 
+
+Therefore, this parameter will be fixed. 
 
 ```{r model 2}
-mydata = sienaDataCreate(
-  net        = net,
-  allel_full  = dummy("alleluia"),
-  descendant = dummy(c("lapsu", "brux_allel")),
-  overlap    = dummy(c("scp", "va_a", "gallicana"))
-)
+eff2 <- setEffect(eff1, X, interaction1 = "c12cols", fix = TRUE, initialValue = 10)
+eff2 <- setEffect(eff2, transTies, initialValue = 5.8, fix = FALSE)
 
-myeff = getEffects(mydata)
-myeff = includeEffects(myeff, gwesp, inPop)
+(ans2 <- est_model(eff2, thetaBound = 150, prev = ans1))
 
-covars = c("allel_full", "descendant", "overlap")
+ans2
 
-for (v in covars) {
-  myeff = includeEffects(myeff, egoXaltX, egoPlusAltX, interaction1 = v)
-}
+gof2.degree <- gof_degree(ans2)
+gof2.triads <- gof_triads(ans2)
 
-print(myeff)
+for (p in 1:3) print(plot(gof2.degree, scale = TRUE, center = TRUE, period = p))
 
-ans2 = siena07(myAlgorithm, data = mydata, effects = myeff, returnDeps = TRUE,
-               useCluster = TRUE, nbrNodes = 4, prevAns = ans)
+for (p in 1:3) print(plot(gof2.triads, scale = TRUE, center = T, period = p))
 
-summary(ans2)
-
-gof2.deg = sienaGOF(ans2, IndegreeDistribution, varName = "fit_degree", join = TRUE)
-
-plot(gof2.deg)
+gof2.degree
+gof2.triads
 
 
 ```
 
 
-The triadcensus is well predicted, however, the degree distribution is far lower than expected. The p value of degree is good but i dont trust it. 
 
-A century by century analysis doesnt converge, with a error on phase 2. Furthermore, the model generally runs for two hours, making adjustments time consuming. 
+## Model 1.2
+The three research questions are combined into one model. It needs to be said that the goodness of fit is rather terrible and no conclusion can be drawn from this analysis. The model does converge on (0.11).
+
+However, would that be the cause, this would be my interpretation. 
+
+RQ1: Something that I didn't expect, but Alleluia shows a positive effect of connecting with sermons from alleluia (z=7.33) and a negative effect of forming edge with sermons outside collection (z = -8.55). 
+
+RQ2: The subcollections are not more likely to be form a tie compared to between subcollections or other sermons (z = 0.30). The thematic overlap between the addition in Mixed? and the thematic overlap exhibited in that subcollection, may have influenced the low result of this analysis. 
+
+RQ3: Thematic similarity is an significant (z = 9.99) factor to form ties in the next phase. 
+
+### Potential problems: 
+- the transitive ties are frozen in the second run. 
+- the goodness of fit is significantly different, changing per wave the number of triads and singles, and the degree is seriously off. I think it is difficult for the model to stocastically work on a "edge-adding" model when it is estimated in projected network. 
+- The assumption of causality is probablity wrong. The model implices wave2 is caused by wave1 + ties, but on a microlevel this assumption doesn't hold, because the ties are created by non-random estimation of the sum of different ties. One tie reflects the relationship between ties of the network as well as a summation of multiple manuscripts that could be written in an unrelated context. For example: baltics 1010 monestary and secular scriptorium against the Notre dame in 1090. 
+- Put differently, the sermons are not necessary aware of the existence of other sermons (some sermons are out of scope from the datasets we have, and may be less copied)
 
 
-```{r model per century}
-# myalg = sienaAlgorithmCreate(projname = NULL, nsub = 3, n3 = 500, seed = 2026)
-# 
-# allel_cols = c("alleluia_spring", "alleluia_easter",
-#                "alleluia_mixed", "alleluia_mixed?")
-# 
-# dummy_rows = function(cols, keep) {
-#   coCovar(as.numeric(rowSums(df[keep, cols, drop = FALSE] == 1, na.rm = TRUE) > 0))
-# }
-# 
-# fit_period = function(w1, w2, prev = NULL, drop_isolates = FALSE, n_cores = 12, return_deps = FALSE) {
-#   keep = rep(TRUE, nrow(w1))
-#   if (drop_isolates) keep = (rowSums(w1) + rowSums(w2)) > 0
-#   w1 = w1[keep, keep]
-#   w2 = w2[keep, keep]
-# 
-#   d = sienaDataCreate(
-#     net        = sienaDependent(array(c(w1, w2), dim = c(dim(w1), 2))),
-#     allel_full = dummy_rows(allel_cols, keep),
-#     descendant = dummy_rows(c("lapsu", "brux_allel"), keep),
-#     overlap    = dummy_rows(c("scp", "va_a", "gallicana"), keep)
-#   )
-#   e = getEffects(d)
-#   e = includeEffects(e, transTriads)
-#   for (v in c("allel_full", "descendant", "overlap")) {
-#     e = includeEffects(e, egoXaltX, egoPlusAltX, interaction1 = v)
-#   }
-#   siena07(myalg, data = d, effects = e, prevAns = prev,
-#           returnDeps = return_deps, batch = TRUE, silent = F,
-#           useCluster = TRUE, nbrNodes = n_cores)
-# }
-# 
-# ans_p1 = fit_period(wave_9, wave_10)
-# ans_p2 = fit_period(wave_10, wave_11, prev = ans_p1)
-# ans_p3 = fit_period(wave_11, wave_12, prev = ans_p2, return_deps=TRUE)
-# 
-# gof3.deg = sienaGOF(ans_p3, IndegreeDistribution, varName = "fit_degree", join = TRUE)
-# 
-# plot(gof3.deg)
+## Thoughts of next steps
+One of the strongest ideas is the estimation of effects to predict next distributions. SIENA does this really well. The translations however from macro to micro and back is difficult due to the nature of the source material. 
 
-```
-The model doesn't converge between century 9 and 10. 
+I've learned that a model should resemble the data as close as possible, and I'm also very grateful for Koolman's boat, which is a strong methodological tool. 
+
+Bipartite networks will be looking in second as well as stocastic block models. 
+
