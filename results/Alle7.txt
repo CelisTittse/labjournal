@@ -6,7 +6,7 @@ Filename is ./results/Alle7.txt.
 
 This file contains basic descriptives for SIENA data set <<./results/Alle7>>.
 
-Date and time: 02/11/2026 21:26:05 
+Date and time: 02/11/2026 21:32:33 
 
 RSiena version 1.6.6 (20 04 2026)
 
