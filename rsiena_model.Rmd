@@ -95,6 +95,7 @@ library(readxl)
 library(igraph)
 library(parallel)
 library(vegan)
+library(kableExtra)
 
 # check if packages are available
 fpackage.check <- function(packages) {
