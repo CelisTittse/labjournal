@@ -1,0 +1,181 @@
+---
+title: "Alleluia_new_ballon"
+author: "Celis Tittse"
+date: "2026-11-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(stringr)
+library(pbapply)
+
+len <- function (x) length(x)
+```
+
+## Alleluia similarity search
+Two models have arrived from the literature mainly Riccardo's 2025 paper and Gleb's 2025 paper (which also cites Riccardo). Sermons probabily travel in clusters, or blocks. These blocks could be arranged and changed fitting its historical context best, by adding, changing of switching sets of sermons or its contents (a phenomena observed in homiliaries in the 9th and 10th century). Historical collections (HC) of sermons are also sets of sermons, or the arrangement of sets of sermons. 
+
+Asking Shari, Gert, and Kendall resulted in the observation that manuscripts that contain a HC have three or four sermons in them within the same sequence. For now, we will say >3 sermons in sequence. 
+
+The simple question is:
+
+### How many manuscripts contain blocks of 3 or more sermons from the De Alleluia collection? 
+
+This first interrogation will be performed with the SERMONES FILE (SF), due to convience, and can later be connected to HOWA data to reduce the number of cleaning steps. 
+
+It must be stressed that it is possible to find a lot of false positives, because SF only describes authenitic augustinian sermons, and as Iris has described the percived authenticity is far more important than authenticity, hugely influencing the transmission and compilation process. 
+
+
+### Can we cluster the manuscripts that we found based on their content?
+
+This is a simple UMAP clustering based on basic normalised levenshtein distance, coloured by century, and size. 
+
+```{r import sf}
+raw_se_data <- read_excel("C:/Users/U836185/Documents/GitHub/labjournal/data/data_raw/sf_mss_okt_25.xlsx")
+
+sf_sequences <- raw_se_data %>%
+  mutate(
+    sermons = str_split(certain, ",\\s*"),
+    sermons = map(sermons, str_trim)
+  )
+
+colls_df <- read_excel('C:/Users/U836185/Documents/GitHub/labjournal/data/data_raw/collections.xlsx')
+
+
+```
+
+## Create combinations and filter mss
+```{r combinations, echo=FALSE}
+alleluia <- colls_df |> 
+  select(alleluia) |> 
+  drop_na() |> 
+  pull(alleluia) 
+
+# Generate all combinations (minimum 3)
+alleluia_sequences <- map(
+  3:length(alleluia),
+  function(n) {
+    map(
+      seq_len(length(alleluia) - n + 1),
+      ~ alleluia[.x:(.x + n - 1)]
+    )
+  }
+) %>%
+  list_flatten() %>%
+  map_chr(~ paste(.x, collapse = ", "))
+
+length(alleluia_sequences)
+
+```
+
+```{r find same sequence}
+# 3. Find blocks of Alleluia sermons in one manuscript
+
+# Strict: the sermons follow each other directly in the manuscript.
+strict_runs <- function(s, A) {
+  from <- integer()
+  to   <- integer()
+
+  for (i in seq_along(A)) {
+    for (pos in which(s == A[i])) {      # every place where a run could start
+      j <- i
+      while (j < length(A) && pos < length(s) && s[pos + 1] == A[j + 1]) {
+        pos <- pos + 1
+        j   <- j + 1
+      }
+      from <- c(from, i)
+      to   <- c(to, j)
+    }
+  }
+  list(from = from, to = to)
+}
+
+# Ordered: the sermons keep the collection order, other sermons may stand in between.
+ordered_runs <- function(s, A) {
+  to <- rep(NA_integer_, length(A))
+
+  for (i in seq_along(A)) {
+    pos <- match(A[i], s)                # the earliest occurrence gives the longest chain
+    if (is.na(pos)) next
+    j <- i
+    while (j < length(A)) {
+      pos <- pos + match(A[j + 1], tail(s, -pos))   # next occurrence of the following sermon
+      if (is.na(pos)) break
+      j <- j + 1
+    }
+    to[i] <- j
+  }
+  list(from = seq_along(A), to = to)
+}
+
+# Returns every block of at least min_len sermons, written as "A1, A2, A3".
+# Shorter blocks that lie inside a longer block are dropped.
+find_sequences <- function(s, A, allow_gaps = FALSE, min_len = 3) {
+  s <- s[!is.na(s) & nzchar(s)]
+  if (sum(s %in% A) < min_len) return(character())   # quick exit for most manuscripts
+
+  runs <- if (allow_gaps) ordered_runs(s, A) else strict_runs(s, A)
+  long <- which(runs$to - runs$from + 1 >= min_len)    # which() also skips the NA rows
+  o    <- long[order(runs$from[long], -runs$to[long])]  # sorted by start, longest first
+  from <- runs$from[o]
+  to   <- runs$to[o]
+
+  # keep only the longest blocks: a block survives when it reaches past every earlier block
+  longest <- to > c(0, head(cummax(to), -1))
+
+  blocks <- map2_chr(from[longest], to[longest], ~ paste(A[.x:.y], collapse = ", "))
+  unique(blocks)                         # a repeated sermon can give the same block twice
+}
+
+
+# 4. Search all manuscripts (pbapply shows the progress bar)
+matches <- sf_sequences %>%
+  mutate(
+    found_strict  = pblapply(sermons, find_sequences, A = alleluia),
+    found_ordered = pblapply(sermons, find_sequences, A = alleluia, allow_gaps = TRUE)
+  )
+
+# 5. Manuscripts with at least one block
+keep_cols <- c("shelfmark", "date_range", "certain", "uncertain", "century")
+
+alleluia_mss_strict <- matches %>%
+  filter(lengths(found_strict) > 0) %>%
+  select(all_of(keep_cols), found_strict)
+
+alleluia_mss_ordered <- matches %>%
+  filter(lengths(found_ordered) > 0) %>%
+  select(all_of(keep_cols), found_ordered)
+
+# 6. How many manuscripts contain each block
+count_blocks <- function(df, col) {
+  df %>%
+    unnest_longer({{ col }}) %>%
+    count({{ col }}, name = "n_manuscripts", sort = TRUE)
+}
+
+freq_strict  <- count_blocks(alleluia_mss_strict, found_strict)
+freq_ordered <- count_blocks(alleluia_mss_ordered, found_ordered)
+
+# 7. Number of manuscripts found
+nrow(alleluia_mss_strict)
+nrow(alleluia_mss_ordered)
+```
+
+### Clustering and visualisation
+Now I want to investiguate the sermon combinations that are found. This will be done in three ways. 
+1. UMAP of the manuscripts and color them by century and the size of the point is the number of sermons of the manuscript. 
+The distance should be done the elements with normalised levenshtein distance. 
+
+2. A se - ms matrix that is ordered/clustered on similarity and the alleluia sermons colored. 
+The order is disregarded in this case. 
+
+3. A network visualisation with a directed network of the sermons, the edges are manuscript ordered connection. Size of the nodes is indegree. 
+Total network, per century network and alleluia sermons colored in red. 
+
+4. A clustering with robustness check on biparitite network of ms - se and propose robust clusters of sermons. 
+do it per century and on the total. 
+
+

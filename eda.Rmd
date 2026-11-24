@@ -113,7 +113,7 @@ vcount(g)
 # number of edges
 ecount(g)
 
-centuries <- seq(9, 12)
+centuries <- seq(9, 15)
 
 df_results <- do.call(rbind, lapply(centuries, function(c) {
   century_count(g_full = g, cent = c)
@@ -198,6 +198,8 @@ plot_alleluia_century <- function(g_full, cent, delete_non_nodes) {
 
 cents_early <- seq(9, 12)
 
+cents_late <- seq(9, 12)
+
 
 par(mfrow = c(2, 2), mar= c(1,1,1,1))
 
@@ -213,7 +215,7 @@ for (c in cents_early){
 The structure of the networks change over the centuries. In the graph, the centuries after the 12th century display stronger clustering. This can be tested with a global transitivity score, which can be seen in the next plot. 
 
 ```{r clustering over centuries}
-df_results |> 
+clust_plot <- df_results |> 
   filter(Century %in% seq(8, 15)) |> 
   ggplot(aes(Century, Transitivity)) +
   geom_col() +
@@ -222,6 +224,9 @@ df_results |>
        x = "Century", 
        y = "Clustering coefficient")
 
+png(file="./images/clustering_full_cents.png", width=6, height=4, units="in", res=300)
+clust_plot
+dev.off()
 ```
 ### 
 

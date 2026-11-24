@@ -7,19 +7,84 @@ editor_options:
   chunk_output_type: inline
 ---
 
-# Binary observed model
+# Tracing the compiling strength of Augustine's Alleluia sermons
+
+# Abstract
+
+Modern editors of Augustine's sermons group manuscripts by named collections and use these groups to reconstruct the original text. This practice assumes that medieval compilers treated a collection as a unit. To tests that assumption for authentic Augustinian sermon collection De Alleluia, an antique collection of 47 sermons preserved in five manuscripts from northern France. To model the cooccurrence of sermons in manuscripts as a network: two sermons share a tie when manuscripts of a century combine them more often than a permutation null model predicts. The analysed network holds 284 sermons, the 51 Alleluia sermons and their direct neighbours, observed in four waves from the 9th to the 12th century. A stochastic actor oriented model (RSiena) estimates which pairs of sermons gain ties over time. Three findings stand out. Alleluia sermons form ties with each other more often than with other sermons, which supports the collection as a unit of selection. The subcollections of De Alleluia add a negligible effect beyond membership of the collection as a whole. Thematic similarity raises the chance of a tie, with collection membership under control. Shared membership of other collections, such as the derivative collections De lapsu mundi and Bruxelles, has the strongest effects. The model reproduces the observed networks poorly, so these results are tentative. The study shows how network models can test editorial categories across a whole corpus, and it points to bipartite and block models as the next step.
+
+**Keywords:** Augustine, sermon collections, manuscript transmission, historical network research, stochastic actor oriented models
+
+**Intended journal:** Journal for Historical Network Research (<https://jhnr.net/>)
+
+# Introduction
+
+The sermons on Augustine (d. 430) are one of most popular medieval sermons. From the point they were written down in the 5th century to the point Thomas Aquinas read one in the 13th century, it passed through a multitude of hands because every copy needed to be written by hand. Within this transmission process, sermons were compiled with multiple sermons, some consistently, and some (seemingly) random.
+
+Previous scholarship (from the 13th century onward [ask Kendall exactly]) has defined these collection under specific names based on medieval named collections (e.g. De Verbis Domini) or manuscripts with many rare Augustinian sermons (e.g. Wolfenbuttel). Although the collections are apost-hoc construction, it is used for making editions of individual sermons. The underlying rational is that manuscripts with similar sermon configurations are like to be more closely related, and to reduce the number of transcriptions to be made, collections are the first step towards make the family tree (stemma) of a sermon. For example, sermons 251 and 250 have a stemma that is construed of manuscripts defined as A[lleluia]1 to 5 and P[aenetentia]1 to 3, named after collections. But are collections a valid category to reconstruct transmission? If that were the case, the configuaration of sermons within manuscripts should indicate the existence of those collections.
+
+This practice rests on an assumption: medieval compilers treated a collection as a unit and copied its sermons together. If the assumption holds, the sermons of a collection appear together in manuscripts more often than chance predicts, and they keep doing so over the centuries. This study tests the assumption for one collection from late antiquity, De Alleluia.
+
+De Alleluia counts 47 sermons and survives as a whole in five manuscripts from northern France, the oldest from the 9th century [@boodts2025]. Scholars divide it into subcollections: a spring series preached in Carthage in 418 (items 1 to 9), an Easter series from Hippo (items 10 to 19), a series preached after 425 (items 25 to 33) and a mixed part (items 20 to 24 and 34 to 47). Within the Easter series, nine sermons form a coherent series that Augustine preached during an Easter octave in Hippo, and manuscript Orléans 155 preserves the same sequence [@zwinggi]. Later medieval collections drew on De Alleluia, among them De lapsu mundi and the collection of Brussels (Bruxelles).
+
+- The sermon are transmitted in small clusters [@macchioro2025][@schmidt_computational_2023]
+
+- Sermons can be thematically clustered [@schmidt unpublished]
+
+- Sets of sermons can be transmitted by other collection
+
+- Two (high) medieval collections (e.g. Bruxelles and Lapsu Mundi) are textually dependent on De Alleluia
+
+De Alleluia has defined subcollections rather than small clusters [@boodts2025]:
+
+1.  Spring (Carthage, 418) (items 1-9)
+2.  Easter (Hippo) (items 10-19)
+3.  Winter (after 425) (items 25-33)
+
+Next to the organised sets of the collections, some sermons are found as miscellaneous, described by De Coninck and Partoens [@ConinckFile] as mixed: items 20-24 and 34-47. Although, Verbraken suggested six additional sermons in between the mixed version.
+
+We as historians can call these collections collections, but it is unclear to what extend these collections were relevant for compilation choices to creat a new manuscript.
+
+## Scientific relevance
+
+Two fields are approached. First the fields of philology and concerns the transmission of Augustine's sermons. Recent work shows that compilers customised collections for liturgical use and drew on existing repositories of excerpts [@macchioro2025]. The composition of sermon series within collections is itself a matter of debate [@drobner_treacherous_2022], and computational methods now make it possible to trace sermon collections across large corpora [@schmidt_computational_2023]. It is now possible to question to what extend these effect contribute to the formation of sermon manuscripts.
+
+The second field is historical network research. Here, the question is raised to what extend stochastic actor oriented model SOAM is valiable for medieval manuscript studies, because manuscripts increasingly serve as network data [@stein_introduction_2023], and the PASSIM project already uses network visualisations to trace the textual connections of Augustinian sermons [@denis_pseudo-augustinian_2024]. Furthermore, a recent survey maps the practices and methods of the field [@weis_past_2025], and found little researchers working with SOAM. This study adds a statistical model of network change to that toolbox: the stochastic actor oriented model of [@snijdersIntroductionStochasticActorbased2010]. Applied to manuscripts, the model treats the corpus as one system. Each manuscript is a trace of a compiler's choice, and the pattern of all choices together shows which sermons were selected as a group.
+
+### Research questions
+
+1.  **RQ1 (descriptive).** How did the co-occurrence network of the sermons around De Alleluia change from the 9th to the 12th century, and how strongly did Alleluia sermons cluster together?
+2.  **RQ2.** Were Alleluia sermons more likely to be compiled with other Alleluia sermons than with other sermons?
+3.  **RQ3.** Were sermons of the same Alleluia subcollection more likely to be compiled together, beyond their membership of De Alleluia?
+4.  **RQ4.** Did thematic similarity raise the chance that two sermons were compiled together?
+
+# Hypotheses
+
+If compilers copied De Alleluia as a unit, its sermons will travel together.
+
+1.  **RQ2.** Alleluia sermons are more likely to form ties with other Alleluia sermons than with other sermons.
+
+The subcollections are liturgical series or preached at the same time. A compiler who needed sermons for one season could lift such a series as a set. This leads to a stronger version of the exemplar route.
+
+2.  **RQ3.** Sermons of the same Alleluia subcollection are more likely to form ties with each other, beyond their shared membership of De Alleluia.
+
+Some manuscripts are compiled with the same subject matter in mind. Therefore, sermons with the same theme will be found in the same manuscript.
+
+3.  **RQ4.** Thematically similar sermons are more likely to form ties.
+
+### Control variables
+
+Some sermon combinations will overlap with De Alleluia combinations. The known decedents of De Alleluia, namely Bruxelles and Lapsu Mundi in the 11th century, will potentially interfere with Alleluia sermon combinations. Therefore, they will be part of a control variable.
+
+In addition, other collections that largely overlap with Alleluia will also be evaluated as control variable. The threshold is set on more than 6 sermons overlap with Alleluia. This yielded two sets of collections, one already present before the 9th century (Campanienne, Sessorienne, Verbis Apostoli (version A), and Verbis Domini (version B), and one from the 12th century onward (Sancti Catholici Patres, Diversis, Wolfenbuettel).
+
+# Data
 
 To make a unimode binary model, edges should not be regarded if they are a product of sermons or manuscripts with a large number of sermons, increasing the degree. For example, if I have two sermons that occur in 50% of the manuscript, they are very likely to occur together, because they are omnipresent. We want to analyse sermons that occur together that cannot be predicted by random change.
 
 Therefore, a null model was created that filters edges that occur in more than 5% of randomly shuffled manuscripts. In other words, ties with a higher degree than 5% of 1000 random configurations.
 
-The rules for this null model were as follows:
-
-The unimode model is created by a null model on bipartite manuscripts.
-
-ms - [se1, se2, se3] ms2 - [se1, se4]
-
-The length of the sermon sequence is perserved, only the sermons are swapped between manuscripts. To this end, the sermons that are already swopped with not be swapped in the opposite direction, and are not the same. So, se1 and se1 are not swopped, and ms-se1 and ms2-se4 are swopped back on the next swopping round. There were 1000 swopping rounds per century.
+This unimode model is created by a null model on bipartite manuscripts. The length of the sermon sequence is perserved, only the sermons are swapped between manuscripts. To this end, the sermons that are already swopped with not be swapped in the opposite direction, and are not the same. So, se1 and se1 are not swopped, and ms-se1 and ms2-se4 are swopped back on the next swopping round. There were 1000 swopping rounds per century.
 
 This analysis is conducted on the 5% higher than random ties between sermons.
 
@@ -50,7 +115,11 @@ set.seed(24553253)
 
 ```
 
-The eda has shown that something changes in the clusters coefficient of the full network of sermons between 9-12th century and 13-16th century. Furthermore, the 9th to 12th century almost only increases new ties where as the ties of the 12th to the 13th century change by almost 50%.
+The EDA has shown that something changes in the clusters coefficient of the full network of sermons between 9-12th century and 13-16th century.
+
+::: {.column width="50%"}
+![](./images/clustering_full_cents.png)
+:::
 
 To meet the ends of learning SIENA, analysing the manuscripts that are most used for editing purposes, and keeping a simple model, this analysis will be conducted on 9th to 12th century manuscripts.
 
@@ -182,7 +251,7 @@ coll
 
 ### Observations on overall network
 
-The Alleluia collection occurs together, although not in full and seperate. In any century, with this filter, the collection clusters seperately and mostly with other sermons outside the collection. Apart from the 12th century, it appears that not all sermons have a degree with this filter.
+The Alleluia collection occurs together, although not in full and separate. In any century, with this filter, the collection clusters separately and mostly with other sermons outside the collection. Apart from the 12th century, it appears that not all sermons have a degree with this filter.
 
 ### Alleluia subcollections plots
 
@@ -230,7 +299,13 @@ legend("bottomright", legend = names(coll_cols),
 
 ## Define the filter of sermons used for the analysis
 
-The options are: - Only alleluia sermons to get the model running and building the model - Alleluia sermons and its direct (model=1) neighbours get test on a bigger model without overstraching the running capacity - Use the full model.
+The options are:
+
+- Only alleluia sermons to get the model running and building the model
+
+- Alleluia sermons and its direct (model=1) neighbours get test on a bigger model without overstraching the running capacity
+
+- Use the full model.
 
 ```{r filters}
 # ================== PARAMETERS ======================
@@ -460,6 +535,8 @@ knitr::kable(df_results)
 
 When comparing the EDA of the weighted full network with the not-random network, a few things stick out on the three measurements: Degree, Transitivity, and Density. Degree, the number of degrees is far lower, which totally is expected when removing 95% of the edges that could also be attributed to random selection. Transitivity, the global transitivity or clustering coeffient is higher in the 10 and 11th century compared to the full graph. Furthermore, the decline we see in clustering in the full model is not translated into the non-random model. The 10th century shows three distinct clusters with a few isolated triplets and doubles, which result in a high potential for fully connected triplets. Density, the density is far lower than the fully connected model. This is to be expected for the same reason as lower degree.
 
+In answer to RQ1, the network around De Alleluia grows from a sparse set of ties in the 9th century into a dense and clustered network in the 12th. Alleluia sermons cluster in part, and most of their ties connect them to other collections, especially in the 12th century.
+
 ## Maintenance
 
 The question is if the number of connects remain the same ones formed. First have a look to what extent this happens.
@@ -576,10 +653,7 @@ overlap_l
     5.  lemmas smaller than 3 characters are removed
 4.  words are vectored with TF-IDF (1)
 5.  Similarity matrix is created by cosine similarity between each sermon.
-
-<!-- -->
-
-(1) for t = lemma and d = document and n = number of times
+6.  for t = lemma and d = document and n = number of times
 
 (n times t in d / total n ts in d) \* log (total number of d / n d containing t)
 
@@ -630,7 +704,7 @@ plot(
 )
 ```
 
-The results are interesting. First the 9th century shows a signficant but weak relationship between thema and non-random alleluia edges. This may be introduced by a two clusters of Mixed (?) subcollection of alleluia with high thematic similarity.
+The results are interesting. First the 9th century shows a insignficant and weak relationship between thema and non-random alleluia edges. The relationship between the Alleluia sermons is often less thematically related. Furthermore, the manuscripts in the 9th century are the Alleluia collection manuscripts. Therefore, it is logical to find no significant thematic relationship.
 
 The 10th century has no significant results, because their as so little edges between alleluia sermons.
 
@@ -642,9 +716,9 @@ It seems informative to introduce thematic similarity into the analysis but with
 
 # RSiena
 
-One big discussing point here. The network shows almost no breaking of ties between the waves. The model is breaking, maintaining, or addition ties to form the observed network, stepwise. However, the observed model doesn't work that way, because it is a projected single model network from a bipartite network, the edges are form simultaneously, resulting in high clustering networks that behave per definition differently. Consequently, the model has a hard time converging and approximating the observed network with it runs. Therefore, I would argue it is justified to simplify the model to a only adding model although this is non-comform theory were sermons could be disentangled in the scribe's eye. The margional error will be small to produce a model that is better at simulating the observed networks than without.
+One big discussing point here. The network shows almost no breaking of ties between the waves. The model is breaking, maintaining, or addition ties to form the observed network, stepwise. However, the observed model doesn't work that way, because it is a projected single model network from a bipartite network, the edges are form simultaneously, resulting in high clustering networks that behave per definition differently. Consequently, the model has a hard time converging and approximating the observed network with it runs. Therefore, I would argue it is justified to simplify the model to a only adding model although this is non-conform theory were sermons could be disentangled in the scribe's eye. The marginal error will be small to produce a model that is better at simulating the observed networks than without.
 
-Furthermore, the model yields NA's on testing the subcollection in the std's. Probablity because the model doesn't converge. Therefore, the research question is formulated more abstractly, to investiguate whether or not the subcollections in general are more influential in forming connections than Alleluia. To differentiate between the two, the model will test on tie dummies instead of node dummies. Because indivial nodes of subcollections dont converge, because making all subcollection one dummy of subcollection yields exactly the same as the alleluia dummy because the nodes are the same. Theoratically, the subcollection property lays within the sermon, not in the tie. A scribe would select two sermons and not a manuscript with the two sermons (is the hypothesis). However, this simplification reduces the model's dimensionality and retains the difference between alleluia collection and subcollections.
+Furthermore, the model yields NA's on testing the subcollection in the std's. Probablity because the model doesn't converge. Therefore, the research question is formulated more abstractly, to investiguate whether or not the subcollections in general are more influential in forming connections than Alleluia. To differentiate between the two, the model will test on tie dummies instead of node dummies. Because indivial nodes of subcollections dont converge, because making all subcollection one dummy of subcollection yields exactly the same as the alleluia dummy because the nodes are the same. Theoretically, the subcollection property lays within the sermon, not in the tie. A scribe would select two sermons and not a manuscript with the two sermons (is the hypothesis). However, this simplification reduces the model's dimensionality and retains the difference between alleluia collection and subcollections.
 
 ```{r only additional}
 net_soc_array <- array(data = c(wave_9, wave_10, wave_11, wave_12), dim = c(dim(wave_9), 4))
@@ -787,6 +861,8 @@ gof_degree <- function(ans) {
 
 ```
 
+## Results
+
 ```{r model 0}
 eff0 <- getEffects(mydata)
 
@@ -803,19 +879,9 @@ eff0 <- includeEffects(eff0, transTies, timeDummy = "all")
 # 
 # gof0.degree
 # gof0.triads
+
+
 ```
-
-### Model 0 Results
-
-Estimates and standard errors
-
-Rate parameters: 0.1 Rate parameter period 1 4.6450 ( 0.1293) 0.2 Rate parameter period 2 2.8127 ( 0.1011) 0.3 Rate parameter period 3 14.4898 ( 0.2281)
-
-Other parameters: 1. eval: transitive ties 5.8116 ( 0.6356)
-
-### Model 0 conclusion
-
-The zero model is the simplest model possible. To indicate whether the clustering prediction holds. Three times p\<0.001 difference is worrying because the model is so simple. Furthermore, the MDH = \~[4300, 87000] which is enormous.
 
 ```{r model 1 effects}
 # RQ1: Is Alleluia sermons more likely to connect with Alleluia sermons or rather with other sermons?
@@ -846,20 +912,6 @@ eff1
 # gof1.triads
 ```
 
-### Model 1 results
-
-Estimates and standard errors
-
-Rate parameters: 0.1 Rate parameter period 1 8.5024 ( 0.3183) 0.2 Rate parameter period 2 5.0790 ( 0.2219) 0.3 Rate parameter period 3 15.8178 ( 0.2844)
-
-Other parameters: 1. eval: transitive ties 9.5085 ( 4.7104) 2. eval: same_Asubs -0.0454 ( 0.3332) 3. eval: c912cols 2.5980 ( 0.1827) 4. eval: theme 0.2218 ( 0.0309) 5. eval: desc 2.5509 ( 0.2589) 6. eval: c12cols 125.1061 ( 5.9065) 7. eval: alleluia ego and alt -0.9040 ( 0.1329) 8. eval: alleluia ego x alleluia alter 1.7311 ( 0.2641)
-
-Overall maximum convergence ratio = 2.9329 .
-
-The model doesn't converge at all, (2.93) and that has to do with the collections in the 12th century. They overlap strongly with the existing model, and predict thus too well. The leap from wave 11 to 12 increases a lot of ties, so the model needs to work hard towards adding new ties and because the big collections like SCP were very popular it fits very well.
-
-Therefore, this parameter will be fixed.
-
 ```{r model 2}
 eff2 <- setEffect(eff1, X, interaction1 = "c12cols", fix = TRUE, initialValue = 10)
 eff2 <- setEffect(eff2, transTies, initialValue = 5.8, fix = FALSE)
@@ -881,13 +933,40 @@ eff2 <- setEffect(eff2, transTies, initialValue = 5.8, fix = FALSE)
 
 ```
 
-## Model 1.2
+```{r restults table}
+t <- data.frame(
+  effect = c("Rate period 1 (9th to 10th)", "Rate period 2 (10th to 11th)",
+             "Rate period 3 (11th to 12th)", "Transitive ties",
+             "Alleluia ego plus alter", "Alleluia ego × Alleluia alter",
+             "Same subcollection", "Thematic similarity (per SD)",
+             "Shared older collection", "Shared derivative collection",
+             "Shared 12th century collection",
+             "Overall maximum convergence ratio"),
+  tests = c("", "", "", "Control", "H1", "H1", "H2", "H3",
+            "Control", "Control", "Control", ""),
+  `model 0` = c("4.65 (0.13)", "2.81 (0.10)", "14.49 (0.23)", "5.81 (0.64)",
+                "", "", "", "", "", "", "", "0.248"),
+  `model 1` = c("8.50 (0.32)", "5.08 (0.22)", "15.82 (0.28)", "9.51 (4.71)",
+                "−0.90 (0.13)", "1.73 (0.26)", "−0.05 (0.33)", "0.222 (0.031)",
+                "2.60 (0.18)", "2.55 (0.26)", "125.1 (5.9)", "2.933"),
+  `model 1.2` = c("8.46 (0.32)", "5.06 (0.21)", "15.84 (0.28)", "9.51 (fixed)",
+                  "−0.97 (0.11)", "1.69 (0.23)", "0.10 (0.33)", "0.235 (0.024)",
+                  "2.61 (0.20)", "2.57 (0.21)", "125.1 (fixed)", "0.114"),
+  `model 1.2: z outcome` = c("", "", "", "", "−8.55", "7.33", "0.30", "10.00",
+                     "13.08", "12.52", "", ""),
+  check.names = FALSE
+)
+kable(t, caption = "RSiena estimates with standard errors in brackets. Alleluia sermons with direct neighbours: 284 sermons.")
 
-### Model 1.2 Results
+```
 
-Initial parameter values are 0.1 Rate parameter 8.5024 0.2 Rate parameter 5.0790 0.3 Rate parameter 15.8178 1. eval: transitive ties 9.5085 2. eval: same_Asubs -0.0454 3. eval: c912cols 2.5980 4. eval: theme 0.2218 5. eval: desc 2.5509 6. eval: c12cols 125.1061 (fixed) 7. eval: alleluia ego and alt -0.9040 8. eval: alleluia ego x alleluia alter 1.7311
+### Model short evaluation
 
-Overall maximum convergence ratio = 0.1135
+The zero model is the simplest model possible. To indicate whether the clustering prediction holds. Three times p\<0.001 difference is worrying because the model is so simple. Furthermore, the MDH = \~[4300, 87000] which is enormous.
+
+The first model doesn't converge at all, (2.93) and that has to do with the collections in the 12th century. They overlap strongly with the existing model, and predict thus too well. The leap from wave 11 to 12 increases a lot of ties, so the model needs to work hard towards adding new ties and because the big collections like SCP were very popular it fits very well.
+
+The last model is described with the three research questions in mind. It needs to be said that the goodness of fit is rather terrible and no conclusion can be drawn from this analysis. The model does converge on (0.11).
 
 ### Model 1.2 conclusions
 
@@ -895,11 +974,13 @@ The three research questions are combined into one model. It needs to be said th
 
 However, would that be the cause, this would be my interpretation.
 
-RQ1: Something that I didn't expect, but Alleluia shows a positive effect of connecting with sermons from alleluia (z=7.33) and a negative effect of forming edge with sermons outside collection (z = -8.55).
+RQ2: Something that I didn't expect, but Alleluia shows a positive effect of connecting with sermons from alleluia (z=7.33) and a negative effect of forming edge with sermons outside collection (z = -8.55).
 
-RQ2: The subcollections are not more likely to be form a tie compared to between subcollections or other sermons (z = 0.30). The thematic overlap between the addition in Mixed? and the thematic overlap exhibited in that subcollection, may have influenced the low result of this analysis.
+RQ3: The subcollections are not more likely to be form a tie compared to between subcollections or other sermons (z = 0.30). The thematic overlap between the addition in Mixed? and the thematic overlap exhibited in that subcollection, may have influenced the low result of this analysis.
 
-RQ3: Thematic similarity is an significant (z = 9.99) factor to form ties in the next phase.
+RQ4: Thematic similarity is an significant (z = 9.99) factor to form ties in the next phase.
+
+# Discussion
 
 ### Potential problems:
 
@@ -908,10 +989,10 @@ RQ3: Thematic similarity is an significant (z = 9.99) factor to form ties in the
 - The assumption of causality is probablity wrong. The model implices wave2 is caused by wave1 + ties, but on a microlevel this assumption doesn't hold, because the ties are created by non-random estimation of the sum of different ties. One tie reflects the relationship between ties of the network as well as a summation of multiple manuscripts that could be written in an unrelated context. For example: baltics 1010 monestary and secular scriptorium against the Notre dame in 1090.
 - Put differently, the sermons are not necessary aware of the existence of other sermons (some sermons are out of scope from the datasets we have, and may be less copied)
 
+# Conclusion
+
 ## Thoughts of next steps
 
 One of the strongest ideas is the estimation of effects to predict next distributions. SIENA does this really well. The translations however from macro to micro and back is difficult due to the nature of the source material.
 
 I've learned that a model should resemble the data as close as possible, and I'm also very grateful for Koolman's boat, which is a strong methodological tool.
-
-Bipartite networks will be looking in second as well as stocastic block models.
